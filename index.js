@@ -1,0 +1,1 @@
+API Hack URL (example query): "https://api.edamam.com/search?q=chicken&app_id=15ee63e4&app_key=d955b5e8d8941a9bf3c4736e3b6b08e7"

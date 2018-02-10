@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>AJAX YouTube API example</title>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <!-- Responsive viewport tag, tells small screens that it's responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Normalize.css, a cross-browser reset file -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <link href="main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <header role="banner">
+    <h1>Search Recipes</h1>
+  </header>
+  <form action="#" class="js-search-form">
+    <label for="query">Search:</label>
+    <input id="query" type="text" class="js-query" placeholder="Search Recipes">
+    <button type="submit">Search</button>
+  </form>
+  <main role="main" class="js-output" aria-live="assertive" hidden>
+    <h2><span class="dataCount"></span> Results Found</h2>
+    <div class="js-search-results row">
+
+    </div>
+  </main>
+  <script src="index.js"></script>
+  </body>
+</html>

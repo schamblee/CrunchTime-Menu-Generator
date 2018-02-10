@@ -1,0 +1,102 @@
+* {
+  box-sizing: border-box;
+}
+
+header {
+  background-color: #eebb44;
+  margin-bottom: 40px;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+form {
+	text-align: center;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  color: #252525;
+}
+
+header h1 {
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+header p {
+  margin-top: 0.5em;
+}
+
+main h2 {
+  text-align: center;
+}
+
+.recipe-card {
+  border: 1px solid #E5E5E5;
+  margin-bottom: 20px;
+}
+
+.card-image {
+  width: 100%;
+}
+
+.recipe-title {
+  padding: 20px;
+}
+
+.recipe-title h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.recipe-title p {
+  margin: 0.5em 0;
+}
+
+.row {
+  max-width: 1000px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 auto;
+}
+
+/* Clearfix */
+.row::before,
+.row::after {
+  display: table;
+  content: '';
+}
+
+.row::after {
+  clear: both;
+}
+
+.col-4, .col-12 {
+  float: left;
+
+  /* Gutters:
+   * Each column is padded by half-a-gutter on each side,
+   *
+   * Half a gutter is 10px, 10/960 (context) = 1.041666%
+   *
+   */
+  padding-left: 1.04166666%;
+  padding-right: 1.04166666%;
+}
+
+/* Mobile defaults */
+.col-4 {
+  width: 100%;
+}
+
+
+/* Non-mobile, grid */
+@media only screen and (min-width: 640px) {
+
+  /* 4 columns, 4/12 in % */
+  .col-4 {
+    width: 33.333333%;
+  }
+
+}

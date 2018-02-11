@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Recipe Search</title>
+  <title>Crunch Time</title>
   <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -16,34 +16,39 @@
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
   <link href="main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <header role="banner">
-    <h1>Search Recipes</h1>
+    <h1>Crunch<br>Time</h1><img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png">
   </header>
   <form action="#" class="js-search-form">
     <label for="diet-filter">Select Diet Filter:</label>
     <select class="diet-filter" id="diet-filter">
       <option value ="">No Diet Filter</option>
-      <option value ="low-carb">Low Carb</option>
-      <option value ="balanced">Balanced</option>
-      <option value ="high-protein">High Protein</option>
-      <option value ="high-fiber">High Fiber</option>
-      <option value ="low-fat">Low Fat</option>
-      <option value ="low-sodium">Low Sodium</option>
+      <option value ="low-carb">Ketogenic</option>
+      <option value ="balanced">Paleo</option>
+      <option value ="high-protein">Vegetarian</option>
+      <option value ="high-fiber">Vegan</option>
+      <option value ="low-fat">Whole 30</option>
+      <option value ="low-sodium">Primal</option>
     </select><br>
     <label for="query">Search Recipes:</label>
     <input id="query" type="text" class="js-query" placeholder="Search Recipes"><br>
-    <label for="sort">Sort Recipes:</label>
-    <select class="sort" id="sort">
-      <option value ="">No Sorting</option>
-      <option value ="carbs">Lowest Carbs</option>
-      <option value ="calories">Lowest Calories</option>
-      <option value ="protein">Highest Protein</option>
-    </select><br>
-
     <button type="submit">Search</button>
+    <br>
+    Or create a menu of popular recipes.
+    What days would you like to cook this week?<br>
+    <input id="monday" type="checkbox"><label for='monday'>Monday</label>
+    <input id="tuesday" type="checkbox"><label for='tuesday'>Tuesday</label>
+    <input id="wednesday" type="checkbox"><label for='wednesday'>Wednesday</label>
+    <input id="thursday" type="checkbox"><label for='thursday'>Thursday</label>
+    <input id="friday" type="checkbox"><label for='friday'>Friday</label>
+    <input id="saturday" type="checkbox"><label for='saturday'>Saturday</label>
+    <input id="sunday" type="checkbox"><label for='monday'>Sunday</label><button type="submit">Create a Menu</button>
+    
+    
   </form>
   <main role="main" class="js-output" aria-live="assertive" hidden>
     <h2><span class="dataCount"></span> Results</h2>

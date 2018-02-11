@@ -1,7 +1,7 @@
 const EDAMAM_SEARCH_URL = 'https://api.edamam.com/search';
 
 let start = 0;
-let end = 9;
+let end = 1;
 let working = false;
 
 function getDataFromApi(searchTerm, filter, from, to, callback) {
@@ -54,7 +54,7 @@ function displayRecipeData(data) {
 	})
 }*/
 
-function watchSubmit() {
+/*function watchSubmit() {
   $('.js-search-form').submit(event => {
     event.preventDefault();
     $('.js-output').prop('hidden', false);
@@ -70,3 +70,6 @@ function watchSubmit() {
 }
 
 $(watchSubmit);
+*/
+
+

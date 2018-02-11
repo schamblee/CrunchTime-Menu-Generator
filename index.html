@@ -23,27 +23,36 @@
     <h1>Search Recipes</h1>
   </header>
   <form action="#" class="js-search-form">
-    <label for="query">Search:</label>
-    <input id="query" type="text" class="js-query" placeholder="Search Recipes">
-    <select class="diet-filter">
+    <label for="diet-filter">Select Diet Filter:</label>
+    <select class="diet-filter" id="diet-filter">
+      <option value ="">No Diet Filter</option>
       <option value ="low-carb">Low Carb</option>
       <option value ="balanced">Balanced</option>
       <option value ="high-protein">High Protein</option>
       <option value ="high-fiber">High Fiber</option>
       <option value ="low-fat">Low Fat</option>
       <option value ="low-sodium">Low Sodium</option>
-    </select>
-    
+    </select><br>
+    <label for="query">Search Recipes:</label>
+    <input id="query" type="text" class="js-query" placeholder="Search Recipes"><br>
+    <label for="sort">Sort Recipes:</label>
+    <select class="sort" id="sort">
+      <option value ="">No Sorting</option>
+      <option value ="carbs">Lowest Carbs</option>
+      <option value ="calories">Lowest Calories</option>
+      <option value ="protein">Highest Protein</option>
+    </select><br>
 
     <button type="submit">Search</button>
   </form>
   <main role="main" class="js-output" aria-live="assertive" hidden>
-    <h2><span class="dataCount"></span> Results Found</h2>
+    <h2><span class="dataCount"></span> Results</h2>
     <div class="js-search-results row">
 
     </div>
 
   </main>
+
   <script src="index.js"></script>
   </body>
 </html>

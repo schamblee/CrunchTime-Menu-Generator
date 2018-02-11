@@ -1,12 +1,16 @@
 const EDAMAM_SEARCH_URL = 'https://api.edamam.com/search';
 
+let start = 0;
+let end = 9;
+let working = false;
 
-function getDataFromApi(searchTerm, filter, callback) {
+function getDataFromApi(searchTerm, filter, from, to, callback) {
+  
   const query = {
     q: `${searchTerm}`,
     diet: `${filter}`,
-    from: 0,
-    to: 12,
+    from: `${from}`,
+    to: `${to}`,
     app_id: '15ee63e4',
     app_key: 'd955b5e8d8941a9bf3c4736e3b6b08e7'
   }
@@ -36,10 +40,19 @@ function renderResult(result) {
 function displayRecipeData(data) {
   const results = data.hits.map((item, index) => renderResult(item));
   $('.js-search-results').html(results);
-  $('.dataCount').text(results.length);
-  
-   
+  $('.dataCount').text(results.length);  
 }
+
+/*function loadMoreRecipes(query, dietFilter) {
+  $(window).scroll(function() {
+	  if ($(this).scrollTop() + 1 >= $('body').height() - $(window).height()) {
+		start += 9;
+		end += 9;
+		$('body').append(getDataFromApi(query, dietFilter, start, end, displayRecipeData))
+	    setTimeout(80000)
+	  }
+	})
+}*/
 
 function watchSubmit() {
   $('.js-search-form').submit(event => {
@@ -51,9 +64,8 @@ function watchSubmit() {
     const dietFilter = filterTarget.val();
     // clear out the input
     queryTarget.val("");
-    getDataFromApi(query, dietFilter, displayRecipeData);
-    let carbs = `${result.recipe.totalNutrients.CHOCDF.quantity}`
-    console.log(carbs);
+    getDataFromApi(query, dietFilter, start, end, displayRecipeData);
+    //loadMoreRecipes(query, dietFilter);
   });
 }
 

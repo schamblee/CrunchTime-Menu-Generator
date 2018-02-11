@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>AJAX YouTube API example</title>
+  <title>Recipe Search</title>
   <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -25,6 +25,16 @@
   <form action="#" class="js-search-form">
     <label for="query">Search:</label>
     <input id="query" type="text" class="js-query" placeholder="Search Recipes">
+    <select class="diet-filter">
+      <option value ="low-carb">Low Carb</option>
+      <option value ="balanced">Balanced</option>
+      <option value ="high-protein">High Protein</option>
+      <option value ="high-fiber">High Fiber</option>
+      <option value ="low-fat">Low Fat</option>
+      <option value ="low-sodium">Low Sodium</option>
+    </select>
+    
+
     <button type="submit">Search</button>
   </form>
   <main role="main" class="js-output" aria-live="assertive" hidden>
@@ -32,6 +42,7 @@
     <div class="js-search-results row">
 
     </div>
+
   </main>
   <script src="index.js"></script>
   </body>

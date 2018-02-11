@@ -3,7 +3,7 @@
 }
 
 header {
-  background-color: #eebb44;
+  background-color: #fff;
   margin-bottom: 40px;
   text-align: center;
   padding-top: 20px;
@@ -74,13 +74,6 @@ main h2 {
 
 .col-4, .col-12 {
   float: left;
-
-  /* Gutters:
-   * Each column is padded by half-a-gutter on each side,
-   *
-   * Half a gutter is 10px, 10/960 (context) = 1.041666%
-   *
-   */
   padding-left: 1.04166666%;
   padding-right: 1.04166666%;
 }

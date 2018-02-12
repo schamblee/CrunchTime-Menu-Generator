@@ -4,7 +4,7 @@
 
 header {
   background-color: #fff;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -12,6 +12,7 @@ header {
 
 form {
 	text-align: center;
+	margin-top: 250px;
 }
 
 form * {
@@ -19,7 +20,7 @@ form * {
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Raleway', sans-serif;
   color: #252525;
 }
 
@@ -29,17 +30,34 @@ header h1 {
   font-size: 80px;
   font-family: 'Fredericka the Great', cursive;
   padding-bottom: 20px;
+  display: inline-block;
+  position: relative;
+  float: left;
+  left: auto;
 }
 
 .logo {
-	height: 200px;
-	margin-bottom: -50px;
-	padding: 10px;
-	margin-top: 20px;
+  height: 200px;
+  margin-bottom: 50px;
+  padding: 10px;
+  margin-top: 20px;
+  display: inline-block;
+  position: relative;
+  float: left;
+  margin-left: 33%;
 }
 
 header p {
   margin-top: 0.5em;
+}
+
+.app-description {
+  font-weight: bold;
+  display: block;
+  position: absolute;
+  margin-top: 220px;
+  left: 35%;
+  right: 35%;
 }
 
 main h2 {

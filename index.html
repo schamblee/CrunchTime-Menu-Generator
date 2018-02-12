@@ -15,18 +15,26 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
 
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
   <link href="main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <header role="banner">
-    <h1>Crunch<br>Time</h1><img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png">
+    <img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1>
+    <span class="app-description"> Create a week's menu of meals from popular recipes that all take 30 minutes or less to make.</span>
   </header>
-  <form action="#" class="js-search-form">
-    <label for="diet-filter">Select Diet Filter:</label>
+    
+    <form action="#" class="js-search-form">
+    <br>
+      Would you like to choose a diet for your menu?
+    <br>
+    <input type="radio" name="selectDiet" value="yes"> Yes
+    <input type="radio" name="selectDiet" value="no"> No
+    <br>
+    <label for="diet-filter">Select a Diet:</label>
     <select class="diet-filter" id="diet-filter">
-      <option value ="">No Diet Filter</option>
+      <option value ="">No Diet Selected</option>
       <option value ="low-carb">Ketogenic</option>
       <option value ="balanced">Paleo</option>
       <option value ="high-protein">Vegetarian</option>
@@ -34,11 +42,7 @@
       <option value ="low-fat">Whole 30</option>
       <option value ="low-sodium">Primal</option>
     </select><br>
-    <label for="query">Search Recipes:</label>
-    <input id="query" type="text" class="js-query" placeholder="Search Recipes"><br>
-    <button type="submit">Search</button>
-    <br>
-    Or create a menu of popular recipes.
+
     What days would you like to cook this week?<br>
     <input id="monday" type="checkbox"><label for='monday'>Monday</label>
     <input id="tuesday" type="checkbox"><label for='tuesday'>Tuesday</label>
@@ -51,7 +55,7 @@
     
   </form>
   <main role="main" class="js-output" aria-live="assertive" hidden>
-    <h2><span class="dataCount"></span> Results</h2>
+    <h2><span class="dataCount"></span>Menu</h2>
     <div class="js-search-results row">
 
     </div>

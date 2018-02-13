@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Crunch Time</title>
+  <script src="https://developer.edamam.com/attribution/badge.js"></script>
   <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -22,7 +23,7 @@
 <body>
   <header role="banner">
     <img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1>
-    <span class="app-description"> Create a week's menu of meals from popular recipes that all take 30 minutes or less to make.</span>
+    <div id="edamam-badge" data-color="white"></div><br><span class="app-description">Create weekly dinner menus from popular recipes that are ready in 30 minutes less.</span>
   </header>
     
     <form action="#" class="js-search-form">
@@ -35,12 +36,11 @@
     <label for="diet-filter">Select a Diet:</label>
     <select class="diet-filter" id="diet-filter">
       <option value ="">No Diet Selected</option>
-      <option value ="low-carb">Ketogenic</option>
-      <option value ="balanced">Paleo</option>
-      <option value ="high-protein">Vegetarian</option>
-      <option value ="high-fiber">Vegan</option>
-      <option value ="low-fat">Whole 30</option>
-      <option value ="low-sodium">Primal</option>
+      <option value ="low-carb">Low Carb</option>
+      <option value ="balanced">Balanced</option>
+      <option value ="high-protein">High-Protein</option>
+      <option value ="low-fat">Low Fat</option>
+      <option value ="low-sodium">Low Sodium</option>
     </select><br>
 
     What days would you like to cook this week?<br>
@@ -55,7 +55,7 @@
     
   </form>
   <main role="main" class="js-output" aria-live="assertive" hidden>
-    <h2><span class="dataCount"></span>Menu</h2>
+    <h2>Your Menu</h2>
     <div class="js-search-results row">
 
     </div>

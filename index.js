@@ -1,20 +1,21 @@
-//const EDAMAM_SEARCH_URL = 'https://api.edamam.com/search';
+const EDAMAM_SEARCH_URL = 'https://api.edamam.com/search';
 
 let start = 0;
-let end = 1;
+let end = 2;
 
-/*function getDataFromApi(searchTerm, filter, from, to, callback) {
+function getDataFromApi(searchTerm, filter, from, to, callback) {
   
   const query = {
     q: `${searchTerm}`,
     diet: `${filter}`,
     from: `${from}`,
     to: `${to}`,
-    app_id: '15ee63e4',
-    app_key: '48b54762259fee8969f49c95f46dece7'
+    ingr: 5,
+    app_id: '46681c55',
+    app_key: 'f465e674bcbfcc6fc086f66b4b1b75f6'
   }
   $.getJSON(EDAMAM_SEARCH_URL, query, callback);
-}*/
+}
 
 function renderResult(result) {
   let calories = `${result.recipe.calories}`
@@ -42,7 +43,7 @@ function displayRecipeData(data) {
   $('.dataCount').text(results.length);  
 }
 
-/*function loadMoreRecipes(query, dietFilter) {
+function loadMoreRecipes(query, dietFilter) {
   $(window).scroll(function() {
 	  if ($(this).scrollTop() + 1 >= $('body').height() - $(window).height()) {
 		start += 9;
@@ -51,7 +52,7 @@ function displayRecipeData(data) {
 	    setTimeout(80000)
 	  }
 	})
-}*/
+}
 
 function watchSubmit() {
   $('.js-search-form').submit(event => {

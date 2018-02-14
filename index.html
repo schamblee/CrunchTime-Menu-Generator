@@ -23,16 +23,22 @@
 <body>
   <header role="banner">
     <img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1>
-    <div id="edamam-badge" data-color="white"></div><br><span class="app-description">Create weekly dinner menus from popular recipes that are ready in 30 minutes less.</span>
+    <div id="edamam-badge" data-color="white"></div><br><span class="app-description">Create weekly dinner menus from popular recipes that are all 500 calories or less per serving.</span>
   </header>
-    
-    <form action="#" class="js-search-form">
+    <form action="#" class="js-begin" aria-live="assertive">
+      <button class="js-begin-button">Begin</button>
+    </form>
+
+    <form action="#" class="js-select-diet" aria-live="assertive">
     <br>
       Would you like to choose a diet for your menu?
     <br>
     <input type="radio" name="selectDiet" value="yes"> Yes
     <input type="radio" name="selectDiet" value="no"> No
+    <button type="submit" class='js-select-diet'>Continue</button>
     <br>
+    </form>
+    <form action="#" class="js-select-diet-yes" aria-live="assertive">
     <label for="diet-filter">Select a Diet:</label>
     <select class="diet-filter" id="diet-filter">
       <option value ="">No Diet Selected</option>
@@ -41,8 +47,11 @@
       <option value ="high-protein">High-Protein</option>
       <option value ="low-fat">Low Fat</option>
       <option value ="low-sodium">Low Sodium</option>
+      <button type="submit" class='js-diet-selected'>Continue</button>
     </select><br>
+    </form>
 
+   <form action="#" class="s" aria-live="assertive" >
     What days would you like to cook this week?<br>
     <input id="monday" type="checkbox"><label for='monday'>Monday</label>
     <input id="tuesday" type="checkbox"><label for='tuesday'>Tuesday</label>
@@ -50,10 +59,9 @@
     <input id="thursday" type="checkbox"><label for='thursday'>Thursday</label>
     <input id="friday" type="checkbox"><label for='friday'>Friday</label>
     <input id="saturday" type="checkbox"><label for='saturday'>Saturday</label>
-    <input id="sunday" type="checkbox"><label for='monday'>Sunday</label><br><button type="submit">Create a Menu</button>
-    
-    
-  </form>
+    <input id="sunday" type="checkbox"><label for='monday'>Sunday</label><br>
+    <button type="submit" class='js-create-menu'>Create a Menu</button>
+   </form>
   <main role="main" class="js-output" aria-live="assertive" hidden>
     <h2>Your Menu</h2>
     <div class="js-search-results row">

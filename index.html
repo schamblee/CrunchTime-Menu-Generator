@@ -23,13 +23,14 @@
 <body>
   <header role="banner">
     <img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1>
-    <div id="edamam-badge" data-color="white"></div><br><span class="app-description">Create weekly dinner menus from popular recipes that are all 500 calories or less per serving.</span>
+    <div id="edamam-badge" data-color="white"></div>
   </header>
-    <form action="#" class="js-begin" aria-live="assertive">
-      <button class="js-begin-button">Begin</button>
-    </form>
+  <section class="js-intro" aria-live="assertive">
+    <span class="app-description">Create weekly dinner menus from popular recipes that are all 500 calories or less per serving.</span>
+    <button class="js-begin-btn">Begin</button>
+  </section>
 
-    <form action="#" class="js-select-diet" aria-live="assertive">
+    <form action="#" class="js-select-diet" aria-live="assertive" hidden>
     <br>
       Would you like to choose a diet for your menu?
     <br>
@@ -38,7 +39,7 @@
     <button type="submit" class='js-select-diet'>Continue</button>
     <br>
     </form>
-    <form action="#" class="js-select-diet-yes" aria-live="assertive">
+    <form action="#" class="js-select-diet-yes" aria-live="assertive" hidden>
     <label for="diet-filter">Select a Diet:</label>
     <select class="diet-filter" id="diet-filter">
       <option value ="">No Diet Selected</option>
@@ -51,7 +52,7 @@
     </select><br>
     </form>
 
-   <form action="#" class="s" aria-live="assertive" >
+   <form action="#" class="s" aria-live="assertive" hidden>
     What days would you like to cook this week?<br>
     <input id="monday" type="checkbox"><label for='monday'>Monday</label>
     <input id="tuesday" type="checkbox"><label for='tuesday'>Tuesday</label>

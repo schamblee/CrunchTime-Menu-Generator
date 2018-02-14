@@ -12,7 +12,7 @@ function getDataFromApi(searchTerm, filter, from, to, callback) {
     diet: `${filter}`,
     from: `${from}`,
     to: `${to}`,
-    ingr: 5,
+    calries: 'lte%20600',
     app_id: '46681c55',
     app_key: 'f465e674bcbfcc6fc086f66b4b1b75f6'
   }
@@ -46,7 +46,7 @@ function displayRecipeData(data) {
 
 
 function watchBeginSubmit() {
-  $('.js-begin-button').click(function(event) {
+  $('.js-begin-btn').click(function(event) {
     event.preventDefault();
     console.log("begin pressed")
     $('.js-select-diet').prop('hidden', false);

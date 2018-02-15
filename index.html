@@ -25,12 +25,14 @@
     <img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1>
     <div id="edamam-badge" data-color="white"></div>
   </header>
+  <main role="main">
   <section class="js-intro" aria-live="assertive">
-    <span class="app-description">Create weekly dinner menus from popular recipes that are all 500 calories or less per serving.</span>
+    <span class="app-description">Create weekly dinner menus from popular recipes all under 600 calories per servings.</span>
     <button class="js-begin-btn">Begin</button>
   </section>
 
-    <form action="#" class="js-select-diet" aria-live="assertive" hidden>
+  <section role="region" class="js-select-diet" aria-live="assertive" hidden>
+    <form action="#">
     <br>
       Would you like to choose a diet for your menu?
     <br>
@@ -39,20 +41,23 @@
     <button type="submit" class='js-select-diet'>Continue</button>
     <br>
     </form>
-    <form action="#" class="js-select-diet-yes" aria-live="assertive" hidden>
-    <label for="diet-filter">Select a Diet:</label>
-    <select class="diet-filter" id="diet-filter">
-      <option value ="">No Diet Selected</option>
-      <option value ="low-carb">Low Carb</option>
-      <option value ="balanced">Balanced</option>
-      <option value ="high-protein">High-Protein</option>
-      <option value ="low-fat">Low Fat</option>
-      <option value ="low-sodium">Low Sodium</option>
-      <button type="submit" class='js-diet-selected'>Continue</button>
-    </select><br>
+  </section>
+  <section role="region" class="js-select-diet-yes" aria-live="assertive" hidden>
+    <form action="#">
+      <label for="diet-filter">Select a Diet:</label>
+      <select class="diet-filter" id="diet-filter">
+        <option value ="balanced">Balanced</option>
+        <option value ="low-carb">Low Carb</option>
+        <option value ="high-protein">High-Protein</option>
+        <option value ="low-fat">Low Fat</option>
+        <option value ="low-sodium">Low Sodium</option>
+      </select><br>
+      <button type='submit' id="js-diet-selection" class='js-diet-selection'>Continue</button>
     </form>
+  </section>
 
-   <form action="#" class="s" aria-live="assertive" hidden>
+  <section role="region" class="js-select-days" aria-live="assertive" hidden>
+   <form action="#">
     What days would you like to cook this week?<br>
     <input id="monday" type="checkbox"><label for='monday'>Monday</label>
     <input id="tuesday" type="checkbox"><label for='tuesday'>Tuesday</label>
@@ -63,14 +68,83 @@
     <input id="sunday" type="checkbox"><label for='monday'>Sunday</label><br>
     <button type="submit" class='js-create-menu'>Create a Menu</button>
    </form>
-  <main role="main" class="js-output" aria-live="assertive" hidden>
-    <h2>Your Menu</h2>
+ </section>
+
+  <section role="region" class="js-output" aria-live="assertive" hidden>
+    <h2 class="title">Your Menu</h2>
     <div class="js-search-results row">
 
+  <!--TEMPARY!-->
+    <div class="recipe-card col-4">
+      <div class="Monday"><span class = "day-title">Monday</span></div>
+      <div class="recipe-title">
+        <h3>Chicken BBQ</h3>
+        <p>Calories: 490</p>
+        <p>Protein: 15g</p>
+      </div>
+      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://static01.nyt.com/images/2016/06/28/dining/28COOKING-FRIEDCHICKENGUIDE13/28COOKING-FRIEDCHICKENGUIDE13-superJumbo.jpg" alt=""></a>
+      <button class = 'next-option-btn'>Next Option</button>
+    </div>
+        <div class="recipe-card col-4">
+      <div class="Tuesday"><span class = "day-title">Tuesday</span></div>
+      <div class="recipe-title">
+        <h3>Eating Out</h3>
+      </div>
+      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://www.parkinn.com/galleries/gallery-root/parkinn/TLLPR/large_412x309/TLLPR_DIN_18.jpg" alt=""></a>
+      <button class = 'next-option-btn'>Next Option</button>
+    </div>
+      <div class="recipe-card col-4">
+      <div class="Wednesday"><span class = "day-title">Wednesday</span></div>
+      <div class="recipe-title">
+        <h3>Steak</h3>
+        <p>Calories: 500</p>
+        <p>Protein: 10g</p>
+      </div>
+      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://www.recipetineats.com/wp-content/uploads/2017/03/Beef-Bean-Soba-Bowls-1.jpg" alt=""></a>
+      <button class = 'next-option-btn'>Next Option</button>
+    </div>
+    <div class="recipe-card col-4">
+      <div class="Thursday"><span class = "day-title">Thursday</span></div>
+      <div class="recipe-title">
+        <h3>Beef Tacos</h3>
+        <p>Calories: 600</p>
+        <p>Protein: 6g</p>
+      </div>
+      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://res.cloudinary.com/hellofresh/image/upload/f_auto,fl_lossy,q_80,w_auto:100:1280/v1/hellofresh_s3/image/5a5ce42fad1d6c5ca7459502-aa41dbf4.jpg" alt=""></a>
+      <button class = 'next-option-btn'>Next Option</button>
+    </div>
+    <div class="recipe-card col-4">
+      <div class="Friday"><span class = "day-title">Friday</span></div>
+      <div class="recipe-title">
+        <h3>Chicken BBQ</h3>
+        <p>Calories: 490</p>
+        <p>Protein: 15g</p>
+      </div>
+      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://static01.nyt.com/images/2016/06/28/dining/28COOKING-FRIEDCHICKENGUIDE13/28COOKING-FRIEDCHICKENGUIDE13-superJumbo.jpg" alt=""></a>
+      <button class = 'next-option-btn'>Next Option</button>
+    </div>
+    <div class="recipe-card col-4">
+      <div class="Saturday"><span class = "day-title">Saturday</span></div>
+      <div class="recipe-title">
+        <h3>Chicken BBQ</h3>
+        <p>Calories: 490</p>
+        <p>Protein: 15g</p>
+      </div>
+      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://static01.nyt.com/images/2016/06/28/dining/28COOKING-FRIEDCHICKENGUIDE13/28COOKING-FRIEDCHICKENGUIDE13-superJumbo.jpg" alt=""></a>
+      <button class = 'next-option-btn'>Next Option</button>
+    </div>
+    <div class="recipe-card col-4">
+      <div class="Sunday"><span class = "day-title">Sunday</span></div>
+      <div class="recipe-title">
+        <h3>Left Overs</h3>
+      </div>
+      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://assets.bonappetit.com/photos/57d6f6b91844fc3746143224/master/w_1200,c_limit/thanksgiving-leftovers-tupperware.jpg" alt=""></a>
+      <button class = 'next-option-btn'>Next Option</button>
+    </div>
     </div>
 
+  </section>
   </main>
-
   <script src="index.js"></script>
-  </body>
+</body>
 </html>

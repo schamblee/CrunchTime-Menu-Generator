@@ -1,7 +1,7 @@
 const EDAMAM_SEARCH_URL = 'https://api.edamam.com/search';
 
 let start = 0;
-let end = 2;
+let end = 1;
 let dietFilter = ''
 let days = [];
 
@@ -45,63 +45,59 @@ function displayRecipeData(data) {
 }
 
 
-function watchBeginSubmit() {
-  $('.js-begin-btn').click(function(event) {
+function watchBeginClick() {
+  $('.js-begin-btn').click(event => {
     event.preventDefault();
-    console.log("begin pressed")
     $('.js-select-diet').prop('hidden', false);
+    $('.js-intro').prop('hidden', true);
     });
 }
 
 
 function watchDietSubmit() {
-  $('.js-diet-selected').submit(event => {
+  $('.js-select-diet').submit(event => {
     event.preventDefault();
     let userAnswer = $('input[name=selectDiet]:checked').val()
     if (userAnswer === 'yes') {
+      $('.js-select-diet').prop('hidden', true);
       $('.js-select-diet-yes').prop('hidden', false);
-      $('.js-select-diet').prop('hidden', true);
     } else {
+      $('.js-select-diet').remove();
       $('.js-select-days').prop('hidden', false);
-      $('.js-select-diet').prop('hidden', true);
+
     }
   });
 }
 
 
-function watchDietSelectedSubmit() {
-  $('.js-diet-selected').submit(event => {
+function watchDietSelection() {
+  $('.js-select-diet-yes').submit(event => {
     event.preventDefault();
-    $('.js-select-days').prop('hidden', false);
     $('.js-select-diet-yes').prop('hidden', true);
+    $('.js-select-days').prop('hidden', false);
   });
 }
 
-
-
 function watchMenuSubmit() {
-  $('.js-create-menu').submit(event => {
+  $('.js-select-days').submit(event => {
     event.preventDefault();
     $('.js-select-days').prop('hidden', true);
     $('.js-output').prop('hidden', false);
-//    const queryTarget = $(event.currentTarget).find('.js-query');
-//    const query = queryTarget.val();
+    /*const query = 'chicken'
     const filterTarget = $(event.currentTarget).find('.diet-filter')
     const dietFilter = filterTarget.val();
-    // clear out the input
-    queryTarget.val("");
-    getDataFromApi(query, dietFilter, start, end, displayRecipeData);
+    getDataFromApi(query, dietFilter, start, end, displayRecipeData);*/
   });
 }
 
 function handleMenuGenerator() {
-  watchBeginSubmit();
+  watchBeginClick();
   watchDietSubmit();
-  watchDietSubmit();
-  watchDietSelectedSubmit();
+  watchDietSelection();
   watchMenuSubmit();
 }
 
+$(handleMenuGenerator);
 
 
 

@@ -10,7 +10,7 @@ header {
   padding-bottom: 20px;
 }
 
-form {
+section {
 	text-align: center;
 	margin-top: 250px;
 }
@@ -47,6 +47,15 @@ header h1 {
   margin-left: 33%;
 }
 
+.day-title {
+  font-family: 'Fredericka the Great', cursive;
+  font-size: 30px;
+}
+
+.recipe-image {
+  width: 100%;
+}
+
 header p {
   margin-top: 0.5em;
 }
@@ -54,11 +63,22 @@ header p {
 .app-description {
   font-weight: bold;
   display: block;
-  position: absolute;
+  position: relative;
   margin-top: 220px;
-  left: 35%;
-  right: 35%;
+  margin-left: 35%;
+  margin-right: 35%;
+  text-align: center;
 }
+
+.js-begin-btn {
+  display: block;
+  position: relative;
+  margin-top: 20px;
+  margin-left: 48%;
+  margin-right: 48%;
+  text-align: center;
+}
+
 
 main h2 {
   text-align: center;

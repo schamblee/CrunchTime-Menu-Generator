@@ -1,47 +1,52 @@
-const EDAMAM_SEARCH_URL = 'https://api.edamam.com/search';
-
-let start = 0;
-let end = 1;
 let dietFilter = ''
 let days = [];
 
-function getDataFromApi(searchTerm, filter, from, to, callback) {
+
+function getDataFromApi() { 
+  $.ajax({
+    url: 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?addRecipeInformation=false&excludeIngredients=coconut%2C+mango&fillIngredients=false&includeIngredients=onions%2C+lettuce%2C+tomato&instructionsRequired=false&intolerances=peanut%2C+shellfish&limitLicense=false&maxCalories=500&maxCarbs=100&maxFat=100&maxProtein=100&minCalories=150&minCarbs=5&minFat=5&minProtein=5&number=7&offset=7&ranking=1&type=main+course',
+      type: 'GET',
+      dataType: 'json',
+      success: function (result) { displayRecipeData(result) },
+      error: function() { alert('boo!'); },
+      beforeSend: setHeader
+      });
+  };
+
+function setHeader(xhr) {
+        xhr.setRequestHeader('X-Mashape-Key', 'DwXMjCgQGQmshC8MyFU6bVgOQS1Lp1tlRvZjsn3JvI9Q2hZZBC');
+      }
+    
   
-  const query = {
+ /* const query = {
     q: `${searchTerm}`,
     diet: `${filter}`,
-    from: `${from}`,
-    to: `${to}`,
-    calries: 'lte%20600',
-    app_id: '46681c55',
-    app_key: 'f465e674bcbfcc6fc086f66b4b1b75f6'
+    limitLicense: 'false',
+    instructionsRequired: 'true'
   }
-  $.getJSON(EDAMAM_SEARCH_URL, query, callback);
-}
+  $.getJSON(SPOONTACULAR_SEARCH_URL, query, callback);*/
+
 
 function renderMenu(result) {
-  let calories = `${result.recipe.calories}`
-  let protein = `${result.recipe.totalNutrients.PROCNT.quantity}`
-  let servings = `${result.recipe.yield}`
-  let calorieCount = (calories/servings).toFixed();
-  let proteinCount = (protein/servings).toFixed();
+  let calories = `${result.calories}`
+  let protein = `${result.protein}`
 
-  return `<div class="col-4"> 
+  return `
+  <div class="col-4"> 
     <div class="recipe-card">
       <div class="recipe-title">
-        <h3>${result.recipe.label}</h3>
-        <p>Calories: ${calorieCount}</p>
-        <p>Protein: ${proteinCount}</p>
+        <h3>${result.title}</h3>
+        <p>Calories: ${calories}</p>
+        <p>Protein: ${protein}</p>
       </div>
-      <a class="js-result-name card-image" href="${result.recipe.url}" target="_blank"><img src="${result.recipe.image}" alt="${result.recipe.label}"></a>
+      <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
     </div>
-    </div>`;
+  </div>`;
 }
 
 function displayRecipeData(data) {
-  const results = data.hits.map((item, index) => renderMenu(item));
+  const results = data.results.map((item, index) => renderMenu(item));
   $('.js-search-results').html(results);
-  $('.dataCount').text(results.length);  
 }
 
 
@@ -86,8 +91,8 @@ function watchMenuSubmit() {
     //let query = items[Math.floor(Math.random()*items.length)];
     const query = ''
     //const filterTarget = $(event.currentTarget).find('.diet-filter')
-    const dietFilter = 'high-protein'//filterTarget.val();
-    getDataFromApi(query, dietFilter, start, end, displayRecipeData);
+    const dietFilter = 'vegetarian'//filterTarget.val();
+    getDataFromApi(query, dietFilter, displayRecipeData);
   });
 }
 

@@ -79,6 +79,12 @@ header p {
   text-align: center;
 }
 
+.start-over {
+  height: 200px;
+  position: relative;
+  bottom: 0px;
+}
+
 
 main h2 {
   text-align: center;
@@ -126,14 +132,14 @@ main h2 {
   clear: both;
 }
 
-.col-4, .col-12 {
+.col-4, .col-8, .col-12 {
   float: left;
   padding-left: 1.04166666%;
   padding-right: 1.04166666%;
 }
 
 /* Mobile defaults */
-.col-4 {
+.col-4, .col-8 {
   width: 100%;
 }
 
@@ -144,6 +150,9 @@ main h2 {
   /* 4 columns, 4/12 in % */
   .col-4 {
     width: 33.333333%;
+  }
+  .col-8 {
+    width: 50%;
   }
 
 }

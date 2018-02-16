@@ -83,10 +83,11 @@ function watchMenuSubmit() {
     event.preventDefault();
     $('.js-select-days').prop('hidden', true);
     $('.js-output').prop('hidden', false);
-    /*const query = 'chicken'
-    const filterTarget = $(event.currentTarget).find('.diet-filter')
-    const dietFilter = filterTarget.val();
-    getDataFromApi(query, dietFilter, start, end, displayRecipeData);*/
+    //let query = items[Math.floor(Math.random()*items.length)];
+    const query = ''
+    //const filterTarget = $(event.currentTarget).find('.diet-filter')
+    const dietFilter = 'high-protein'//filterTarget.val();
+    getDataFromApi(query, dietFilter, start, end, displayRecipeData);
   });
 }
 

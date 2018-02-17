@@ -95,17 +95,25 @@ main h2 {
 .recipe-card {
   border: 1px solid #E5E5E5;
   margin-bottom: 20px;
+  height: 400px;
 }
 
 .card-image {
   width: 100%;
+  position: relative;
+  margin-bottom: 0;
+}
+
+.next-option, .view-recipe, .remove-day {
+  position: relative;
+  margin-bottom: 0;
+  width: 100%;
 }
 
 .recipe-title {
-  padding: 15px;
-}
-
-.recipe-title h3 {
+  padding: 5px;
+  font-size: 17px;
+  height: 180px;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -116,6 +124,7 @@ main h2 {
 
 .row {
   max-width: 1500px;
+  height: 500px;
   padding-left: 20px;
   padding-right: 20px;
   margin: 0 auto;

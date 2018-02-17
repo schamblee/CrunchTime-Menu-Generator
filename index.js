@@ -1,37 +1,9 @@
 let dietFilter = ''
-let currentView = ''
+let dayIndex = -1;
 
-/*$(document).ready(function() {
-  let $window = $(window);
-  function checkWidth() {
-    var windowsize = $window.width();
-      if (windowsize > 700) {
-       currentView ='basicWeek'
-       } else {
-       currentView ='basicDay'
-      }
-  }
-  checkWidth();
-  $(window).resize(checkWidth)
-    $('#calendar').fullCalendar('next');
-    $('#calendar').fullCalendar({
-      defaultView: 'basicWeek',
-      firstDay: 1,
-      height: 400,
-      events: [
-        {
-        title  : 'event',
-        start  : '2018-02-17',
-        end  : '2018-02-17',
-        imageurl:'https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png'
-        }
-      ]
-  });
-  });*/
-
-function getDataFromApi() { 
+function getRecipeItems() { 
   $.ajax({
-    url: 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?addRecipeInformation=false&excludeIngredients=coconut%2C+mango&fillIngredients=false&includeIngredients=onions%2C+lettuce%2C+tomato&instructionsRequired=false&intolerances=peanut%2C+shellfish&limitLicense=false&maxCalories=500&maxCarbs=100&maxFat=100&maxProtein=100&minCalories=150&minCarbs=5&minFat=5&minProtein=5&number=7&offset=7&ranking=1&type=main+course',
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?addRecipeInformation=false&number=7&offset=${Math.floor(Math.random() * 100)}&instructionsRequired=true&intolerances=peanut%2C+shellfish&limitLicense=false&maxCalories=500&type=main+course`,
       type: 'GET',
       dataType: 'json',
       success: function (result) { displayRecipeData(result) },
@@ -44,28 +16,51 @@ function setHeader(xhr) {
         xhr.setRequestHeader('X-Mashape-Key', 'DwXMjCgQGQmshC8MyFU6bVgOQS1Lp1tlRvZjsn3JvI9Q2hZZBC');
       }
 
+function getRecipeInstructions(id) { 
+  $.ajax({
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/analyzedInstructions`,
+      type: 'GET',
+      dataType: 'json',
+      success: function (result) { displayRecipeData(result) },
+      error: function() { alert('boo!'); },
+      beforeSend: setHeader
+      });
+}
+
+
 
 function renderMenu(result) {
-  let calories = `${result.calories}`
-  let protein = `${result.protein}`
+  dayIndex++
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  
   return `
   <div class="col-4"> 
     <div class="recipe-card">
       <div class="recipe-title">
-        <span class = "day-title">Monday</span>
+        <span class = "day-title">${days[dayIndex]}</span>
         <h3 class="recipe-title">${result.title}</h3>
-        <p>Calories: ${calories}</p>
-        <p>Protein: ${protein}</p>
+        <p>Calories: ${result.calories}</p>
+        <p>Protein: ${result.protein}</p>
       </div>
       <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
+      <button class="view-recipe">View Recipe</button>
       <button class="next-option">Next Option</button>
+      <button class="remove-day">Remove Day</button>
     </div>
-  </div>`;
+  </div>`
 }
 
 function displayRecipeData(data) {
   const results = data.results.map((item, index) => renderMenu(item));
   $('.js-search-results').html(results);
+}
+
+function watchNextOptionClick() {
+  $('.recipe-card').on('click', '.next-option', function(event) {
+    event.preventDefault()
+    let recipeId = $(event.currentTarget).find('.recipe-title').val()
+    console.log(`the recipe id is ${recipeId}`);
+    })
 }
 
 
@@ -111,7 +106,7 @@ function watchMenuSubmit() {
     const query = ''
     //const filterTarget = $(event.currentTarget).find('.diet-filter')
     const dietFilter = 'vegetarian'//filterTarget.val();
-    getDataFromApi(query, dietFilter, displayRecipeData);
+    getRecipeItems();
   });
 }
 

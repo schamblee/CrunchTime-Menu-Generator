@@ -1,3 +1,4 @@
+
 let dietFilter = ''
 let dayIndex = -1;
 

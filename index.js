@@ -44,11 +44,34 @@ function renderMenu(result) {
         <p>Protein: ${result.protein}</p>
       </div>
       <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
-      <button class="view-recipe">View Recipe</button>
+        <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg view-recipe" data-toggle="modal" data-target="#myModal">View Recipe</button>
+
+  <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
       <button class="next-option">Next Option</button>
       <button class="remove-day">Remove Day</button>
     </div>
-  </div>`
+  </div>
+`
 }
 
 function displayRecipeData(data) {

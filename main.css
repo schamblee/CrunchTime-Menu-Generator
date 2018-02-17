@@ -102,7 +102,7 @@ main h2 {
 }
 
 .recipe-title {
-  padding: 20px;
+  padding: 15px;
 }
 
 .recipe-title h3 {
@@ -147,7 +147,7 @@ main h2 {
 
   /* 7 columns, 7/12 in % */
   .col-4 {
-    width: 17.1428571%;
+    width: 14.25%;
   }
   .col-8 {
     width: 50%;

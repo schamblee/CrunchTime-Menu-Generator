@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Crunch Time</title>
-  <script
+  <link rel='stylesheet' href='fullcalendar.css' />
+    <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
+  <script src='moment.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.2/fullcalendar.min.js'></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Crunch Time</title>
+
   <!-- Responsive viewport tag, tells small screens that it's responsive -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,6 +23,7 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
   <link href="main.css" rel="stylesheet" type="text/css" />
+  <script src="index.js"></script>
 </head>
 <body>
   <header role="banner">
@@ -26,8 +32,11 @@
   <main role="main">
   <section class="js-intro" aria-live="assertive">
     <span class="app-description">Create weekly dinner menus from popular recipes all under 600 calories per servings.</span>
+    <div id='calendar'></div>
     <button class="js-begin-btn">Begin</button>
   </section>
+
+
 
   <section role="region" class="js-select-diet" aria-live="assertive" hidden>
     <form action="#">
@@ -54,8 +63,10 @@
     </form>
   </section>
 
+  
   <section role="region" class="js-select-days" aria-live="assertive" hidden>
    <form action="#">
+    <!-- I DON"T CARE ABOUT WHAT DAYS THEY WANT TO COOK. They get 7 days!
     What days would you like to cook this week?<br>
     <input id="monday" type="checkbox"><label for='monday'>Monday</label>
     <input id="tuesday" type="checkbox"><label for='tuesday'>Tuesday</label>
@@ -64,88 +75,22 @@
     <input id="friday" type="checkbox"><label for='friday'>Friday</label>
     <input id="saturday" type="checkbox"><label for='saturday'>Saturday</label>
     <input id="sunday" type="checkbox"><label for='monday'>Sunday</label><br>
+     </section>-->
     <button type="submit" class='js-create-menu'>Create a Menu</button>
    </form>
- </section>
+
 
   <section role="region" class="js-output" aria-live="assertive" hidden>
     <h2 class="title">Your Menu</h2>
     <div class="js-search-results row">
-
-  <!--TEMPARY!-->
-    <div class="recipe-card col-4">
-      <div class="Monday"><span class = "day-title">Monday</span></div>
-      <div class="recipe-title">
-        <h3>Chicken BBQ</h3>
-        <p>Calories: 490</p>
-        <p>Protein: 15g</p>
-      </div>
-      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://static01.nyt.com/images/2016/06/28/dining/28COOKING-FRIEDCHICKENGUIDE13/28COOKING-FRIEDCHICKENGUIDE13-superJumbo.jpg" alt=""></a>
-      <button class = 'next-option-btn'>Next Option</button>
+      
     </div>
-        <div class="recipe-card col-4">
-      <div class="Tuesday"><span class = "day-title">Tuesday</span></div>
-      <div class="recipe-title">
-        <h3>Eating Out</h3>
-      </div>
-      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://www.parkinn.com/galleries/gallery-root/parkinn/TLLPR/large_412x309/TLLPR_DIN_18.jpg" alt=""></a>
-      <button class = 'next-option-btn'>Next Option</button>
-    </div>
-      <div class="recipe-card col-4">
-      <div class="Wednesday"><span class = "day-title">Wednesday</span></div>
-      <div class="recipe-title">
-        <h3>Steak</h3>
-        <p>Calories: 500</p>
-        <p>Protein: 10g</p>
-      </div>
-      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://www.recipetineats.com/wp-content/uploads/2017/03/Beef-Bean-Soba-Bowls-1.jpg" alt=""></a>
-      <button class = 'next-option-btn'>Next Option</button>
-    </div>
-    <div class="recipe-card col-4">
-      <div class="Thursday"><span class = "day-title">Thursday</span></div>
-      <div class="recipe-title">
-        <h3>Beef Tacos</h3>
-        <p>Calories: 600</p>
-        <p>Protein: 6g</p>
-      </div>
-      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://res.cloudinary.com/hellofresh/image/upload/f_auto,fl_lossy,q_80,w_auto:100:1280/v1/hellofresh_s3/image/5a5ce42fad1d6c5ca7459502-aa41dbf4.jpg" alt=""></a>
-      <button class = 'next-option-btn'>Next Option</button>
-    </div>
-    <div class="recipe-card col-4">
-      <div class="Friday"><span class = "day-title">Friday</span></div>
-      <div class="recipe-title">
-        <h3>Grilled Salmon</h3>
-        <p>Calories: 430</p>
-        <p>Protein: 7g</p>
-      </div>
-      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://static.pexels.com/photos/46239/salmon-dish-food-meal-46239.jpeg" alt=""></a>
-      <button class = 'next-option-btn'>Next Option</button>
-    </div>
-    <div class="recipe-card col-4">
-      <div class="Saturday"><span class = "day-title">Saturday</span></div>
-      <div class="recipe-title">
-        <h3>Stir Fry</h3>
-        <p>Calories: 50</p>
-        <p>Protein: 12g</p>
-      </div>
-      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxUPIIhBrIQgojp_HN0R_dZ3kDe-uEkvt-6Tm_HjWIyD2VMjd2" alt=""></a>
-      <button class = 'next-option-btn'>Next Option</button>
-    </div>
-    <div class="recipe-card col-4">
-      <div class="Sunday"><span class = "day-title">Sunday</span></div>
-      <div class="recipe-title">
-        <h3>Left Overs</h3>
-      </div>
-      <a class="js-result-name card-image" href="#" target="_blank"><img class="recipe-image" src="https://assets.bonappetit.com/photos/57d6f6b91844fc3746143224/master/w_1200,c_limit/thanksgiving-leftovers-tupperware.jpg" alt=""></a>
-      <button class = 'next-option-btn'>Next Option</button>
-    </div>
-    <div class="recipe-card start-over col-8">
-      <button><span class = "day-title">Start Over</span></button>
-    </div>
-    </div>
-
+  </section>
+  <section role="region" class="menu-actions" aria-live="assertive" hidden>
+    <button class="start-over">Start Over</button>
+    <button class="calendar">Add to Calendar</button>
   </section>
   </main>
-  <script src="index.js"></script>
+  
 </body>
 </html>

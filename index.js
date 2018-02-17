@@ -1,6 +1,33 @@
 let dietFilter = ''
-let days = [];
+let currentView = ''
 
+/*$(document).ready(function() {
+  let $window = $(window);
+  function checkWidth() {
+    var windowsize = $window.width();
+      if (windowsize > 700) {
+       currentView ='basicWeek'
+       } else {
+       currentView ='basicDay'
+      }
+  }
+  checkWidth();
+  $(window).resize(checkWidth)
+    $('#calendar').fullCalendar('next');
+    $('#calendar').fullCalendar({
+      defaultView: 'basicWeek',
+      firstDay: 1,
+      height: 400,
+      events: [
+        {
+        title  : 'event',
+        start  : '2018-02-17',
+        end  : '2018-02-17',
+        imageurl:'https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png'
+        }
+      ]
+  });
+  });*/
 
 function getDataFromApi() { 
   $.ajax({
@@ -16,30 +43,22 @@ function getDataFromApi() {
 function setHeader(xhr) {
         xhr.setRequestHeader('X-Mashape-Key', 'DwXMjCgQGQmshC8MyFU6bVgOQS1Lp1tlRvZjsn3JvI9Q2hZZBC');
       }
-    
-  
- /* const query = {
-    q: `${searchTerm}`,
-    diet: `${filter}`,
-    limitLicense: 'false',
-    instructionsRequired: 'true'
-  }
-  $.getJSON(SPOONTACULAR_SEARCH_URL, query, callback);*/
 
 
 function renderMenu(result) {
   let calories = `${result.calories}`
   let protein = `${result.protein}`
-
   return `
   <div class="col-4"> 
     <div class="recipe-card">
       <div class="recipe-title">
-        <h3>${result.title}</h3>
+        <span class = "day-title">Monday</span>
+        <h3 class="recipe-title">${result.title}</h3>
         <p>Calories: ${calories}</p>
         <p>Protein: ${protein}</p>
       </div>
       <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
+      <button class="next-option">Next Option</button>
     </div>
   </div>`;
 }
@@ -103,7 +122,7 @@ function handleMenuGenerator() {
   watchMenuSubmit();
 }
 
-$(handleMenuGenerator);
+$(handleMenuGenerator)
 
 
 

@@ -74,9 +74,32 @@ header p {
   display: block;
   position: relative;
   margin-top: 20px;
-  margin-left: 48%;
-  margin-right: 48%;
+  margin-left: 40%;
+  margin-right: 40%;
   text-align: center;
+  background-color: #6BBE92;
+  width: 302px;
+  border: 0;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}
+
+/*button {
+  text-align: center;
+  background-color: #6BBE92;
+  width: 302px;
+  border: 0;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}*/
+
+fieldset {
+  width: 30%;
+  margin: auto ;
 }
 
 .start-over {

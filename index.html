@@ -7,8 +7,7 @@
     crossorigin="anonymous"></script>
   <script src='moment.min.js'></script>
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!--<script src="https://apis.google.com/js/platform.js" async defer></script>-->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Crunch Time</title>
@@ -37,7 +36,7 @@
   </section>
 
 
-
+<!--
   <section role="region" class="js-select-diet" aria-live="assertive" hidden>
     <form action="#">
     <br>
@@ -45,42 +44,74 @@
     <br>
     <input type="radio" name="selectDiet" value="yes"> Yes
     <input type="radio" name="selectDiet" value="no"> No
+    <br>
     <button type="submit" class='js-select-diet'>Continue</button>
     <br>
     </form>
-  </section>
-  <section role="region" class="js-select-diet-yes" aria-live="assertive" hidden>
+  </section>-->
+
+
+
+  <section role="region" class="js-select-diet" aria-live="assertive" hidden>
     <form action="#">
       <label for="diet-filter">Select a Diet:</label>
       <select class="diet-filter" id="diet-filter">
-        <option value ="balanced">Balanced</option>
-        <option value ="low-carb">Low Carb</option>
-        <option value ="high-protein">High-Protein</option>
-        <option value ="low-fat">Low Fat</option>
-        <option value ="low-sodium">Low Sodium</option>
+        <option value ="">Ballanced</option>
+        <option value ="Pescetarian">Pescetarian</option>
+        <option value ="Vegetarian">Vegetarian</option>
+        <option value ="Vegan">Vegan</option>
+        <option value ="Primal">Primal</option>
+        <option value ="Paleo">Paleo</option>
       </select><br>
-      <button type='submit' id="js-diet-selection" class='js-diet-selection'>Continue</button>
+
+  <fieldset>
+    <legend>Select Any Intolerances</legend>
+     <div>
+      <input type="checkbox" id="dairy" name="intolerance" value="dairy">
+      <label for="dairy">Dairy</label>
+    </div>
+    <div>
+      <input type="checkbox" id="egg" name="intolerance" value="egg">
+      <label for="egg">Egg</label>
+    </div>
+  </fieldset>
+
+<!--
+                <li>
+                    <input type="checkbox" value="dairy" />Dairy</li>
+                <li>
+                    <input type="checkbox" value="egg" />Egg</li>
+                <li>
+                    <input type="checkbox" value="gluten" />Gluten</li>
+                <li>
+                    <input type="checkbox" value="peanut" />Peanut</li>
+                <li>
+                    <input type="checkbox" value="sesame" />Sesame</li>
+                <li>
+                    <input type="checkbox" value="shellfish" />Shellfish</li>
+                 <li>
+                    <input type="checkbox" value="soy" />Soy</li>
+                <li>
+                    <input type="checkbox" value="sulfite" />Sulfite</li>
+                <li>
+                    <input type="checkbox" value="tree+nut" />Tree Nut</li>
+                <li>
+                    <input type="checkbox" value="wheat" />Wheat</li>-->
+
+      <button type="submit" class='js-create-menu'>Create a Menu</button>
     </form>
   </section>
-
-  
-  <section role="region" class="js-select-days" aria-live="assertive" hidden>
-   <form action="#">
-    <button type="submit" class='js-create-menu'>Create a Menu</button>
-     </section>
-   </form>
-
 
   <section role="region" class="js-output" aria-live="assertive" hidden>
     <h2 class="title">Your Menu</h2>
     <div class="js-search-results row">
-
+<!--
     </div>
           <div class="g-savetodrive"
    data-src="//example.com/path/to/myfile.pdf"
    data-filename="My Statement.pdf"
    data-sitename="My Company Name">
-   </div>
+   </div>-->
    <button class="start-over">Start Over</button>
   </section>
   </main>

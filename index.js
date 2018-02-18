@@ -1,17 +1,38 @@
 
-let dietFilter = ''
+let dietFilter = '';
 let dayIndex = -1;
+let allergies = [];
 
-function getRecipeItems() { 
+function getRecipesForWeek(allergies, diet) { 
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?addRecipeInformation=false&number=7&offset=${Math.floor(Math.random() * 100)}&instructionsRequired=true&intolerances=peanut%2C+shellfish&limitLicense=false&maxCalories=500&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${Math.floor(Math.random() * 900)}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { displayRecipeData(result) },
+      success: function (result) { displayRecipesForWeek(result) },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
       });
   };
+
+
+function getRecipeForDay(allergies, diet, day) { 
+  $.ajax({
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=1&offset=${Math.floor(Math.random() * 900)}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+      type: 'GET',
+      dataType: 'json',
+      success: function (result) { 
+        
+        $(`.${day}`).text(`${result.title}`); 
+        console.log(`${result.title}`)
+      },
+      error: function() { alert('boo!'); },
+      beforeSend: setHeader
+      });
+  };
+
+
+
+
 
 function setHeader(xhr) {
         xhr.setRequestHeader('X-Mashape-Key', 'DwXMjCgQGQmshC8MyFU6bVgOQS1Lp1tlRvZjsn3JvI9Q2hZZBC');
@@ -39,45 +60,24 @@ function renderMenu(result) {
     <div class="recipe-card">
       <div class="recipe-title">
         <span class = "day-title">${days[dayIndex]}</span>
-        <h3 class="recipe-title">${result.title}</h3>
+        <h3 class="recipe-title ${days[dayIndex]}">${result.title}</h3>
         <p>Calories: ${result.calories}</p>
         <p>Protein: ${result.protein}</p>
       </div>
       <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
-        <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg view-recipe" data-toggle="modal" data-target="#myModal">View Recipe</button>
-
-  <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-      <button class="next-option">Next Option</button>
-      <button class="remove-day">Remove Day</button>
+      <button type="button" class="js-view-recipe">View Recipe</button>
+      <button class="js-next-option" value="${days[dayIndex]}">Next Option</button>
+      <button class="js-remove-day">Remove Day</button>
     </div>
   </div>
 `
 }
 
-function displayRecipeData(data) {
+function displayRecipesForWeek(data) {
   const results = data.results.map((item, index) => renderMenu(item));
   $('.js-search-results').html(results);
 }
+
 
 function watchNextOptionClick() {
   $('.recipe-card').on('click', '.next-option', function(event) {
@@ -103,7 +103,7 @@ function watchDietSubmit() {
     let userAnswer = $('input[name=selectDiet]:checked').val()
     if (userAnswer === 'yes') {
       $('.js-select-diet').prop('hidden', true);
-      $('.js-select-diet-yes').prop('hidden', false);
+      $('.js-select-diet').prop('hidden', false);
     } else {
       $('.js-select-diet').remove();
       $('.js-select-days').prop('hidden', false);
@@ -114,24 +114,31 @@ function watchDietSubmit() {
 
 
 function watchDietSelection() {
-  $('.js-select-diet-yes').submit(event => {
+  $('.js-select-diet').submit(event => {
     event.preventDefault();
-    $('.js-select-diet-yes').prop('hidden', true);
+    $('.js-select-diet').prop('hidden', true);
     $('.js-select-days').prop('hidden', false);
   });
 }
 
 function watchMenuSubmit() {
-  $('.js-select-days').submit(event => {
+  $('.js-select-diet').submit(event => {
     event.preventDefault();
     $('.js-select-days').prop('hidden', true);
     $('.js-output').prop('hidden', false);
-    //let query = items[Math.floor(Math.random()*items.length)];
-    const query = ''
-    //const filterTarget = $(event.currentTarget).find('.diet-filter')
-    const dietFilter = 'vegetarian'//filterTarget.val();
-    getRecipeItems();
+    dietFilter = 'vegetarian'//filterTarget.val();
+    allergyList = ['dairy']
+    getRecipesForWeek(dietFilter, allergyList);
   });
+}
+
+function findNextRecipe() {
+  $('.js-output').on('click', '.js-next-option', function(event) {
+  event.preventDefault();
+  let dayCard = $(this).val();
+  getRecipeForDay(dietFilter, allergyList, dayCard);
+  console.log(`${dayCard} option pressed`)
+  })
 }
 
 function handleMenuGenerator() {
@@ -139,6 +146,7 @@ function handleMenuGenerator() {
   watchDietSubmit();
   watchDietSelection();
   watchMenuSubmit();
+  findNextRecipe();
 }
 
 $(handleMenuGenerator)

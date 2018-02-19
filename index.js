@@ -4,11 +4,12 @@ let dayIndex = -1;
 let allergies = [];
 
 function getRecipesForWeek(allergies, diet) { 
+  let recipeIndex = Math.floor(Math.random() * 200)
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${Math.floor(Math.random() * 900)}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${recipeIndex}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { displayRecipesForWeek(result) },
+      success: function (result) { displayRecipesForWeek(result, recipeIndex) },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
       });
@@ -16,14 +17,15 @@ function getRecipesForWeek(allergies, diet) {
 
 
 function getRecipeForDay(allergies, diet, day) { 
+  //Need to add 7 to the recipe index so that user can go forward and backward with options
+  day = `.${day}`
   $.ajax({
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=1&offset=${Math.floor(Math.random() * 900)}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { 
+      success: function (result) { displayRecipeForDay(result, day)
         
-        $(`.${day}`).text(`${result.title}`); 
-        console.log(`${result.title}`)
+        
       },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
@@ -31,6 +33,10 @@ function getRecipeForDay(allergies, diet, day) {
   };
 
 
+function displayRecipeForDay(data, day) {
+  const results = data.results.map((item, index) => renderDayCard(item));
+  $(`${day}`).html(results);
+}
 
 
 
@@ -57,19 +63,31 @@ function renderMenu(result) {
   
   return `
   <div class="col-4"> 
-    <div class="recipe-card">
-      <div class="recipe-title">
-        <span class = "day-title">${days[dayIndex]}</span>
-        <h3 class="recipe-title ${days[dayIndex]}">${result.title}</h3>
+    <span class = "day-title">${days[dayIndex]}</span>
+    <div class="recipe-card ${days[dayIndex]}">
+        <h3 class="recipe-title">${result.title}</h3>
         <p>Calories: ${result.calories}</p>
         <p>Protein: ${result.protein}</p>
+        <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
+        <button type="button" class="js-view-recipe">View Recipe</button>
+        <button class="js-next-option" value="${days[dayIndex]}">Next Option</button>
+        <button class="js-remove-day">Remove Day</button>
       </div>
+    </div>
+`
+}
+
+
+function renderDayCard(result, day) {  
+  day = `${day}`
+  return `
+        <h3 class="recipe-title">${result.title}</h3>
+        <p>Calories: ${result.calories}</p>
+        <p>Protein: ${result.protein}</p>
       <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
       <button type="button" class="js-view-recipe">View Recipe</button>
-      <button class="js-next-option" value="${days[dayIndex]}">Next Option</button>
+      <button class="js-next-option" value="${day}">Next Option</button>
       <button class="js-remove-day">Remove Day</button>
-    </div>
-  </div>
 `
 }
 

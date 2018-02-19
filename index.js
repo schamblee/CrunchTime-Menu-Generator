@@ -16,7 +16,7 @@ function getRecipesForWeek(allergies, diet) {
   };
 
 
-function getRecipeForDay(allergies, diet, day) { 
+function getRecipeForDay(allergies, diet, query, day) { 
   //Need to add 7 to the recipe index so that user can go forward and backward with options
   day = `.${day}`
   $.ajax({
@@ -57,7 +57,7 @@ function getRecipeInstructions(id) {
 
 
 
-function renderMenu(result) {
+function renderMenu(offset, result) {
   dayIndex++
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   
@@ -70,7 +70,10 @@ function renderMenu(result) {
         <p>Protein: ${result.protein}</p>
         <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
         <button type="button" class="js-view-recipe">View Recipe</button>
-        <button class="js-next-option" value="${days[dayIndex]}">Next Option</button>
+        <button class="js-next-option" value="${days[dayIndex]}">Change Recipe</button>
+           <ul>
+
+           </ul>
         <button class="js-remove-day">Remove Day</button>
       </div>
     </div>
@@ -91,8 +94,8 @@ function renderDayCard(result, day) {
 `
 }
 
-function displayRecipesForWeek(data) {
-  const results = data.results.map((item, index) => renderMenu(item));
+function displayRecipesForWeek(data, recipeIndex) {
+  const results = data.results.map((item, recipeIndex, index) => renderMenu(recipeIndex, item));
   $('.js-search-results').html(results);
 }
 

@@ -16,16 +16,14 @@ function getRecipesForWeek(allergies, diet) {
   };
 
 
-function getRecipeForDay(allergies, diet, query, day) { 
-  //Need to add 7 to the recipe index so that user can go forward and backward with options
-  day = `.${day}`
+function getRecipeForDay(allergies, diet, day, query) { 
+  dayCard = `${day}Card`
+  ingredient = query
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=1&offset=${Math.floor(Math.random() * 900)}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?query=${query}&diet=${diet}&addRecipeInformation=false&number=1&offset=1&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { displayRecipeForDay(result, day)
-        
-        
+      success: function (result) { displayRecipeForDay(result, dayCard, ingredient)
       },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
@@ -33,9 +31,9 @@ function getRecipeForDay(allergies, diet, query, day) {
   };
 
 
-function displayRecipeForDay(data, day) {
-  const results = data.results.map((item, index) => renderDayCard(item));
-  $(`${day}`).html(results);
+function displayRecipeForDay(data, day, query) {
+  const results = data.results.map((item, day, query, index) => renderDayCard(item, day, query));
+  $(`.${day}`).html(results);
 }
 
 
@@ -63,17 +61,19 @@ function renderMenu(offset, result) {
   
   return `
   <div class="col-4"> 
-    <span class = "day-title">${days[dayIndex]}</span>
-    <div class="recipe-card ${days[dayIndex]}">
+    <span class = "day-title" value="${days[dayIndex]}">${days[dayIndex]}</span>
+    <div class="recipe-card ${days[dayIndex]}Card">
         <h3 class="recipe-title">${result.title}</h3>
         <p>Calories: ${result.calories}</p>
         <p>Protein: ${result.protein}</p>
         <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
         <button type="button" class="js-view-recipe">View Recipe</button>
-        <button class="js-next-option" value="${days[dayIndex]}">Change Recipe</button>
-           <ul>
-
-           </ul>
+        <form>
+    <div>
+        <input type="search" id="${days[dayIndex]}-search" name="search-by-ingredient" placeholer="Search By Ingredient">
+        <button class="search-by-ingredient-btn" value="${days[dayIndex]}">Search</button>
+    </div>
+        </form>
         <button class="js-remove-day">Remove Day</button>
       </div>
     </div>
@@ -81,14 +81,16 @@ function renderMenu(offset, result) {
 }
 
 
-function renderDayCard(result, day) {  
+function renderDayCard(result, day, query) {  
   day = `${day}`
+  ingredient = query
   return `
         <h3 class="recipe-title">${result.title}</h3>
         <p>Calories: ${result.calories}</p>
         <p>Protein: ${result.protein}</p>
       <a class="js-result-name" href="${result.image}" target="_blank"><img class="card-image" src="${result.image}" alt="${result.title}"></a>
       <button type="button" class="js-view-recipe">View Recipe</button>
+      ${ingredient}<br>
       <button class="js-next-option" value="${day}">Next Option</button>
       <button class="js-remove-day">Remove Day</button>
 `
@@ -149,25 +151,48 @@ function watchMenuSubmit() {
     $('.js-output').prop('hidden', false);
     dietFilter = 'vegetarian'//filterTarget.val();
     allergyList = ['dairy']
-    getRecipesForWeek(dietFilter, allergyList);
+    getRecipesForWeek(allergyList, dietFilter);
   });
 }
 
-function findNextRecipe() {
-  $('.js-output').on('click', '.js-next-option', function(event) {
+function watchSearchByIngredientClick() {
+  $('.js-output').on('click', '.search-by-ingredient-btn', function(event) {
   event.preventDefault();
   let dayCard = $(this).val();
-  getRecipeForDay(dietFilter, allergyList, dayCard);
+  let ingredient = $(`#${dayCard}-search`).val();
+  dietFilter = 'vegetarian'//filterTarget.val();
+  allergyList = ['dairy']
+  getRecipeForDay(allergyList, dietFilter, dayCard, ingredient);
   console.log(`${dayCard} option pressed`)
   })
 }
+
+function watchNextOptionClick() {
+  $('.js-output').on('click', '.js-next-option', function(event) {
+  event.preventDefault();
+  let dayCard = 'Wednesday'
+  let ingredient = $(`#${dayCard}-search`).val();
+  dietFilter = 'vegetarian'//filterTarget.val();
+  allergyList = ['dairy']
+  getRecipeForDay(allergyList, dietFilter, dayCard, ingredient);
+  console.log(`${dayCard} option pressed`)
+  })
+}
+
+
+
+
+
+
+
 
 function handleMenuGenerator() {
   watchBeginClick();
   watchDietSubmit();
   watchDietSelection();
   watchMenuSubmit();
-  findNextRecipe();
+  watchSearchByIngredientClick();
+  watchNextOptionClick();
 }
 
 $(handleMenuGenerator)

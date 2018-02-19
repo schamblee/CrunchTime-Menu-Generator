@@ -107,7 +107,7 @@ function watchNextOptionClick() {
     console.log(`the recipe id is ${recipeId}`);
     })
 }
-
+ 
 
 function watchBeginClick() {
   $('.js-begin-btn').click(event => {

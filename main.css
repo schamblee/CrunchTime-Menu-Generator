@@ -16,7 +16,7 @@ section {
 }
 
 form * {
-	margin: 5px;
+	margin: 2px;
 }
 
 body {
@@ -108,11 +108,29 @@ fieldset {
   bottom: 0px;
 }
 
+p {
+  margin: 2px;
+}
 
 main h2 {
   text-align: center;
 }
 
+.search-by-ingredient {
+  width: 50%;
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.search-by-ingredient-btn {
+  width: 30%;
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
 
 
 .recipe-card {
@@ -134,15 +152,11 @@ main h2 {
 }
 
 .recipe-title {
-  padding: 5px;
+
   font-size: 17px;
   height: 70px;
   margin-top: 0;
   margin-bottom: 0;
-}
-
-.recipe-title p {
-  margin: 0.5em 0;
 }
 
 .row {

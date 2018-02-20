@@ -9,7 +9,7 @@ function getRecipesForWeek(allergies, diet) {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${recipeIndex}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { displayRecipesForWeek(result, recipeIndex) },
+      success: function (result) { console.log(result); displayRecipesForWeek(result, recipeIndex) },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
       });
@@ -32,7 +32,7 @@ function getRecipeForDay(allergies, diet, day, query) {
 
 function displayRecipeForDay(data, day) {
   const results = data.results.map((item, day, index) => renderDayCard(item, day));
-  $(`.${day}`).html(results);
+  $(`.recipe-details`).html(results);
 }
 
 
@@ -43,17 +43,27 @@ function setHeader(xhr) {
 
 function getRecipeInfo(id) { 
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/analyzedInstructions`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/324694/analyzedInstructions`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { displayRecipeInfo(result) },
+      success: function (result) { console.log(result); displayRecipeInfo(result) },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
       });
 }
 
 function displayRecipeInfo(data) {
-  $('.recipe-ingredients').text(`${result.name} TEST`)
+    renderRecipeDetails(data);
+    const results = data.map((item, index) => renderRecipeDetails(item));
+    $(`.recipe-details`).html(results);
+}
+
+function renderRecipeDetails(result) {
+  let steps = `${result.steps}`
+  for(let i = 0; i < steps.length; i++) {
+    return `<div>${steps[i].step}</div>`
+  }
+
 }
 
 
@@ -78,11 +88,13 @@ function renderMenu(offset, result) {
         <div id="recipeModal" class="modal">
 
         <!-- Modal content -->
-        <div class="modal-content">
-        <span class="close">&times;</span>
-        <img src="${result.image}" class="recipe-image" alt="${result.title} image"
-        <p class="recipe-ingredients"></p>
-        <p class="recipe-directions"></p>
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <h3 class="recipe-title">${result.title}</h3>
+          <img class="card-image" src="${result.image}" alt="${result.title} image">
+          <section role="region" class="recipe-details">
+          </section>
+        
        </div>
 
         </div>
@@ -128,6 +140,9 @@ var span = document.getElementsByClassName("close")[0];
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
     modal.style.display = "block";
+    let recipeId = 324694
+    getRecipeInfo(recipeId);
+    console.log(`${recipeId}`)
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -210,15 +225,6 @@ function watchSearchByIngredientClick() {
   })
 }
 
-function watchViewRecipeClick() {
-  $('.js-output').on('click', '.js-view-recipe-btn', function(event) {
-  event.preventDefault();
-  let recipeId = $(this).val();
-  getRecipeInfo(recipeId);
-  console.log(`${recipeid}`)
-  })
-}
-
 
 
 
@@ -229,7 +235,6 @@ function handleMenuGenerator() {
   watchDietSelection();
   watchMenuSubmit();
   watchSearchByIngredientClick();
-  watchViewRecipeClick();
 }
 
 $(handleMenuGenerator)

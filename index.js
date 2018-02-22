@@ -25,8 +25,7 @@ function getRecipeForDay(allergies, diet, day, query, offset) {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?query=${query}&diet=${diet}&addRecipeInformation=false&number=1&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { displayRecipeForDay(result, day)
-      },
+      success: function (result) { displayRecipeForDay(result, day) },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
       });
@@ -38,33 +37,37 @@ function setHeader(xhr) {
         xhr.setRequestHeader('X-Mashape-Key', 'DwXMjCgQGQmshC8MyFU6bVgOQS1Lp1tlRvZjsn3JvI9Q2hZZBC');
       }
 
+
 function getRecipeInfo(id) { 
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/324694/analyzedInstructions`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/information`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { console.log(result); displayRecipeInfo(result) },
+      success: function (result) { console.log(result); renderRecipeInfo(result) },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
       });
 }
+
+
+
 
 function displayRecipeForDay(data, day) {
   const results = data.results.map((item, day, index) => renderDayCard(item, day));
   $(`#${day}Card`).html(results);
 }
 
-function displayRecipeInfo(data) {
-    renderRecipeDetails(data);
-    
+
+function renderRecipeInfo(result)  {
+  for (let i = 0; i < result.extendedIngredients.length; i++) {
+    $(`.recipe-ingredients`).append(`<li> ${result.extendedIngredients[i].amount} ${result.extendedIngredients[i].unit} - ${result.extendedIngredients[i].name}</li>`)
+  }
+  for (let x = 0; x < result.analyzedInstructions.length; x++) {
+    for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {
+    $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
+    }
+  }
 }
-
-function renderRecipeDetails(result)  {
-  for (let i = 0; i < result[0].steps.length; i++) {
-   $(`#recipe-details`).append(`<li>${result[0].steps[i].step}</li>`)
-  }
-  }
-
 
 
 
@@ -99,9 +102,10 @@ function renderMenu(offset, result) {
           <span class="close">&times;</span>
           <h3 id="recipe-title${days[dayIndex]}">${result.title}</h3>
           <img id="card-image${days[dayIndex]}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
-          <section role="region" id="recipe-details" class="recipe-details">
-          </section>
-        
+          <section role="region" id="recipe-ingredients${days[dayIndex]}" class="recipe-ingredients">
+          </section>  
+          <section role="region" id="recipe-instructions${days[dayIndex]}" class="recipe-instructions">
+          </section>     
         </div>
       </div>
     </div>
@@ -136,7 +140,7 @@ let span = document.getElementsByClassName("close")[0];
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
     modal.style.display = "block";
-    let recipeId = 324694
+    let recipeId = $(this).val();
     getRecipeInfo(recipeId);
     console.log(`${recipeId}`)
 }

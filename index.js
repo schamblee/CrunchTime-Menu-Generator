@@ -57,10 +57,25 @@ function displayRecipeForDay(data, day) {
   $(`#${day}Card`).html(results);
 }
 
+math.config({
+  number: 'Fraction'   // Default type of number:
+                       // 'number' (default), 'BigNumber', or 'Fraction'
+});
+
+function printRatio (value) {
+  return math.format(value, {fraction: 'ratio'});
+}
 
 function renderRecipeInfo(result)  {
+  let amount = ''
   for (let i = 0; i < result.extendedIngredients.length; i++) {
-    $(`.recipe-ingredients`).append(`<li> ${result.extendedIngredients[i].amount} ${result.extendedIngredients[i].unit} - ${result.extendedIngredients[i].name}</li>`)
+    if (result.extendedIngredients[i].amount % 1 === 0) {
+      amount = result.extendedIngredients[i].amount
+    } else {
+      amount = printRatio(math.fraction(result.extendedIngredients[i].amount))
+  }
+    console.log(`${amount}`)
+    $(`.recipe-ingredients`).append(`<li> ${amount} ${result.extendedIngredients[i].unit} - ${result.extendedIngredients[i].name}</li>`)
   }
   for (let x = 0; x < result.analyzedInstructions.length; x++) {
     for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {

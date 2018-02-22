@@ -56,17 +56,15 @@ function displayRecipeForDay(data, day) {
 
 function displayRecipeInfo(data) {
     renderRecipeDetails(data);
-    const results = data.map((item, index) => renderRecipeDetails(item));
-    $(`.recipe-details`).html(results);
+    
 }
 
-function renderRecipeDetails(result) {
-  let steps = `${result.steps}`
-  for(let i = 0; i < steps.length; i++) {
-    return `<div>${steps[i].step}</div>`
+function renderRecipeDetails(result)  {
+  for (let i = 0; i < result[0].steps.length; i++) {
+   $(`#recipe-details`).append(`<li>${result[0].steps[i].step}</li>`)
+  }
   }
 
-}
 
 
 
@@ -101,7 +99,7 @@ function renderMenu(offset, result) {
           <span class="close">&times;</span>
           <h3 id="recipe-title${days[dayIndex]}">${result.title}</h3>
           <img id="card-image${days[dayIndex]}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
-          <section role="region" id="recipe-details${days[dayIndex]}" class="recipe-details">
+          <section role="region" id="recipe-details" class="recipe-details">
           </section>
         
         </div>

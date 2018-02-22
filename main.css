@@ -178,13 +178,17 @@ main h2 {
 .recipe-card {
   border: 1px solid #E5E5E5;
   margin-bottom: 20px;
-  height: 400px;
+  height: 275px;
 }
 
 .card-image {
   width: 100%;
   position: relative;
   margin-bottom: 0;
+}
+
+.modal-card-image {
+  width: 30%;
 }
 
 .next-option, .view-recipe, .remove-day {
@@ -203,7 +207,7 @@ main h2 {
 
 .row {
   max-width: 1500px;
-  height: 500px;
+  height: 300px;
   padding-left: 20px;
   padding-right: 20px;
   margin: 0 auto;

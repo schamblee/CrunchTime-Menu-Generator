@@ -8,12 +8,12 @@ let dayIndex = -1;
 let offset = 1
 
 function getRecipesForWeek(allergies, diet) { 
-  let recipeIndex = Math.floor(Math.random() * 200)
+  offset = Math.floor(Math.random() * 200)
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${recipeIndex}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { console.log(result); displayRecipesForWeek(result, recipeIndex) },
+      success: function (result) { console.log(result); displayRecipesForWeek(result, offset) },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
       });
@@ -67,6 +67,7 @@ function printRatio (value) {
 }
 
 function renderRecipeInfo(result)  {
+  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}">${result.sourceName}</a>`)
   let amount = ''
   for (let i = 0; i < result.extendedIngredients.length; i++) {
     if (result.extendedIngredients[i].amount % 1 === 0) {
@@ -98,10 +99,8 @@ function renderMenu(offset, result) {
         <p id="calories${days[dayIndex]}">Calories: ${result.calories}</p>
         <p id="protein${days[dayIndex]}">Protein: ${result.protein}</p>
         <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
+        <button id="js-view-recipe-btn" class="js-view-recipe-btn" value="${result.id}">View Recipe</button>
     </div>
-        <!-- Trigger/Open The Modal -->
-         <button id="js-view-recipe-btn" class="js-view-recipe-btn" value="${result.id}">View Recipe</button>
-
          <form><input id="search-by-ingredient${days[dayIndex]}" class="search-by-ingredient" type="search" name="search-by-ingredient" placeholer="Search By Ingredient">
          <button title="Search For A Recipe By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn" value="${days[dayIndex]}">Search</button></form>
          <button title="View Previous Recipe Option" id="js-previous-result-btn${days[dayIndex]}" class="js-previous-result-btn" value="${days[dayIndex]}" aria-live="assertive"><i class="fas fa-chevron-circle-left"></i></button>
@@ -116,6 +115,7 @@ function renderMenu(offset, result) {
           <span class="close">&times;</span>
           <h3 id="recipe-title${days[dayIndex]}">${result.title}</h3>
           <img id="card-image${days[dayIndex]}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
+          <span class="credit"></span>
           <section role="region" id="recipe-ingredients${days[dayIndex]}" class="recipe-ingredients">
           </section>  
           <section role="region" id="recipe-instructions${days[dayIndex]}" class="recipe-instructions">
@@ -130,16 +130,16 @@ function renderMenu(offset, result) {
 function renderDayCard(result, day) {  
   day = `${day}`
   return `
-        <h3 class="recipe-title">${result.title}</h3>
-        <p>Calories: ${result.calories}</p>
-        <p>Protein: ${result.protein}</p>
+      <h3 class="recipe-title">${result.title}</h3>
+      <p>Calories: ${result.calories}</p>
+      <p>Protein: ${result.protein}</p>
       <img id="card-image${days}" class="card-image" src="${result.image}" alt="${result.title}">
-
+      <button id="js-view-recipe-btn${days}" class="js-view-recipe-btn" value="${result.id}">View Recipe</button>
 `
 }
 
-function displayRecipesForWeek(data, recipeIndex) {
-  const results = data.results.map((item, recipeIndex, index) => renderMenu(recipeIndex, item));
+function displayRecipesForWeek(data, offset) {
+  const results = data.results.map((item, offset, index) => renderMenu(offset, item));
   $('.js-search-results').html(results);
   // Get the modal
 let modal = document.getElementById('recipeModal');
@@ -238,7 +238,6 @@ function watchNextResultClick() {
   $('.js-output').on('click', '.js-next-result-btn', function(event) {
   event.preventDefault();
   let day = $(this).val()
-  $(`#js-previous-result-btn${day}`).prop('hidden', false);
   let ingredient = ''
   dietFilter = ''
   allergyList = ['dairy']
@@ -268,7 +267,10 @@ function renderDayCard(result, day) {
         <p id="protein${day}">Protein: ${result.protein}</p>
       <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
 
-`}
+
+`
+$('js-view-recipe-btn').value = `${result.id}`
+}
 
 function watchRemoveClick() {
    $('.js-output').on('click', '.js-remove-day', function(event) {

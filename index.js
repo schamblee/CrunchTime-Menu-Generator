@@ -5,15 +5,16 @@ let dietFilter = '';
 
 
 let dayIndex = -1;
-let offset = 1
+let initialOffset = 0;
+let offset = 1;
 
 function getRecipesForWeek(allergies, diet) { 
-  offset = Math.floor(Math.random() * 200)
+  initialOffset = Math.floor(Math.random() * 200)
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${initialOffset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { console.log(result); displayRecipesForWeek(result, offset) },
+      success: function (result) { console.log(result); displayRecipesForWeek(result) },
       error: function() { alert('boo!'); },
       beforeSend: setHeader
       });
@@ -26,7 +27,7 @@ function getRecipeForDay(allergies, diet, day, query, offset) {
       type: 'GET',
       dataType: 'json',
       success: function (result) { displayRecipeForDay(result, day) },
-      error: function() { alert('boo!'); },
+      error: function() {  },
       beforeSend: setHeader
       });
   };
@@ -57,28 +58,48 @@ function displayRecipeForDay(data, day) {
   $(`#${day}Card`).html(results);
 }
 
-math.config({
-  number: 'Fraction'   // Default type of number:
-                       // 'number' (default), 'BigNumber', or 'Fraction'
-});
 
-function printRatio (value) {
-  return math.format(value, {fraction: 'ratio'});
+
+function formatMeasurements (amount, unit) {
+  if (amount % 1 === 0) {
+  //if the amount is a whole number, return the amount normally
+      return amount
+  } else if (unit === "oz" || unit === "Ounces" || unit === "ounces" ) {
+  //ounces, however, are displayed as decimals rounded to the nearest hundreth
+    return Math.round(amount, 2)
+  } else {
+  //other measurments (cups, pounds, teaspoons, etc.) are turned into fractions
+    let fraction = math.fraction(amount)
+    //improper fractions are converted into mixed numbers
+    let denominator = fraction.d
+    let numerator = fraction.n
+    let remainder = numerator % denominator // 2.25  => 9/8   
+    let wholeNumber = parseInt(numerator/denominator) // => 2
+    if (wholeNumber === 0) {
+    //if there isn't a whole number, then just return the fraction
+      return `${remainder}/${denominator} `
+    } else {
+    //otherwise, return the mixed number
+      return `${wholeNumber} ${remainder}/${denominator} ` // => 2 1/4
+    }
+  }
 }
 
+
+
+
 function renderRecipeInfo(result)  {
+  //credit the source of the recipe
   $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}">${result.sourceName}</a>`)
-  let amount = ''
   for (let i = 0; i < result.extendedIngredients.length; i++) {
-    if (result.extendedIngredients[i].amount % 1 === 0) {
-      amount = result.extendedIngredients[i].amount
-    } else {
-      amount = printRatio(math.fraction(result.extendedIngredients[i].amount))
-  }
-    console.log(`${amount}`)
-    $(`.recipe-ingredients`).append(`<li> ${amount} ${result.extendedIngredients[i].unit} - ${result.extendedIngredients[i].name}</li>`)
+  //for each ingredient in array, render a list item with the amount, unit and the ingredient
+    let amount = result.extendedIngredients[i].amount
+    let unit = result.extendedIngredients[i].unit
+    let ingredient = result.extendedIngredients[i].name
+    $(`.recipe-ingredients`).append(`<li>${formatMeasurements(amount, unit)} ${unit} - ${ingredient}</li>`)
   }
   for (let x = 0; x < result.analyzedInstructions.length; x++) {
+  //for each array of steps in the analyzed instruction array, render a list item for each step
     for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {
     $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
     }
@@ -134,7 +155,7 @@ function renderDayCard(result, day) {
       <p>Calories: ${result.calories}</p>
       <p>Protein: ${result.protein}</p>
       <img id="card-image${days}" class="card-image" src="${result.image}" alt="${result.title}">
-      <button id="js-view-recipe-btn${days}" class="js-view-recipe-btn" value="${result.id}">View Recipe</button>
+      <button id="js-view-recipe-btn" class="js-view-recipe-btn" value="${result.id}">View Recipe</button>
 `
 }
 
@@ -254,7 +275,7 @@ function watchPreviousResultClick() {
   let ingredient = ''
   dietFilter = ''//filterTarget.val();
   allergyList = ['dairy']
-  offset --
+  offset = initialOffset
   getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })

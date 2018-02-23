@@ -39,36 +39,11 @@
   </section>
 
 
-<!--
-  <section role="region" class="js-select-diet" aria-live="assertive" hidden>
-    <form action="#">
-    <br>
-      Would you like to choose a diet for your menu?
-    <br>
-    <input type="radio" name="selectDiet" value="yes"> Yes
-    <input type="radio" name="selectDiet" value="no"> No
-    <br>
-    <button type="submit" class='js-select-diet'>Continue</button>
-    <br>
-    </form>
-  </section>-->
-
-  
-
-
-
-
-
-
-
-
-
-
   <section role="region" class="js-select-diet" aria-live="assertive" hidden>
     <form action="#">
       <label for="diet-filter">Select a Diet:</label>
       <select class="diet-filter" id="diet-filter">
-        <option value ="">Ballanced</option>
+        <option value ="">Balanced</option>
         <option value ="Pescetarian">Pescetarian</option>
         <option value ="Vegetarian">Vegetarian</option>
         <option value ="Vegan">Vegan</option>
@@ -79,36 +54,46 @@
   <fieldset>
     <legend>Select Any Intolerances</legend>
      <div>
-      <input type="checkbox" id="dairy" name="intolerance" value="dairy">
+      <input type="checkbox" id="dairy" name="intolerance" data-intolerance="dairy">
       <label for="dairy">Dairy</label>
     </div>
     <div>
-      <input type="checkbox" id="egg" name="intolerance" value="egg">
+      <input type="checkbox" id="egg" name="intolerance" data-intolerance="egg">
       <label for="egg">Egg</label>
     </div>
+    <div>
+      <input type="checkbox" id="gluten" name="intolerance" data-intolerance="gluten">
+      <label for="gluten">Gluten</label>
+    </div>
+    <div>
+      <input type="checkbox" id="peanut" name="intolerance" data-intolerance="peanut">
+      <label for="peanut">Peanut</label>
+    </div>
+    <div>
+      <input type="checkbox" id="sesame" name="intolerance" data-intolerance="sesame">
+      <label for="sesame">Sesame</label>
+    </div>
+    <div>
+      <input type="checkbox" id="shellfish" name="intolerance" data-intolerance="shellfish">
+      <label for="shellfish">Shellfish</label>
+    </div>
+    <div>
+      <input type="checkbox" id="soy" name="intolerance" data-intolerance="soy">
+      <label for="soy">Soy</label>
+    </div>
+    <div>
+      <input type="checkbox" id="soy" name="intolerance" data-intolerance="sulfite">
+      <label for="sulfite">Sulfite</label>
+    </div>
+    <div>
+      <input type="checkbox" id="treeNut" name="intolerance" data-intolerance="tree+nut">
+      <label for="treeNut">Tree Nut</label>
+    </div>
+    <div>
+      <input type="checkbox" id="wheat" name="intolerance" data-intolerance="wheat">
+      <label for="wheat">Wheat</label>
+    </div>
   </fieldset>
-
-<!--
-                <li>
-                    <input type="checkbox" value="dairy" />Dairy</li>
-                <li>
-                    <input type="checkbox" value="egg" />Egg</li>
-                <li>
-                    <input type="checkbox" value="gluten" />Gluten</li>
-                <li>
-                    <input type="checkbox" value="peanut" />Peanut</li>
-                <li>
-                    <input type="checkbox" value="sesame" />Sesame</li>
-                <li>
-                    <input type="checkbox" value="shellfish" />Shellfish</li>
-                 <li>
-                    <input type="checkbox" value="soy" />Soy</li>
-                <li>
-                    <input type="checkbox" value="sulfite" />Sulfite</li>
-                <li>
-                    <input type="checkbox" value="tree+nut" />Tree Nut</li>
-                <li>
-                    <input type="checkbox" value="wheat" />Wheat</li>-->
 
       <button type="submit" class='js-create-menu'>Create a Menu</button>
     </form>
@@ -117,19 +102,14 @@
   <section role="region" class="js-output" aria-live="assertive" hidden>
     <h2 class="title">Your Menu</h2>
     <div class="js-search-results row">
-<!--
-    </div>
-          <div class="g-savetodrive"
-   data-src="//example.com/path/to/myfile.pdf"
-   data-filename="My Statement.pdf"
-   data-sitename="My Company Name">
-   </div>-->
    
   </section>
   <section role="region" class="js-menu-controls" aria-live="assertive" hidden>
   <button class="js-refresh-menu">New Menu</button>
   <button class="js-start-over">Start Over</button>
   </section>
+
+
   </main>
   
 </body>

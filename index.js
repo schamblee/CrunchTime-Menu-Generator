@@ -92,7 +92,6 @@ function renderMenu(offset, result) {
   
   return `
   <div class="col-4"> 
-    <span id="ingredient-query${days[dayIndex]}" class="ingredient-query"></span>
     <span id="day-title${days[dayIndex]}" class = "day-title">${days[dayIndex]}</span>
     <div id="${days[dayIndex]}Card" class="recipe-card">
         <h3 id="recipe-title${days[dayIndex]}" class="recipe-title">${result.title}</h3>
@@ -103,12 +102,12 @@ function renderMenu(offset, result) {
         <!-- Trigger/Open The Modal -->
          <button id="js-view-recipe-btn" class="js-view-recipe-btn" value="${result.id}">View Recipe</button>
 
-         <input id="search-by-ingredient${days[dayIndex]}" class="search-by-ingredient" type="search" name="search-by-ingredient" placeholer="Search By Ingredient">
-         <button id="search-by-ingredient-btn" class="search-by-ingredient-btn" value="${days[dayIndex]}">Search</button>
-         <button id="js-next-result-btn${days[dayIndex]}" class="js-next-result-btn" value="${days[dayIndex]}">Next Result</button>
-         <button id="js-previous-result-btn${days[dayIndex]}" class="js-previous-result-btn" value="${days[dayIndex]}" aria-live="assertive" hidden>Previous Result</button>
-         <button id="js-remove-day${days[dayIndex]}" class="js-remove-day" value="${days[dayIndex]}">Remove Day</button>
-
+         <form><input id="search-by-ingredient${days[dayIndex]}" class="search-by-ingredient" type="search" name="search-by-ingredient" placeholer="Search By Ingredient">
+         <button title="Search For A Recipe By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn" value="${days[dayIndex]}">Search</button></form>
+         <button title="View Previous Recipe Option" id="js-previous-result-btn${days[dayIndex]}" class="js-previous-result-btn" value="${days[dayIndex]}" aria-live="assertive"><i class="fas fa-chevron-circle-left"></i></button>
+         <button title="Remove Recipe For ${days[dayIndex]}" id="js-remove-day${days[dayIndex]}" class="js-remove-day" value="${days[dayIndex]}"><i class="far fa-times-circle"></i></button>
+         <button title="View Next Recipe Option" id="js-next-result-btn${days[dayIndex]}" class="js-next-result-btn" value="${days[dayIndex]}"><i class="fas fa-chevron-circle-right"></i></button>
+        <span id="ingredient-query${days[dayIndex]}" class="ingredient-query"></span>
         <!-- The Modal -->
         <div id="recipeModal" class="modal">
 

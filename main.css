@@ -4,9 +4,9 @@
 
 header {
   background-color: #fff;
+  margin-top: -25px;
   margin-bottom: 20px;
   text-align: center;
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -19,9 +19,20 @@ form * {
 	margin: 2px;
 }
 
+
+html {
+    background: url(http://maxpixel.freegreatpicture.com/static/photo/1x/Table-Cooking-Background-Herb-Food-Wooden-Knife-2879265.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+
+
+
 body {
   font-family: 'Raleway', sans-serif;
-  color: #252525;
+  color: #434140;
 }
 
 header h1 {
@@ -50,6 +61,7 @@ header h1 {
 .day-title {
   font-family: 'Fredericka the Great', cursive;
   font-size: 30px;
+  color: #fff;
 }
 
 .recipe-image {
@@ -116,8 +128,21 @@ header p {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid #775D6A;
     width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.recipe-ingredients {
+  margin-top: 0;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  padding: 5px;
+}
+
+.recipe-instructions {
+  margin: 0;
+  text-align: left;
 }
 
 .recipe-image {
@@ -176,9 +201,10 @@ main h2 {
 
 
 .recipe-card {
-  border: 1px solid #E5E5E5;
-  margin-bottom: 20px;
-  height: 275px;
+  border: 1px solid #775D6A;
+  margin-bottom: 3px;
+  height: 285px;
+  background-color: white;
 }
 
 .card-image {
@@ -189,6 +215,14 @@ main h2 {
 
 .modal-card-image {
   width: 30%;
+  position: relative;
+  display: inline-block;
+  margin-left: 0;
+  padding: 5px;
+}
+
+.js-view-recipe-btn {
+  width: 100%;
 }
 
 .next-option, .view-recipe, .remove-day {
@@ -207,10 +241,14 @@ main h2 {
 
 .row {
   max-width: 1500px;
-  height: 300px;
+  height: 425px;
   padding-left: 20px;
   padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   margin: 0 auto;
+  background-color: #775D6A;
+  opacity: .9;
 }
 
 /* Clearfix */

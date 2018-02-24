@@ -28,6 +28,12 @@ html {
 background-size: cover;
 }
 
+.js-intro, .js-select-diet {
+  background-color: #fff;
+  padding: 20px;
+  opacity: .9;
+}
+
 
 
 body {
@@ -71,6 +77,11 @@ header h1 {
 header p {
   margin-top: 0.5em;
 }
+
+.js-menu-controls {
+  margin-bottom: 100px;
+}
+
 
 .app-description {
   font-weight: bold;

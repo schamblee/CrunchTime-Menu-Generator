@@ -3,15 +3,13 @@
 let allergies = [];
 let dietFilter = '';
 
-
 let dayIndex = -1;
-let initialOffset = 0;
 let offset = 1;
 
 function getRecipesForWeek(allergies, diet) { 
   initialOffset = Math.floor(Math.random() * 200)
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${initialOffset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
       success: function (result) { console.log(result); displayRecipesForWeek(result) },
@@ -54,8 +52,10 @@ function getRecipeInfo(id, day) {
 
 
 function displayRecipeForDay(data, day) {
-  const results = data.results.map((item, day, index) => renderDayCard(item, day));
+  let dayCard = `${day}`
+  const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
   $(`#${day}Card`).html(results);
+  console.log(`display recipe function day: ${day}`)
 }
 
 
@@ -107,7 +107,7 @@ function renderRecipeInfo(result, day)  {
     sourceName = 'Visit Source'
   }
 
-  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}">${sourceName}</a>`)
+  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}" target="_blank">${sourceName}</a>`)
   for (let i = 0; i < result.extendedIngredients.length; i++) {
   //for each ingredient in array, render a list item with the amount, unit and the ingredient
     let amount = result.extendedIngredients[i].amount
@@ -128,7 +128,7 @@ function renderRecipeInfo(result, day)  {
 function renderMenu(offset, result) {
   dayIndex++
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  return `
+  let html = `
   <div class="col-4"> 
     <span id="day-title${days[dayIndex]}" class = "day-title">${days[dayIndex]}</span>
     <div id="${days[dayIndex]}Card" class="recipe-card">
@@ -157,18 +157,27 @@ function renderMenu(offset, result) {
       </div>
     </section>
   </div>
+
 `
+
+console.log(`the id for ${days[dayIndex]} is ${result.id}`)
+
+return html
 }
 
 
 function renderDayCard(result, day) {  
-  return `
+  let html = `
       <h3 class="recipe-title">${result.title}</h3>
       <p>Calories: ${result.calories}</p>
       <p>Protein: ${result.protein}</p>
       <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
-      <button id="js-view-recipe-btn" class="js-view-recipe-btn" data-recipeId="${result.id}">View Recipe</button>
+      <button id="js-view-recipe-btn" class="js-view-recipe-btn" data-recipe-id="${result.id}" data-day="${day}">View Recipe</button>
 `
+console.log(`the id for ${day} is ${result.id}`)
+
+return html
+
 
 }
 
@@ -200,35 +209,45 @@ function watchBeginClick() {
 
 
 function watchViewRecipeClick() {
+  openRecipeModal();
 
-// When the user clicks on the button, open the modal 
+}
 
-$('.js-output').on('click', '.js-view-recipe-btn', function(event) {
+function openRecipeModal() {
+  $('.js-output').on('click', '.js-view-recipe-btn', function(event) {
     event.preventDefault();
     let day = $(this).data('day')
-
-
     $(`#recipeModal${day}`).prop('hidden', false);
     let recipeId = $(this).data('recipe-id');
     getRecipeInfo(recipeId, day);
-    console.log(`${recipeId}`)
+      closeRecipeModal(day);
     
+  });
+}
 
-$('.js-output').on('click', '.close', function(event) {
+function closeRecipeModal(day) {
+  $('.js-output').on('click', '.close', function(event) {
     event.preventDefault();
-  $('.modal-content').html('')
-  $(`#recipeModal${day}`).prop('hidden', true);
-$(window).click(function(event) {
-  $('.modal-content').html('')
-  $(`#recipeModal${day}`).prop('hidden', true);
-  })
-});
+    console.log(`Click! ${day}`)
+    $(`#recipeModal${day}`).prop('hidden', true);
 
-});
-
-// When the user clicks anywhere outside of the modal, close it
+  });
 
 
+  $(window).click(function(event) {
+    event.preventDefault();
+    console.log(event)
+    let selector = document.querySelector('.modal')
+    let contains = selector.contains(event.target) || selector == event.target
+
+
+    
+    console.log(contains)
+    console.log(selector)
+    /*let day = $(this).data('day')
+    $(`#recipeModal${day}`).prop('hidden', true);*/
+
+  });
 
 }
 
@@ -264,10 +283,10 @@ function watchNextResultClick() {
   $('.js-output').on('click', '.js-next-result-btn', function(event) {
   event.preventDefault();
   let day = $(this).data('day');
-  let ingredient = ''
+  let ingredient = $(`#search-by-ingredient${day}`).val();
   dietFilter = ''
   allergyList = ['dairy']
-  offset ++
+  offset += 7;
   getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })
@@ -277,10 +296,10 @@ function watchPreviousResultClick() {
   $('.js-output').on('click', '.js-previous-result-btn', function(event) {
   event.preventDefault();
   let day = $(this).data('day');
-  let ingredient = ''
+  let ingredient = $(`#search-by-ingredient${day}`).val();
   dietFilter = ''
   allergyList = ['dairy']
-  offset = initialOffset
+  offset -= 7;
   getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })

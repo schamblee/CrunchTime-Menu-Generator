@@ -32,16 +32,15 @@
     <img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1>
   </header>
   <main role="main">
-  <section class="js-intro" aria-live="assertive">
-    <span class="app-description">Create weekly dinner menus from popular recipes all under 600 calories per servings.</span>
-    <div id='calendar'></div>
-    <button class="js-begin-btn">Begin</button>
+  <section class="js-intro intro" aria-live="assertive">
+    <span class="app-description">Quickly assemble weekly dinner menus from popular recipes all under 600 calories per servings.</span>
+    <button class="js-begin-btn controls-button">Begin</button>
   </section>
 
 
-  <section role="region" class="js-select-diet" aria-live="assertive" hidden>
+  <section role="region" class="js-select-diet select-diet" aria-live="assertive" hidden>
     <form action="#">
-      <label for="diet-filter">Select a Diet:</label>
+      <label class="diet-filter-label" for="diet-filter">Select a Diet:</label>
       <select class="diet-filter" id="diet-filter">
         <option value ="">Balanced</option>
         <option value ="Pescetarian">Pescetarian</option>
@@ -52,7 +51,7 @@
       </select><br>
 
   <fieldset>
-    <legend>Select Any Intolerances</legend>
+    <div class="legend"><legend>Select Any Intolerances</legend></div>
      <div>
       <input type="checkbox" id="dairy" name="intolerance" data-intolerance="dairy">
       <label for="dairy">Dairy</label>
@@ -95,18 +94,18 @@
     </div>
   </fieldset>
 
-      <button type="submit" class='js-create-menu'>Create a Menu</button>
+      <button type="submit" class='js-create-menu controls-button'>Create a Menu</button>
     </form>
   </section>
 
   <section role="region" class="js-output" aria-live="assertive" hidden>
     <h2 class="title">Your Menu</h2>
     <div class="js-search-results row">
-   
+    </div>
   </section>
   <section role="region" class="js-menu-controls" aria-live="assertive" hidden>
-  <button class="js-refresh-menu">New Menu</button>
-  <button class="js-start-over">Start Over</button>
+  <button class="js-refresh-menu controls-button">New Menu</button>
+  <button class="js-start-over controls-button">Start Over</button>
   </section>
 
 

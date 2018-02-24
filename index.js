@@ -4,10 +4,9 @@ let allergies = [];
 let dietFilter = '';
 
 let dayIndex = -1;
-let offset = 1;
+let offset = Math.floor(Math.random() * 900);
 
 function getRecipesForWeek(allergies, diet) { 
-  initialOffset = Math.floor(Math.random() * 200)
   $.ajax({
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
@@ -133,20 +132,21 @@ function renderMenu(offset, result) {
     <span id="day-title${days[dayIndex]}" class = "day-title">${days[dayIndex]}</span>
     <div id="${days[dayIndex]}Card" class="recipe-card">
       <h3 id="recipe-title${days[dayIndex]}" class="recipe-title">${result.title}</h3>
-      <p id="calories${days[dayIndex]}">Calories: ${result.calories}</p>
-      <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
-      <button id="js-view-recipe-btn" class="js-view-recipe-btn" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">View Recipe</button>
+      <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">
+        <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
+        <br><span class="view-recipe-span">View Recipe</span>
+      </button>
     </div>
-    <form>
+    <form class="ingredient-form">
       <input id="search-by-ingredient${days[dayIndex]}" class="search-by-ingredient" type="search" name="search-by-ingredient" placeholer="Search By Ingredient">
-      <button title="Search For A Recipe By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn" data-day="${days[dayIndex]}">Search</button>
+      <button title="Search For A Recipe By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn controls-button" data-day="${days[dayIndex]}">Search</button>
     </form>
     <div class="recipe-controls">
-      <button title="View Previous Recipe Option" id="js-previous-result-btn${days[dayIndex]}" class="js-previous-result-btn" data-day="${days[dayIndex]}" aria-live="assertive">
+      <button title="View Previous Recipe Option" id="js-previous-result-btn${days[dayIndex]}" class="js-previous-result-btn controls-button previous" data-day="${days[dayIndex]}" aria-live="assertive">
       <i class="fas fa-chevron-circle-left"></i></button>
-      <button title="Remove Recipe For ${days[dayIndex]}" id="js-remove-day${days[dayIndex]}" class="js-remove-day" data-day="${days[dayIndex]}">
+      <button title="Remove Recipe For ${days[dayIndex]}" id="js-remove-day${days[dayIndex]}" class="js-remove-day controls-button remove" data-day="${days[dayIndex]}">
       <i class="far fa-times-circle"></i></button>
-      <button title="View Next Recipe Option" id="js-next-result-btn${days[dayIndex]}" class="js-next-result-btn" data-day="${days[dayIndex]}">
+      <button title="View Next Recipe Option" id="js-next-result-btn${days[dayIndex]}" class="js-next-result-btn controls-button next" data-day="${days[dayIndex]}">
       <i class="fas fa-chevron-circle-right"></i></button>
       <span id="ingredient-query${days[dayIndex]}" class="ingredient-query"></span>
     </div>
@@ -169,10 +169,10 @@ return html
 function renderDayCard(result, day) {  
   let html = `
       <h3 class="recipe-title">${result.title}</h3>
-      <p>Calories: ${result.calories}</p>
-      <p>Protein: ${result.protein}</p>
-      <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
-      <button id="js-view-recipe-btn" class="js-view-recipe-btn" data-recipe-id="${result.id}" data-day="${day}">View Recipe</button>
+      <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${day}">
+        <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
+        <span class="view-recipe-text">View Recipe</span>
+      </button>
 `
 console.log(`the id for ${day} is ${result.id}`)
 
@@ -184,7 +184,6 @@ return html
 function renderNotCooking(day) {  
   return `
         <h3 id="recipe-title${day}" class="recipe-title">Not Cooking</h3>
-        <p id="calories${day}""> </p>
       <img id="card-image${day}" class="card-image" src="https://www.displayfakefoods.com/store/pc/catalog/2189-lg.jpg" alt="Not cooking image">
 
 `}
@@ -234,21 +233,12 @@ function closeRecipeModal(day) {
   });
 
 
-  $(window).click(function(event) {
-    event.preventDefault();
-    console.log(event)
-    let selector = document.querySelector('.modal')
-    let contains = selector.contains(event.target) || selector == event.target
 
-
-    
-    console.log(contains)
-    console.log(selector)
-    /*let day = $(this).data('day')
-    $(`#recipeModal${day}`).prop('hidden', true);*/
-
-  });
-
+$(document).click(function(event) {
+  if (!$(event.target).closest('.modal-content, .js-view-recipe-btn' ).length) {
+    $("body").find(".modal").prop('hidden', true);
+  }
+});
 }
 
 
@@ -348,7 +338,3 @@ function handleMenuGenerator() {
 }
 
 $(handleMenuGenerator)
-
-
-
-

@@ -134,7 +134,7 @@ function renderMenu(offset, result) {
       <h3 id="recipe-title${days[dayIndex]}" class="recipe-title">${result.title}</h3>
       <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">
         <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
-        <br><span class="view-recipe-span">View Recipe</span>
+        <br><div class="view-recipe-span">View Recipe</div>
       </button>
     </div>
     <form class="ingredient-form">
@@ -171,10 +171,10 @@ function renderDayCard(result, day) {
       <h3 class="recipe-title">${result.title}</h3>
       <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${day}">
         <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
-        <span class="view-recipe-text">View Recipe</span>
+        <div class="view-recipe-span">View Recipe</div>
       </button>
 `
-console.log(`the id for ${day} is ${result.id}`)
+ offset += 7
 
 return html
 
@@ -276,7 +276,6 @@ function watchNextResultClick() {
   let ingredient = $(`#search-by-ingredient${day}`).val();
   dietFilter = ''
   allergyList = ['dairy']
-  offset += 7;
   getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })
@@ -289,7 +288,7 @@ function watchPreviousResultClick() {
   let ingredient = $(`#search-by-ingredient${day}`).val();
   dietFilter = ''
   allergyList = ['dairy']
-  offset -= 7;
+  offset -= 14;
   getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })

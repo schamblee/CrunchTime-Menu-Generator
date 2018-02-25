@@ -4,21 +4,25 @@
 
 header {
   margin-top: 25px;
+  width: 100%;
+  height: 150px;
   margin-bottom: 20px;
   text-align: center;
   padding-bottom: 20px;
+  background-color: #FFF;
+  opacity: .9;
 }
 
 section {
   text-align: center;
-  margin-top: 250px;
+  margin-top: 40px;
 }
 
-html {
-    background: url(http://maxpixel.freegreatpicture.com/static/photo/1x/Table-Cooking-Background-Herb-Food-Wooden-Knife-2879265.jpg) no-repeat left center fixed;
-      -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+body {
+  background: url(http://maxpixel.freegreatpicture.com/static/photo/1x/Table-Cooking-Background-Herb-Food-Wooden-Knife-2879265.jpg) no-repeat left center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
   background-size: cover;
 }
 
@@ -26,7 +30,6 @@ html {
   background-color: #343642;
   height: 500px;
   padding: 20px;
-  opacity: .9;
   width: 100%;
   color: #FFF;
 }
@@ -36,8 +39,8 @@ html {
 
 }
 
-main {
-  margin-top: -50px;
+.email-label {
+  color: #FFF;
 }
 
 body {
@@ -46,8 +49,6 @@ body {
   font-size: 18px;
   color: #343642;
   margin-top: -30px;
-  background: #FFF;
-  opacity: .95;
 }
 
 header h1 {
@@ -220,6 +221,16 @@ legend {
   font-weight: bold;
 }
 
+.diet-filter {
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+.intro-image {
+  width: 300px;
+  border-radius: 3px;
+}
+
 fieldset {
   width: 100%;
   margin-top: 10px;
@@ -229,6 +240,7 @@ fieldset {
   color: #343642;
   background-color: #fff;
   text-align: left;
+  border-radius: 3px;
 }
 
 .start-over {
@@ -242,7 +254,6 @@ p {
 
 .title {
   width: 250px;
-  padding-left: 30%;
 }
 
 .search-by-ingredient {
@@ -285,6 +296,7 @@ p {
   width: 100%;
   position: relative;
   margin-bottom: 0;
+  min-height: 120px;
 }
 
 .modal-card-image {
@@ -328,8 +340,10 @@ a {
   padding-top: 10px;
   padding-bottom: 50px;
   margin: 0 auto;
+}
+
+.menu {
   background-color: #333745;
-  opacity: .9;
 }
 
 /* Clearfix */
@@ -348,7 +362,7 @@ a {
 }
 
 /* Mobile defaults */
-.col-4, .col-8 {
+.col-4, .col-8, .col-5 {
   width: 100%;
 }
 
@@ -358,18 +372,12 @@ a {
 
 
 @media only screen and (min-width: 370px) {
- header {
-  margin-left: 10%
- }
  .intro, .select-diet {
   height: 520px;
 }
 }
 
 @media only screen and (min-width: 375px) {
- header {
-  margin-left: 5%
- }
   .intro, .select-diet {
   height: 600px;
 }
@@ -391,28 +399,32 @@ a {
 
 @media only screen and (min-width: 768px) {
   .intro, .select-diet {
-    height: 825px;
-  }
-  header {
-  margin-left: 29%;
+    border-radius: 3px;
+    margin-left: 25%;
+    height: 400px;
   }
 
+
  .app-description {
-  width: 400px;
-  margin-left: 24%;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
  }
 
 .controls-button {
-  width: 350px;
+  width: 250px;
+  border-radius: 3px;
 }
 
 .js-begin-btn {
-  margin-left: 27%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 fieldset {
-  width: 350px;
-  margin-left: 26%;
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
   padding-left: 20px;
 }
 
@@ -421,6 +433,8 @@ fieldset {
     margin-left:25%;
     margin-right:20%;
   }
+  
+
 }
 
 /* Non-mobile, grid */
@@ -429,9 +443,21 @@ fieldset {
   /* 7 columns, 7/12 in % */
   .col-4 {
     width: 14.25%;
+    margin-left:0;
+    margin-right:0;
   }
+
+  .col-5 {
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+  }
+
   .col-8 {
-    width: 50%;
+    width: 40%;
+    margin-left: 300px;
+    margin-bottom: 100px;
   }
 
   .day-title {
@@ -440,21 +466,18 @@ fieldset {
 }
 
 .row {
-  max-width: 1500px;
+  max-width: 1200px;
   height: 425px;
 }
 
 .recipe-title {
-  height: 90px;
-}
-
-.controls-button {
-  width: 350px;
+  height: 115px;
+  font-size: 15px;
 }
 
 .recipe-card {
   margin-bottom: 3px;
-  min-height: 200px
+  min-height: 250px
 }
 
 .search-by-ingredient {
@@ -467,6 +490,7 @@ fieldset {
   width: 45%;
   padding: 5px;
   margin-bottom: 2px;
+  font-size: 16px;
 }
 
 .js-view-recipe-btn {
@@ -485,18 +509,8 @@ fieldset {
 }
 
 .js-begin-btn {
-  margin-left: 35%;
-}
-
-fieldset {
-  width: 350px;
-  margin-left: 36.75%;
-  padding-left: 20px;
-}
-
-header {
-  margin-left: 40%;
-  margin-bottom: -120px;
+  margin-left: auto 0;
+  margin-right: auto 0;
 }
 
 .logo {
@@ -509,9 +523,8 @@ header h1 {
   font-size: 40px;
 }
 
-.app-description {
-  width: 400px;
-  margin-left: 35%;
+.js-output {
+  margin-top: 100px;
 }
 
 

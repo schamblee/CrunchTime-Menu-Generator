@@ -29,21 +29,22 @@
 </head>
 <body>
   <header role="banner">
-    <img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1>
+    <div class="logo-div col-5"><img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1></div>
   </header>
-  <main role="main">
-  <section class="js-intro intro" aria-live="assertive">
+  <main role="main" class="row">
+  <section role="region" class="js-intro intro col-8" aria-live="assertive">
+    <img src="http://2o7fsh4anuayrnrhe3us6v71-wpengine.netdna-ssl.com/wp-content/uploads/2018/01/Free-Seasonal-Cooking-Demo-Tasting-1.jpg" class="intro-image">
     <span class="app-description">Quickly assemble weekly dinner menus from popular recipes all under 600 calories per servings.</span>
     <button class="js-begin-btn controls-button">Begin</button>
   </section>
 
 
-  <section role="region" class="js-select-diet select-diet" aria-live="assertive" hidden>
+  <section role="region" class="js-select-diet select-diet col-8" aria-live="assertive" hidden>
     <form action="#">
       <label class="diet-filter-label" for="diet-filter">Select a Diet:</label>
       <select class="diet-filter" id="diet-filter">
         <option value ="">Balanced</option>
-        <option value ="Pescetarian">Pescetarian</option>
+        <option value ="Pescatarian">Pescatarian</option>
         <option value ="Vegetarian">Vegetarian</option>
         <option value ="Vegan">Vegan</option>
         <option value ="Primal">Primal</option>
@@ -100,12 +101,17 @@
 
   <section role="region" class="js-output" aria-live="assertive" hidden>
     <h2 class="title">Your Menu</h2>
-    <div class="js-search-results row">
+    <div class="js-search-results menu">
     </div>
   </section>
   <div class="js-menu-controls" aria-live="assertive" hidden>
-  <button class="js-refresh-menu controls-button">New Menu</button>
-  <button class="js-start-over controls-button">Start Over</button>
+  <form class="email">
+    <label class="email-label" for="email-address">Send Recipes To:</label>
+    <input type="email" class="emailaddress" placeholder="Enter Email Address">
+    <button title="Send Recipes" type="submit" class="send">Send</button>
+  </form>
+  <button title="Refresh Recipes" class="js-refresh-menu controls-button">New Menu</button>
+  <button title="Start Over" class="js-start-over controls-button">Start Over</button>
   </div>
 
 

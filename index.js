@@ -95,7 +95,7 @@ function renderModalContent(result, day) {
             </ul>
           </div>  
           <div id="recipe-instructions${day}" class="instructions-container">
-          <ol class="recipe-ingredients">
+          <ol class="recipe-instructions">
           </ol>
         </div> 
       `  
@@ -143,7 +143,7 @@ function renderMenu(offset, result) {
     </div>
     <form class="ingredient-form">
       <input id="search-by-ingredient${days[dayIndex]}" class="search-by-ingredient" type="search" name="search-by-ingredient" placeholer="Search By Ingredient">
-      <button title="Search For A Recipe By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn controls-button" data-day="${days[dayIndex]}">Search</button>
+      <button title="Search For Recipes By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn controls-button" data-day="${days[dayIndex]}">Search</button>
     </form>
     <div class="recipe-controls">
       <button title="View Previous Recipe Option" id="js-previous-result-btn${days[dayIndex]}" class="js-previous-result-btn controls-button previous" data-day="${days[dayIndex]}" aria-live="assertive">
@@ -320,6 +320,17 @@ function watchRefreshMenuClick() {
 })
 }
 
+function watchEmailSubmit() {
+  $('.email').submit(function(event) {
+  event.preventDefault();
+  let emailAddress = $('.emailaddress').val();
+  let subject = "CrunchTime: My Menu"
+  let mondayRecipeLink = ""
+  let body = `Monday: ${mondayRecipeLink}`
+  window.open(`mailto:${emailAddress}?subject=${subject}&body=${body}`);
+});
+}
+
 
 function handleMenuGenerator() {
   watchBeginClick();
@@ -331,6 +342,7 @@ function handleMenuGenerator() {
   watchRemoveClick();
   watchRefreshMenuClick();
   watchStartOver();
+  watchEmailSubmit();
 }
 
 $(handleMenuGenerator)

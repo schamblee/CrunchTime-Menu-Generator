@@ -4,11 +4,11 @@ let allergies = [];
 let dietFilter = '';
 
 let dayIndex = -1;
-let offset = Math.floor(Math.random() * 900);
+let offset = Math.floor(Math.random() * 500);
 
-function getRecipesForWeek(allergies, diet) { 
+function getRecipesForWeek() { 
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${dietFilter}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
       success: function (result) { console.log(result); displayRecipesForWeek(result) },
@@ -18,9 +18,9 @@ function getRecipesForWeek(allergies, diet) {
   };
 
 
-function getRecipeForDay(allergies, diet, day, query, offset) { 
+function getRecipeForDay(day, query, offset) { 
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?query=${query}&diet=${diet}&addRecipeInformation=false&number=1&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?query=${query}&diet=${dietFilter}&addRecipeInformation=false&number=1&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
       success: function (result) { displayRecipeForDay(result, day) },
@@ -90,10 +90,14 @@ function renderModalContent(result, day) {
         <h3 id="recipe-title${day}">${result.title}</h3>
           <img id="card-image${day}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
           <span class="credit"></span>
-          <section role="region" id="recipe-ingredients${day}" class="recipe-ingredients">
-          </section>  
-          <section role="region" id="recipe-instructions${day}" class="recipe-instructions">
-        </section> 
+          <div id="recipe-ingredients${day}" class="ingredient-container">
+            <ul class="recipe-ingredients">
+            </ul>
+          </div>  
+          <div id="recipe-instructions${day}" class="instructions-container">
+          <ol class="recipe-ingredients">
+          </ol>
+        </div> 
       `  
 }
 
@@ -106,7 +110,7 @@ function renderRecipeInfo(result, day)  {
     sourceName = 'Visit Source'
   }
 
-  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}" target="_blank">${sourceName}</a>`)
+  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}" target="_blank">Credit: ${sourceName}</a>`)
   for (let i = 0; i < result.extendedIngredients.length; i++) {
   //for each ingredient in array, render a list item with the amount, unit and the ingredient
     let amount = result.extendedIngredients[i].amount
@@ -134,7 +138,7 @@ function renderMenu(offset, result) {
       <h3 id="recipe-title${days[dayIndex]}" class="recipe-title">${result.title}</h3>
       <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">
         <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
-        <br><div class="view-recipe-span">View Recipe</div>
+        <br><div class="view-recipe-div">View Recipe</div>
       </button>
     </div>
     <form class="ingredient-form">
@@ -171,7 +175,7 @@ function renderDayCard(result, day) {
       <h3 class="recipe-title">${result.title}</h3>
       <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${day}">
         <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
-        <div class="view-recipe-span">View Recipe</div>
+        <div class="view-recipe-div">View Recipe</div>
       </button>
 `
  offset += 7
@@ -249,9 +253,12 @@ function watchMenuSubmit() {
     $('.js-output').prop('hidden', false);
     $('.js-menu-controls').prop('hidden', false);
     $('.js-select-diet').prop('hidden', true);
-    dietFilter = ''//filterTarget.val();
-    allergyList = ['dairy']
-    getRecipesForWeek(allergyList, dietFilter);
+    $('input:checkbox[name=intolerance]:checked').map(function() 
+      {
+        allergies.push($(this).val())
+      });
+    dietFilter = $('#diet-filter').val();
+    getRecipesForWeek();
   });
 }
 
@@ -261,10 +268,8 @@ function watchSearchByIngredientClick() {
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
   $(`#ingredient-query${day}`).text(`Result for ${ingredient}`)
-  dietFilter = ''
-  allergyList = ['']
   offset = Math.floor(Math.random() * 200)
-  getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
+  getRecipeForDay(day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })
 }
@@ -274,9 +279,7 @@ function watchNextResultClick() {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  dietFilter = ''
-  allergyList = ['dairy']
-  getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
+  getRecipeForDay(day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })
 }
@@ -286,10 +289,8 @@ function watchPreviousResultClick() {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  dietFilter = ''
-  allergyList = ['dairy']
   offset -= 14;
-  getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
+  getRecipeForDay(day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })
 }
@@ -299,8 +300,6 @@ function watchRemoveClick() {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = ''
-  dietFilter = ''
-  allergyList = ['']
   $(`#${day}Card`).html(renderNotCooking(day));
   console.log(`${day} ${ingredient} option pressed`)
   })
@@ -316,10 +315,8 @@ function watchStartOver() {
 
 function watchRefreshMenuClick() {
   $('.js-menu-controls').on('click', '.js-refresh-menu', function(event) {
-    dietFilter = ''
-    allergyList = ['']
     dayIndex -= 7
-    getRecipesForWeek(allergyList, dietFilter);
+    getRecipesForWeek();
 })
 }
 

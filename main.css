@@ -31,6 +31,11 @@ html {
   color: #FFF;
 }
 
+.js-menu-controls {
+  background-color: #343642;
+
+}
+
 main {
   margin-top: -50px;
 }
@@ -38,11 +43,11 @@ main {
 body {
   font-family: 'Raleway', sans-serif;
   text-align: center;
-  font-size: 17px;
+  font-size: 18px;
   color: #343642;
-  opacity: .9;
   margin-top: -30px;
   background: #FFF;
+  opacity: .95;
 }
 
 header h1 {
@@ -100,7 +105,7 @@ header h1 {
   transition: all .4s ease-in-out 0s;
 }
 
-.view-recipe-span {
+.view-recipe-div {
   margin-top: -3px;
   background-color: #962D3E;
   width: 100%;
@@ -111,7 +116,7 @@ header h1 {
   transition: all .4s ease-in-out 0s;
 }
 
-.view-recipe-span:hover {
+.view-recipe-div:hover {
   background-color: #343642;
 }
 
@@ -119,7 +124,11 @@ header h1 {
   background-color: #962D3E;
 }
 
-
+.next, .previous, .remove {
+  width: 32.2%;
+  margin-top: 5px;
+  padding: 10px;
+}
 
 
 .js-begin-btn {
@@ -149,15 +158,26 @@ header h1 {
   margin: 10% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #775D6A;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 95%; /* Could be more or less, depending on screen size */
 }
 
 .recipe-ingredients {
-  margin-top: 0;
+  margin-top: 10px;
+  margin-left: 25px;
+  margin-bottom: 10px;
   text-align: left;
   position: relative;
   display: inline-block;
-  padding: 5px;
+  padding: 3px;
+}
+
+.ingredient-container {
+  border: 1px solid #775D6A;
+  margin-top: 5px;
+}
+
+li {
+  margin-top: 5px;
 }
 
 .recipe-instructions {
@@ -202,9 +222,9 @@ legend {
 
 fieldset {
   width: 100%;
-  height: 250px;
   margin-top: 10px;
   padding-top: 20px;
+  padding-bottom: 20px;
   margin-bottom: 10px;
   color: #343642;
   background-color: #fff;
@@ -212,7 +232,6 @@ fieldset {
 }
 
 .start-over {
-  height: 200px;
   position: relative;
   bottom: 0px;
 }
@@ -227,23 +246,23 @@ p {
 }
 
 .search-by-ingredient {
-  width: 65%;
-  margin-top: 3px;
+  width: 65.8%;
+  margin-top: 10px;
   margin-bottom: 3px;
   position: relative;
   display: inline-block;
-  padding: 3px;
+  padding: 7px;
   margin: 0;
 }
 
 .search-by-ingredient-btn {
-  width: 33%;
-  margin-top: 3px;
+  width: 32.2%;
+  margin-top: 10px;
   margin-bottom: 3px;
   position: relative;
   display: inline-block;
   margin: 0;
-  padding: 5px;
+  padding: 10px;
 }
 
 .ingredient-form {
@@ -269,11 +288,18 @@ p {
 }
 
 .modal-card-image {
-  width: 30%;
+  width: 100%;
   position: relative;
   display: inline-block;
   margin-left: 0;
   padding: 5px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
 }
 
 .js-view-recipe-btn {
@@ -285,28 +311,22 @@ p {
   font-size: 15px;
 }
 
-.next-option, .view-recipe, .remove-day {
-  position: relative;
-  margin-bottom: 0;
-  width: 100%;
-}
-
 .recipe-title {
   font-size: 17px;
   display: block;
   margin-top: 0;
   margin-bottom: 0;
-  padding-top: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 5px;
   padding-right: 5px;
 }
 
 .row {
-  height: 2900px;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 50px;
   margin: 0 auto;
   background-color: #333745;
   opacity: .9;
@@ -333,8 +353,9 @@ p {
 }
 
 .col-4 {
-  height: 500px;
+  margin-top: 30px;
 }
+
 
 @media only screen and (min-width: 370px) {
  header {
@@ -352,8 +373,55 @@ p {
   .intro, .select-diet {
   height: 600px;
 }
+}
+
+@media only screen and (min-width: 412px) {
+  .title {
+    width: 300px;
+  }
+  .next, .previous, .remove {
+  padding: 10px;
+}
+
+ .recipe-title {
+  font-size: 18px;
+  }
+
+}
+
+@media only screen and (min-width: 768px) {
+  .intro, .select-diet {
+    height: 825px;
+  }
+  header {
+  margin-left: 29%;
+  }
+
+ .app-description {
+  width: 400px;
+  margin-left: 24%;
  }
 
+.controls-button {
+  width: 350px;
+}
+
+.js-begin-btn {
+  margin-left: 27%;
+}
+
+fieldset {
+  width: 350px;
+  margin-left: 26%;
+  padding-left: 20px;
+}
+
+  .col-4 {
+    width: 50%;
+    margin-left:25%;
+    margin-right:20%;
+  }
+}
 
 /* Non-mobile, grid */
 @media only screen and (min-width: 1000px) {
@@ -417,10 +485,7 @@ p {
 }
 
 .js-begin-btn {
-  display: block;
-  position: relative;
   margin-left: 35%;
-  text-align: center;
 }
 
 fieldset {

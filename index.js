@@ -4,27 +4,27 @@ let allergies = [];
 let dietFilter = '';
 
 let dayIndex = -1;
-let offset = Math.floor(Math.random() * 900);
+let offset = Math.floor(Math.random() * 500);
 
-function getRecipesForWeek(allergies, diet) { 
+function getRecipesForWeek() { 
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${diet}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${dietFilter}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
       success: function (result) { console.log(result); displayRecipesForWeek(result) },
-      error: function() { alert('boo!'); },
+      error: function() { alert('Sorry, there was an error. Please try again.') },
       beforeSend: setHeader
       });
   };
 
 
-function getRecipeForDay(allergies, diet, day, query, offset) { 
+function getRecipeForDay(day, query, offset) { 
   $.ajax({
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?query=${query}&diet=${diet}&addRecipeInformation=false&number=1&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?query=${query}&diet=${dietFilter}&addRecipeInformation=false&number=1&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
       success: function (result) { displayRecipeForDay(result, day) },
-      error: function() {  },
+      error: function() { renderNoResultsCard(day); },
       beforeSend: setHeader
       });
   };
@@ -42,7 +42,7 @@ function getRecipeInfo(id, day) {
       type: 'GET',
       dataType: 'json',
       success: function (result) { console.log(result); renderRecipeInfo(result, day) },
-      error: function() { alert('boo!'); },
+      error: function() { alert('Sorry, there was an error. Please try again.'); },
       beforeSend: setHeader
       });
 }
@@ -52,9 +52,12 @@ function getRecipeInfo(id, day) {
 
 function displayRecipeForDay(data, day) {
   let dayCard = `${day}`
-  const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
-  $(`#${day}Card`).html(results);
-  console.log(`display recipe function day: ${day}`)
+  if (data.results.length > 0) {
+    const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
+    $(`#${day}Card`).html(results);
+  } else {
+    renderNoResultsCard(dayCard);
+  }
 }
 
 
@@ -89,11 +92,15 @@ function renderModalContent(result, day) {
       <span class="close">&times;</span>
         <h3 id="recipe-title${day}">${result.title}</h3>
           <img id="card-image${day}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
+          <div id="recipe-ingredients${day}" class="ingredient-container">
+            <ul class="recipe-ingredients">
+            </ul>
+          </div>  
+          <div id="recipe-instructions${day}" class="instructions-container">
+          <ol class="recipe-instructions">
+          </ol>
           <span class="credit"></span>
-          <section role="region" id="recipe-ingredients${day}" class="recipe-ingredients">
-          </section>  
-          <section role="region" id="recipe-instructions${day}" class="recipe-instructions">
-        </section> 
+        </div> 
       `  
 }
 
@@ -106,7 +113,7 @@ function renderRecipeInfo(result, day)  {
     sourceName = 'Visit Source'
   }
 
-  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}" target="_blank">${sourceName}</a>`)
+  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}" target="_blank">Credit: ${sourceName}</a>`)
   for (let i = 0; i < result.extendedIngredients.length; i++) {
   //for each ingredient in array, render a list item with the amount, unit and the ingredient
     let amount = result.extendedIngredients[i].amount
@@ -117,8 +124,10 @@ function renderRecipeInfo(result, day)  {
   for (let x = 0; x < result.analyzedInstructions.length; x++) {
   //for each array of steps in the analyzed instruction array, render a list item for each step
     for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {
-    $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
+     if ((result.analyzedInstructions[x].steps[y].step).length > 0) {
+     $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
     }
+  }
   }
 }
 
@@ -134,12 +143,12 @@ function renderMenu(offset, result) {
       <h3 id="recipe-title${days[dayIndex]}" class="recipe-title">${result.title}</h3>
       <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">
         <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
-        <br><span class="view-recipe-span">View Recipe</span>
+        <br><div class="view-recipe-div">View Recipe</div>
       </button>
     </div>
     <form class="ingredient-form">
       <input id="search-by-ingredient${days[dayIndex]}" class="search-by-ingredient" type="search" name="search-by-ingredient" placeholer="Search By Ingredient">
-      <button title="Search For A Recipe By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn controls-button" data-day="${days[dayIndex]}">Search</button>
+      <button title="Search For Recipes By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn controls-button" data-day="${days[dayIndex]}">Search</button>
     </form>
     <div class="recipe-controls">
       <button title="View Previous Recipe Option" id="js-previous-result-btn${days[dayIndex]}" class="js-previous-result-btn controls-button previous" data-day="${days[dayIndex]}" aria-live="assertive">
@@ -148,7 +157,6 @@ function renderMenu(offset, result) {
       <i class="far fa-times-circle"></i></button>
       <button title="View Next Recipe Option" id="js-next-result-btn${days[dayIndex]}" class="js-next-result-btn controls-button next" data-day="${days[dayIndex]}">
       <i class="fas fa-chevron-circle-right"></i></button>
-      <span id="ingredient-query${days[dayIndex]}" class="ingredient-query"></span>
     </div>
     <!-- The Modal -->
     <section role="region" id="recipeModal${days[dayIndex]}" class="modal" aria-live="assertive" hidden>
@@ -171,10 +179,10 @@ function renderDayCard(result, day) {
       <h3 class="recipe-title">${result.title}</h3>
       <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${day}">
         <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
-        <span class="view-recipe-text">View Recipe</span>
+        <div class="view-recipe-div">View Recipe</div>
       </button>
 `
-console.log(`the id for ${day} is ${result.id}`)
+ offset += 7
 
 return html
 
@@ -187,6 +195,15 @@ function renderNotCooking(day) {
       <img id="card-image${day}" class="card-image" src="https://www.displayfakefoods.com/store/pc/catalog/2189-lg.jpg" alt="Not cooking image">
 
 `}
+
+function renderNoResultsCard(day) {  
+  let html = `
+        <h3 id="recipe-title${day}" class="recipe-title">No Results Available</h3>
+      <img id="card-image${day}" class="card-image" src="https://d30y9cdsu7xlg0.cloudfront.net/png/98632-200.png" alt="No Results image">
+
+  `
+  $(`#${day}Card`).html(html)
+}
 
 
 
@@ -209,7 +226,6 @@ function watchBeginClick() {
 
 function watchViewRecipeClick() {
   openRecipeModal();
-
 }
 
 function openRecipeModal() {
@@ -249,9 +265,12 @@ function watchMenuSubmit() {
     $('.js-output').prop('hidden', false);
     $('.js-menu-controls').prop('hidden', false);
     $('.js-select-diet').prop('hidden', true);
-    dietFilter = ''//filterTarget.val();
-    allergyList = ['dairy']
-    getRecipesForWeek(allergyList, dietFilter);
+    $('input:checkbox[name=intolerance]:checked').map(function() 
+      {
+        allergies.push($(this).val())
+      });
+    dietFilter = $('#diet-filter').val();
+    getRecipesForWeek();
   });
 }
 
@@ -260,11 +279,8 @@ function watchSearchByIngredientClick() {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  $(`#ingredient-query${day}`).text(`Result for ${ingredient}`)
-  dietFilter = ''
-  allergyList = ['']
   offset = Math.floor(Math.random() * 200)
-  getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
+  getRecipeForDay(day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })
 }
@@ -274,10 +290,7 @@ function watchNextResultClick() {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  dietFilter = ''
-  allergyList = ['dairy']
-  offset += 7;
-  getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
+  getRecipeForDay(day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })
 }
@@ -287,10 +300,8 @@ function watchPreviousResultClick() {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  dietFilter = ''
-  allergyList = ['dairy']
-  offset -= 7;
-  getRecipeForDay(allergyList, dietFilter, day, ingredient, offset);
+  offset -= 14;
+  getRecipeForDay(day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
   })
 }
@@ -300,8 +311,6 @@ function watchRemoveClick() {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = ''
-  dietFilter = ''
-  allergyList = ['']
   $(`#${day}Card`).html(renderNotCooking(day));
   console.log(`${day} ${ingredient} option pressed`)
   })
@@ -317,11 +326,21 @@ function watchStartOver() {
 
 function watchRefreshMenuClick() {
   $('.js-menu-controls').on('click', '.js-refresh-menu', function(event) {
-    dietFilter = ''
-    allergyList = ['']
     dayIndex -= 7
-    getRecipesForWeek(allergyList, dietFilter);
+    offset = Math.floor(Math.random() * 500);
+    getRecipesForWeek();
 })
+}
+
+function watchEmailSubmit() {
+  $('.email').submit(function(event) {
+  event.preventDefault();
+  let emailAddress = $('.email-address').val();
+  let subject = "CrunchTime: My Menu"
+  let mondayRecipeLink = ""
+  let body = `Monday: ${mondayRecipeLink}`
+  window.open(`mailto:${emailAddress}?subject=${subject}&body=${body}`);
+});
 }
 
 
@@ -335,6 +354,7 @@ function handleMenuGenerator() {
   watchRemoveClick();
   watchRefreshMenuClick();
   watchStartOver();
+  watchEmailSubmit();
 }
 
 $(handleMenuGenerator)

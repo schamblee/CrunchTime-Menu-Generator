@@ -3,22 +3,26 @@
 }
 
 header {
-  margin-top: 25px;
+  margin-top: 15px;
+  width: 100%;
+  height: 90px;
   margin-bottom: 20px;
   text-align: center;
   padding-bottom: 20px;
+  background-color: #FFF;
+  opacity: .7;
 }
 
 section {
   text-align: center;
-  margin-top: 250px;
+  margin-top: 40px;
 }
 
-html {
-    background: url(http://maxpixel.freegreatpicture.com/static/photo/1x/Table-Cooking-Background-Herb-Food-Wooden-Knife-2879265.jpg) no-repeat left center fixed;
-      -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+body {
+  background: url(http://maxpixel.freegreatpicture.com/static/photo/1x/Table-Cooking-Background-Herb-Food-Wooden-Knife-2879265.jpg) no-repeat left center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
   background-size: cover;
 }
 
@@ -26,23 +30,25 @@ html {
   background-color: #343642;
   height: 500px;
   padding: 20px;
-  opacity: .9;
   width: 100%;
   color: #FFF;
 }
 
-main {
-  margin-top: -50px;
+.js-menu-controls {
+  margin-bottom: 50px;
+
+}
+
+.email-label {
+  color: #FFF;
 }
 
 body {
   font-family: 'Raleway', sans-serif;
   text-align: center;
-  font-size: 17px;
+  font-size: 18px;
   color: #343642;
-  opacity: .9;
   margin-top: -30px;
-  background: #FFF;
 }
 
 header h1 {
@@ -51,6 +57,16 @@ header h1 {
   font-size: 50px;
   font-family: 'Fredericka the Great', cursive;
   padding-bottom: 10px;
+  display: inline-block;
+  position: relative;
+  float: left;
+}
+
+.logo-text {
+  font-size: 35px;
+  width: 100%;
+  font-family: 'Fredericka the Great', cursive;
+  margin-top: -5px;
   display: inline-block;
   position: relative;
   float: left;
@@ -80,13 +96,13 @@ header h1 {
 
 .app-description {
   font-weight: bold;
-  padding-top: 30px;
   display: block;
   position: relative;
   width: 100%;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   color: #fff;
+  margin-bottom: -10px;
 }
 
 .controls-button {
@@ -100,10 +116,10 @@ header h1 {
   transition: all .4s ease-in-out 0s;
 }
 
-.view-recipe-span {
+.view-recipe-div {
+  margin-top: -3px;
   background-color: #962D3E;
   width: 100%;
-  height: 10px;
   padding: 10px;
   text-align: center;
   color: #fff;
@@ -111,7 +127,7 @@ header h1 {
   transition: all .4s ease-in-out 0s;
 }
 
-.view-recipe-span:hover {
+.view-recipe-div:hover {
   background-color: #343642;
 }
 
@@ -119,7 +135,11 @@ header h1 {
   background-color: #962D3E;
 }
 
-
+.next, .previous, .remove {
+  width: 32.2%;
+  margin-top: 5px;
+  padding: 10px;
+}
 
 
 .js-begin-btn {
@@ -135,7 +155,7 @@ header h1 {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
-  top: -250px;
+  top: -40px;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -149,15 +169,26 @@ header h1 {
   margin: 10% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #775D6A;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 95%; /* Could be more or less, depending on screen size */
 }
 
 .recipe-ingredients {
-  margin-top: 0;
+  margin-top: 10px;
+  margin-left: 25px;
+  margin-bottom: 10px;
   text-align: left;
   position: relative;
   display: inline-block;
-  padding: 5px;
+  padding: 3px;
+}
+
+.ingredient-container {
+  border: 1px solid #775D6A;
+  margin-top: 5px;
+}
+
+li {
+  margin-top: 5px;
 }
 
 .recipe-instructions {
@@ -166,7 +197,8 @@ header h1 {
 }
 
 .recipe-image {
-  width: 30%;
+  position: relative;
+  width: 35%;
 }
 
 /* The Close Button */
@@ -200,19 +232,29 @@ legend {
   font-weight: bold;
 }
 
+.diet-filter {
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+.intro-image {
+  width: 250px;
+  border-radius: 3px;
+}
+
 fieldset {
   width: 100%;
-  height: 250px;
   margin-top: 10px;
   padding-top: 20px;
+  padding-bottom: 20px;
   margin-bottom: 10px;
   color: #343642;
   background-color: #fff;
   text-align: left;
+  border-radius: 3px;
 }
 
 .start-over {
-  height: 200px;
   position: relative;
   bottom: 0px;
 }
@@ -222,28 +264,38 @@ p {
 }
 
 .title {
+  font-family: 'Fredericka the Great', cursive;
   width: 250px;
-  padding-left: 30%;
 }
 
 .search-by-ingredient {
-  width: 65%;
-  margin-top: 3px;
+  width: 65.8%;
+  margin-top: 10px;
   margin-bottom: 3px;
   position: relative;
   display: inline-block;
-  padding: 3px;
+  padding: 7px;
   margin: 0;
 }
 
 .search-by-ingredient-btn {
-  width: 33%;
-  margin-top: 3px;
+  width: 32.2%;
+  margin-top: 10px;
   margin-bottom: 3px;
   position: relative;
   display: inline-block;
-  margin: 0;
-  padding: 5px;
+  padding: 10px;
+}
+
+.send {
+  width: 60px;
+  padding: 4px;
+  font-size: 16px;
+}
+
+.email-address {
+  border-radius: 3px;
+  padding: 2px;
 }
 
 .ingredient-form {
@@ -266,14 +318,24 @@ p {
   width: 100%;
   position: relative;
   margin-bottom: 0;
+  min-height: 120px;
 }
 
 .modal-card-image {
-  width: 30%;
+  width: 100%;
   position: relative;
   display: inline-block;
   margin-left: 0;
   padding: 5px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: inline-block;
 }
 
 .js-view-recipe-btn {
@@ -283,13 +345,6 @@ p {
 
 .view-recipe-span {
   font-size: 15px;
-  height: 50px;
-}
-
-.next-option, .view-recipe, .remove-day {
-  position: relative;
-  margin-bottom: 0;
-  width: 100%;
 }
 
 .recipe-title {
@@ -297,20 +352,25 @@ p {
   display: block;
   margin-top: 0;
   margin-bottom: 0;
-  padding-top: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 5px;
   padding-right: 5px;
 }
 
 .row {
-  height: 2900px;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 50px;
   margin: 0 auto;
+}
+
+.menu {
   background-color: #333745;
-  opacity: .9;
+  padding-top: 10px;
+  height: 420px;
+  margin-bottom: 20px;
 }
 
 /* Clearfix */
@@ -329,65 +389,146 @@ p {
 }
 
 /* Mobile defaults */
-.col-4, .col-8 {
+.col-4, .col-8, .col-5 {
   width: 100%;
 }
 
-.col-4 {
-  height: 500px;
-}
 
 @media only screen and (min-width: 370px) {
- header {
-  margin-left: 10%
- }
  .intro, .select-diet {
   height: 520px;
 }
 }
 
 @media only screen and (min-width: 375px) {
- header {
-  margin-left: 5%
- }
   .intro, .select-diet {
   height: 600px;
 }
+}
+
+@media only screen and (min-width: 412px) {
+  .title {
+    width: 300px;
+  }
+  .next, .previous, .remove {
+  padding: 10px;
+}
+
+ .recipe-title {
+  font-size: 18px;
+  }
+
+}
+
+@media only screen and (min-width: 768px) {
+  .intro, .select-diet {
+    border-radius: 3px;
+    margin-left: 25%;
+    height: 400px;
+  }
+
+.send {
+  width: 60px;
+  padding: 4px;
+  font-size: 16px;
+}
+
+
+ .app-description {
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
  }
+
+.controls-button {
+  width: 250px;
+  border-radius: 3px;
+}
+
+.js-begin-btn {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+fieldset {
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+}
+
+  .col-4 {
+    width: 50%;
+    margin-left:25%;
+    margin-right:20%;
+  }
+
+/* Modal Content/Box */
+.modal-content {
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-card-image {
+  width: 40%;
+}
+
+.ingredient-container {
+  border: 1px solid #775D6A;
+  margin-top: 5px;
+  width: 45%;
+  display: inline-block;
+}
+  
+
+}
+
 
 
 /* Non-mobile, grid */
 @media only screen and (min-width: 1000px) {
 
+  .send {
+  width: 60px;
+  padding: 5px;
+  font-size: 16px;
+}
+
   /* 7 columns, 7/12 in % */
   .col-4 {
     width: 14.25%;
+    margin-left:0;
+    margin-right:0;
   }
+
+  .col-5 {
+    width: 25%;
+    padding-left: 20px;
+  }
+
   .col-8 {
-    width: 50%;
+    width: 40%;
+    margin-left: 300px;
+    margin-bottom: 100px;
   }
 
   .day-title {
-
+  margin-top: 5px;
   font-size: 25px;
 }
 
 .row {
-  max-width: 1500px;
+  max-width: 1200px;
   height: 425px;
 }
 
 .recipe-title {
-  height: 90px;
-}
-
-.controls-button {
-  width: 350px;
+  height: 115px;
+  font-size: 15px;
 }
 
 .recipe-card {
   margin-bottom: 3px;
-  min-height: 200px
+  min-height: 250px
 }
 
 .search-by-ingredient {
@@ -400,6 +541,7 @@ p {
   width: 45%;
   padding: 5px;
   margin-bottom: 2px;
+  font-size: 16px;
 }
 
 .js-view-recipe-btn {
@@ -418,37 +560,24 @@ p {
 }
 
 .js-begin-btn {
-  display: block;
-  position: relative;
-  margin-left: 35%;
-  text-align: center;
-}
-
-fieldset {
-  width: 350px;
-  margin-left: 36.75%;
-  padding-left: 20px;
-}
-
-header {
-  margin-left: 40%;
-  margin-bottom: -120px;
+  margin-left: auto 0;
+  margin-right: auto 0;
 }
 
 .logo {
-  width: 80px;
+  width: 60px;
+  margin-top: 7px;
 }
 
 header h1 {
   line-height: 1;
-  margin-top: 50px;
-  font-size: 40px;
+  margin-top: 30px;
+  font-size: 25px;
 }
 
-.app-description {
-  width: 400px;
-  margin-left: 35%;
+.send-recipes {
+  background-color: #343642;
+  padding: 10px;
 }
-
 
 }

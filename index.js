@@ -12,7 +12,7 @@ function getRecipesForWeek() {
       type: 'GET',
       dataType: 'json',
       success: function (result) { console.log(result); displayRecipesForWeek(result) },
-      error: function() { alert('Sorry, there was an error. Please try again.'); },
+      error: function() { alert('Sorry, there was an error. Please try again.') },
       beforeSend: setHeader
       });
   };

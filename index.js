@@ -12,7 +12,7 @@ function getRecipesForWeek() {
       type: 'GET',
       dataType: 'json',
       success: function (result) { console.log(result); displayRecipesForWeek(result) },
-      error: function() { alert('boo!'); },
+      error: function() { alert('Sorry, there was an error. Please try again.'); },
       beforeSend: setHeader
       });
   };
@@ -24,7 +24,7 @@ function getRecipeForDay(day, query, offset) {
       type: 'GET',
       dataType: 'json',
       success: function (result) { displayRecipeForDay(result, day) },
-      error: function() {  },
+      error: function() { renderNoResultsCard(day); },
       beforeSend: setHeader
       });
   };
@@ -42,7 +42,7 @@ function getRecipeInfo(id, day) {
       type: 'GET',
       dataType: 'json',
       success: function (result) { console.log(result); renderRecipeInfo(result, day) },
-      error: function() { alert('boo!'); },
+      error: function() { alert('Sorry, there was an error. Please try again.'); },
       beforeSend: setHeader
       });
 }
@@ -52,9 +52,12 @@ function getRecipeInfo(id, day) {
 
 function displayRecipeForDay(data, day) {
   let dayCard = `${day}`
-  const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
-  $(`#${day}Card`).html(results);
-  console.log(`display recipe function day: ${day}`)
+  if (data.results.length > 0) {
+    const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
+    $(`#${day}Card`).html(results);
+  } else {
+    renderNoResultsCard(dayCard);
+  }
 }
 
 
@@ -89,7 +92,6 @@ function renderModalContent(result, day) {
       <span class="close">&times;</span>
         <h3 id="recipe-title${day}">${result.title}</h3>
           <img id="card-image${day}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
-          <span class="credit"></span>
           <div id="recipe-ingredients${day}" class="ingredient-container">
             <ul class="recipe-ingredients">
             </ul>
@@ -97,6 +99,7 @@ function renderModalContent(result, day) {
           <div id="recipe-instructions${day}" class="instructions-container">
           <ol class="recipe-instructions">
           </ol>
+          <span class="credit"></span>
         </div> 
       `  
 }
@@ -121,8 +124,10 @@ function renderRecipeInfo(result, day)  {
   for (let x = 0; x < result.analyzedInstructions.length; x++) {
   //for each array of steps in the analyzed instruction array, render a list item for each step
     for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {
-    $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
+     if ((result.analyzedInstructions[x].steps[y].step).length > 0) {
+     $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
     }
+  }
   }
 }
 
@@ -152,7 +157,6 @@ function renderMenu(offset, result) {
       <i class="far fa-times-circle"></i></button>
       <button title="View Next Recipe Option" id="js-next-result-btn${days[dayIndex]}" class="js-next-result-btn controls-button next" data-day="${days[dayIndex]}">
       <i class="fas fa-chevron-circle-right"></i></button>
-      <span id="ingredient-query${days[dayIndex]}" class="ingredient-query"></span>
     </div>
     <!-- The Modal -->
     <section role="region" id="recipeModal${days[dayIndex]}" class="modal" aria-live="assertive" hidden>
@@ -192,6 +196,15 @@ function renderNotCooking(day) {
 
 `}
 
+function renderNoResultsCard(day) {  
+  let html = `
+        <h3 id="recipe-title${day}" class="recipe-title">No Results Available</h3>
+      <img id="card-image${day}" class="card-image" src="https://d30y9cdsu7xlg0.cloudfront.net/png/98632-200.png" alt="No Results image">
+
+  `
+  $(`#${day}Card`).html(html)
+}
+
 
 
 function displayRecipesForWeek(data, offset) {
@@ -213,7 +226,6 @@ function watchBeginClick() {
 
 function watchViewRecipeClick() {
   openRecipeModal();
-
 }
 
 function openRecipeModal() {
@@ -267,7 +279,6 @@ function watchSearchByIngredientClick() {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  $(`#ingredient-query${day}`).text(`Result for ${ingredient}`)
   offset = Math.floor(Math.random() * 200)
   getRecipeForDay(day, ingredient, offset);
   console.log(`${day} ${ingredient} option pressed`)
@@ -316,6 +327,7 @@ function watchStartOver() {
 function watchRefreshMenuClick() {
   $('.js-menu-controls').on('click', '.js-refresh-menu', function(event) {
     dayIndex -= 7
+    offset = Math.floor(Math.random() * 500);
     getRecipesForWeek();
 })
 }
@@ -323,7 +335,7 @@ function watchRefreshMenuClick() {
 function watchEmailSubmit() {
   $('.email').submit(function(event) {
   event.preventDefault();
-  let emailAddress = $('.emailaddress').val();
+  let emailAddress = $('.email-address').val();
   let subject = "CrunchTime: My Menu"
   let mondayRecipeLink = ""
   let body = `Monday: ${mondayRecipeLink}`

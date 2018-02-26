@@ -33,9 +33,10 @@
   </header>
   <main role="main" class="row">
   <section role="region" class="js-intro intro col-8" aria-live="assertive">
+    <h1 class="logo-text">Crunch<br>Time</h1>
     <img src="http://2o7fsh4anuayrnrhe3us6v71-wpengine.netdna-ssl.com/wp-content/uploads/2018/01/Free-Seasonal-Cooking-Demo-Tasting-1.jpg" class="intro-image">
-    <span class="app-description">Quickly assemble weekly dinner menus from popular recipes all under 600 calories per servings.</span>
-    <button class="js-begin-btn controls-button">Begin</button>
+    <span class="app-description">Quickly assemble weekly dinner menus from popular recipes all under 600 calories per serving.</span>
+    <button title="Begin" class="js-begin-btn controls-button">Begin</button>
   </section>
 
 
@@ -101,18 +102,21 @@
 
   <section role="region" class="js-output" aria-live="assertive" hidden>
     <h2 class="title">Your Menu</h2>
-    <div class="js-search-results menu">
-    </div>
-  </section>
-  <div class="js-menu-controls" aria-live="assertive" hidden>
-  <form class="email">
-    <label class="email-label" for="email-address">Send Recipes To:</label>
-    <input type="email" class="emailaddress" placeholder="Enter Email Address">
-    <button title="Send Recipes" type="submit" class="send">Send</button>
-  </form>
-  <button title="Refresh Recipes" class="js-refresh-menu controls-button">New Menu</button>
-  <button title="Start Over" class="js-start-over controls-button">Start Over</button>
+  <div class="send-recipes">  
+    <form class="email">
+      <label class="email-label" for="email-address">Send Recipes:</label>
+      <input type="email" class="email-address" placeholder="Enter Email Address">
+      <button title="Send Recipes" type="submit" class="send controls-button">Send</button>
+    </form>
   </div>
+  <div class="js-search-results menu">
+
+  </div>
+  <div class="js-menu-controls" aria-live="assertive" hidden>
+    <button title="Refresh Recipes" class="js-refresh-menu controls-button">New Menu</button>
+    <button title="Start Over" class="js-start-over controls-button">Start Over</button>
+  </div>
+  </section>
 
 
   </main>

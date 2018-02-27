@@ -7,11 +7,14 @@ Interactive, weekly recipe menu generator. Users can search for a recipe by ingr
 I wanted to create a simple tool for making a weekly menu of recipes. Rather than scrolling through hundreds of recipe options, CrunchTime pulls seven popular recipes based on the user's diet. The user can either print out the inital menu, or alter it with the "next", "previous" and "search" features. The "print" feature allows the user to print out easy-to-read directions for their menu.
 
 ## Screenshots
+
 Landing Page:
 
 Diet Filters:
 
 Menu:
+
+![Menu](https://drive.google.com/open?id=1JL7U3ibzlKXZ8mcvR7kLE12Kc9HBG1to)
 
 ## Environment Setup
 

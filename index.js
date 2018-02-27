@@ -7,8 +7,10 @@ let dietFilter = '';
 //Set by the user to indicate their diet and allergy information
 
 let dayIndex = -1;
+let printDayIndex = -1
 //Keep track of what day of the week should be rendered in the days array in the renderMenu() and watchRefreshMenuClick() functions
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+let printDays = [];
 let offset = Math.floor(Math.random() * 500);
 //Determine which recipes are diplayed by the result index of the first recipe. Initial offset is random.
 
@@ -16,7 +18,7 @@ let offset = Math.floor(Math.random() * 500);
 //-----------API Data-------------------------//
 
 function setHeader(xhr) {
-//Set headers with my API key
+//Set headers with API key
         xhr.setRequestHeader('X-Mashape-Key', 'DwXMjCgQGQmshC8MyFU6bVgOQS1Lp1tlRvZjsn3JvI9Q2hZZBC');
       }
 
@@ -26,7 +28,7 @@ function getRecipesForWeek() {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${dietFilter}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { console.log(result); displayRecipesForWeek(result) },
+      success: function (result) { displayRecipesForWeek(result) },
       error: function() { alert('Sorry, there was an error. Please try again.') },
       beforeSend: setHeader
       });
@@ -51,7 +53,7 @@ function getRecipeInfo(id, day) {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/information`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { console.log(result); renderRecipeInfo(result, day) },
+      success: function (result) { renderRecipeInfo(result) },
       error: function() { alert('Sorry, there was an error. Please try again.') },
       beforeSend: setHeader
       });
@@ -63,17 +65,120 @@ function getRecipeInfoForWeek(ids) {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/informationBulk?ids=${ids}`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { console.log(result); displayPrintableMenuInfo(result) },
-      error: function() { alert('Sorry, there was an error. Please try again.') },
+      success: function (result) { handlePrintSheetSuccess(result) },
+      error: function() { handlePrintSheetError() },
       beforeSend: setHeader
       });
 }
 
+function handlePrintSheetSuccess(result) {
+  displayPrintSheet(result); 
+  $('.js-print-menu').text('Print Menu').removeAttr('disabled')
+}
+
+function handlePrintSheetError() {
+  clickCount --
+  alert('Sorry, there was an error. Please try again.')
+  $('.js-print-menu').text('Pepare Printable Menu').removeAttr('disabled')
+}
+
+//---------Menu Cards----------------------------//
 
 
+function displayRecipesForWeek(data) {
+//render menu
+  const results = data.results.map((item, index) => renderMenu(offset, item));
+  $('.js-search-results').html(results);
+}
 
-//-----------Display Data---------------------//
-//Prepare and call rendering functions
+function renderMenu(offset, result) {
+//Day card for each day of the week. Days are stored as data within elements.
+  dayIndex++
+  let html = `
+  <div class="col-4"> 
+    <span class="day-title">${days[dayIndex]}</span>
+    <div id="${days[dayIndex]}Card" class="recipe-card">
+      <h3 id="recipe-title" class="recipe-title">${result.title}</h3>
+      <button id="js-view-recipe-btn-${days[dayIndex]}" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">
+          <img id="card-image" class="card-image" src="${result.image}" alt="${result.title} image">
+        <br><div class="view-recipe-div">View Recipe</div>
+      </button>
+    </div>
+    <form class="ingredient-form">
+      <input id="search-by-ingredient${days[dayIndex]}" class="search-by-ingredient" type="search" name="search-by-ingredient" placeholer="Search By Ingredient">
+      <button title="Search For Recipes By Ingredient" class="search-by-ingredient-btn controls-button" data-day="${days[dayIndex]}">Search</button>
+    </form>
+    <div class="recipe-controls">
+      <button title="View Previous Recipe Option" class="js-previous-result-btn controls-button previous" data-day="${days[dayIndex]}" aria-live="assertive">
+      <i class="fas fa-chevron-circle-left"></i></button>
+      <button title="Remove Recipe For ${days[dayIndex]}" class="js-remove-day controls-button remove" data-day="${days[dayIndex]}">
+      <i class="far fa-times-circle"></i></button>
+      <button title="View Next Recipe Option" class="js-next-result-btn controls-button next" data-day="${days[dayIndex]}">
+      <i class="fas fa-chevron-circle-right"></i></button>
+    </div>
+    <!-- The Modal -->
+    <section role="region" id="recipeModal${days[dayIndex]}" class="modal" aria-live="assertive" hidden>
+    <!-- Modal content -->
+      <div class="modal-content">  
+      </div>
+    </section>
+  </div>
+
+  `
+  return html
+  
+}
+
+function displayRecipeForDay(data, day) {
+//Render new day card when user clicks next, previous or search
+  let dayCard = `${day}`
+  if (data.results.length > 0) {
+    const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
+    $(`#${day}Card`).html(results);
+  } else {
+    renderNoResultsCard(dayCard);
+  }
+}
+
+function renderDayCard(result, day) {  
+//Replace card image and recipe title for day with new results
+  let html = `
+      <h3 class="recipe-title">${result.title}</h3>
+      <button id="js-view-recipe-btn-${day}" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${day}">
+        <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
+        <div class="view-recipe-div">View Recipe</div>
+      </button>`
+ offset += 7 //increase the offset to provide variety in results
+ return html
+}
+
+function renderNotCooking(day) {  
+//If the user removes a day, display this HTML:
+  const notCookingImgArray = ['https://www.displayfakefoods.com/store/pc/catalog/2189-lg.jpg', 'https://www.tupperware4sale.com/wp-content/uploads/2016/11/food-storage.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/220px-Tom%27s_Restaurant%2C_NYC.jpg','https://i.warosu.org/data/ck/img/0090/05/1496450672947.png'];
+  let notCookingImg = notCookingImgArray[Math.floor(Math.random()*notCookingImgArray.length)] //For fun, get a random "Not Cooking" image
+  return `<h3 id="recipe-title${day}" class="recipe-title">Not Cooking</h3>
+    <img id="card-image${day}" class="card-image" src="${notCookingImg}" alt="Not cooking image">
+    <div class="view-recipe-div">View Recipe</div>`
+}
+
+function renderNoResultsCard(day) {  
+//If there are no search results or there is an error, display this HTML:
+  let html = `
+        <h3 id="recipe-title${day}" class="recipe-title">No Results Available</h3>
+      <img id="card-image${day}" class="card-image" src="https://d30y9cdsu7xlg0.cloudfront.net/png/98632-200.png" alt="No Results image">
+  `
+  $(`#${day}Card`).html(html)
+}
+
+//---------Modal Content-------------------------//
+
+function renderRecipeInfo(result) {
+//Render source, ingredients list and instructions to modal content
+  $('.modal-content').html(renderModalContent(result));
+  appendIngredients(result);
+  appendSourceName(result);
+  appendInstructions(result);
+}
 
 function formatMeasurements (amount, unit) {
 //Measurement amount data is retieved as a decimal which must be manipulated 
@@ -102,210 +207,100 @@ function formatMeasurements (amount, unit) {
   }
 }
 
-function displayRecipeForDay(data, day) {
-//Render new day card when user clicks next, previous or search
-  let dayCard = `${day}`
-  if (data.results.length > 0) {
-    const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
-    $(`#${day}Card`).html(results);
-  } else {
-    renderNoResultsCard(dayCard);
-  }
-}
-
-
-function displayRecipesForWeek(data) {
-//render menu
-  const results = data.results.map((item, index) => renderMenu(offset, item));
-  $('.js-search-results').html(results);
-}
-
-function displayPrintableMenuInfo(data) {
-  const results = data.map((item, index) => renderPrintableRecipes(item));
-  console.log(results)
-  $('.printable-recipes').html(results);
-}
-
-
-//---------Rendering Functions-------------------//
-//Return HTML to be applied to the DOM
-
-function renderModalContent(result, day) {
-//Modal content HTML
-  return `
-      <span class="close">&times;</span>
-        <h3 id="recipe-title${day}">${result.title}</h3>
-          <img id="card-image${day}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
-        <div id="recipe-ingredients" class="ingredient-container">
-        <span class="modal-section-title">Ingredients:</span><br>
-            <ul id="recipe-ingredients${day}" class="recipe-ingredients">
-            </ul>
-          </div>  
-          <div id="recipe-instructions" class="instructions-container"><span class="modal-section-title">Directions:</span>
-          <ol id="recipe-instructions${day}" class="recipe-instructions">
-          </ol>
-          <span class="credit"></span><br>
-          <button class="close-modal-btn controls-button">Close</button>
-        </div> 
-      `  
-}
-
-function renderRecipeInfo(result, day)  {
-//Render source, ingredients list and instructions to modal content
-  modalContent = renderModalContent(result,day)
-  $('.modal-content').html(modalContent)
-  //credit the source of the recipe
-  let sourceName = result.sourceName
-  if (sourceName == null) {
-    sourceName = 'Visit Source'
-  }
-
-  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}" target="_blank">Credit: ${sourceName}</a>`)
-  for (let i = 0; i < result.extendedIngredients.length; i++) {
-  //for each ingredient in array, render a list item with the amount, unit and the ingredient
-    let amount = result.extendedIngredients[i].amount
-    let unit = result.extendedIngredients[i].unit
-    let ingredient = result.extendedIngredients[i].name
-    $(`.recipe-ingredients`).append(`<li>${formatMeasurements(amount, unit)} ${unit} - ${ingredient}</li>`)
-  }
+function appendInstructions(result) {
   for (let x = 0; x < result.analyzedInstructions.length; x++) {
   //for each array of steps in the analyzed instruction array, render a list item for each step
     for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {
-     if ((result.analyzedInstructions[x].steps[y].step).length > 1) { 
-     //Don't append steps that are just a number or character because I have my own ordered list
-     $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
+      if ((result.analyzedInstructions[x].steps[y].step).length > 1) { 
+      //Don't append steps that are just a number or character because I have my own ordered list
+      $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
+      }
     }
   }
-  }
 }
 
-
-
-function renderMenu(offset, result) {
-//Day card for each day of the week. Each element is identified by its day.
-  dayIndex++
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  let html = `
-  <div class="col-4"> 
-    <span id="day-title${days[dayIndex]}" class="day-title">${days[dayIndex]}</span>
-    <div id="${days[dayIndex]}Card" class="recipe-card">
-      <h3 id="recipe-title${days[dayIndex]}" class="recipe-title">${result.title}</h3>
-      <button id="js-view-recipe-btn-${days[dayIndex]}" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">
-          <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
-        <br><div class="view-recipe-div">View Recipe</div>
-      </button>
-    </div>
-    <form class="ingredient-form">
-      <input id="search-by-ingredient${days[dayIndex]}" class="search-by-ingredient" type="search" name="search-by-ingredient" placeholer="Search By Ingredient">
-      <button title="Search For Recipes By Ingredient" id="search-by-ingredient-btn" class="search-by-ingredient-btn controls-button" data-day="${days[dayIndex]}">Search</button>
-    </form>
-    <div class="recipe-controls">
-      <button title="View Previous Recipe Option" id="js-previous-result-btn${days[dayIndex]}" class="js-previous-result-btn controls-button previous" data-day="${days[dayIndex]}" aria-live="assertive">
-      <i class="fas fa-chevron-circle-left"></i></button>
-      <button title="Remove Recipe For ${days[dayIndex]}" id="js-remove-day${days[dayIndex]}" class="js-remove-day controls-button remove" data-day="${days[dayIndex]}">
-      <i class="far fa-times-circle"></i></button>
-      <button title="View Next Recipe Option" id="js-next-result-btn${days[dayIndex]}" class="js-next-result-btn controls-button next" data-day="${days[dayIndex]}">
-      <i class="fas fa-chevron-circle-right"></i></button>
-    </div>
-    <!-- The Modal -->
-    <section role="region" id="recipeModal${days[dayIndex]}" class="modal" aria-live="assertive" hidden>
-    <!-- Modal content -->
-      <div class="modal-content">  
-      </div>
-    </section>
-  </div>
-
-  `
-  return html
-  
-}
-
-
-function renderDayCard(result, day) {  
-//Replace card image and recipe title for day with new results
-  let html = `
-      <h3 class="recipe-title">${result.title}</h3>
-      <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${day}">
-        <img id="card-image${day}" class="card-image" src="${result.image}" alt="${result.title}">
-        <div class="view-recipe-div">View Recipe</div>
-      </button>
-`
- offset += 7 //increase the offset to provide variety in results
-
-return html
-}
-
-function renderNotCooking(day) {  
-//If the user removes a day, display this HTML:
-  return `
-        <h3 id="recipe-title${day}" class="recipe-title">Not Cooking</h3>
-      <img id="card-image${day}" class="card-image" src="https://www.displayfakefoods.com/store/pc/catalog/2189-lg.jpg" alt="Not cooking image">
-`}
-
-function renderNoResultsCard(day) {  
-//If there are no search results or there is an error, display this HTML:
-  let html = `
-        <h3 id="recipe-title${day}" class="recipe-title">No Results Available</h3>
-      <img id="card-image${day}" class="card-image" src="https://d30y9cdsu7xlg0.cloudfront.net/png/98632-200.png" alt="No Results image">
-  `
-  $(`#${day}Card`).html(html)
-}
-
-
-function getIngredientsList(result) {
-  let ingredientsList = [];
+function appendIngredients(result) {
   for (let i = 0; i < result.extendedIngredients.length; i++) {
   //for each ingredient in array, render a list item with the amount, unit and the ingredient
-    let amount = result.extendedIngredients[i].amount
-    let unit = result.extendedIngredients[i].unit
-    let ingredient = result.extendedIngredients[i].name
-    ingredientsList.push(`<li>${formatMeasurements(amount, unit)} ${unit} - ${ingredient}</li>`)
+    let amount = result.extendedIngredients[i].amount;
+    let unit = result.extendedIngredients[i].unit;
+    let ingredient = result.extendedIngredients[i].name;
+    let formattedAmount = formatMeasurements(amount, unit)
+    $(`.recipe-ingredients`).append(`<li>${formattedAmount} ${unit} - ${ingredient}</li>`);
   }
-  return ingredientsList;
 }
 
-function getInstructionsList(result){
-  let instructionsList = [];
-    for (let x = 0; x < result.analyzedInstructions.length; x++) {
-    //for each array of steps in the analyzed instruction array, render a list item for each step
-    for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {
-     if ((result.analyzedInstructions[x].steps[y].step).length > 1) { 
-     //Don't append steps that are just a number or character because I have my own ordered list
-     instructionsList.push(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
-     }
-    }
+function appendSourceName(result) {
+//credit the source of the recipe
+  let sourceName = result.sourceName;
+  if (sourceName == null) {
+    sourceName = 'Visit Source'
   }
-  return instructionsList
+  $('.credit').append(`<a title="Go to Source" href="${result.sourceUrl}" target="_blank">Credit: ${sourceName}</a>`);
 }
 
-function renderPrintableRecipes(result) {
-  dayIndex++
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  day = days[dayIndex]
-  let ingredientsList = getIngredientsList(result)
-  let instructionsList = getInstructionsList(result)
+function renderModalContent(result) {
+//Modal content HTML
+  return `<span class="close">&times;</span>
+    <h3 id="recipe-title">${result.title}</h3>
+    <p>Ready in: ${result.readyInMinutes} minutes</p>
+    <img id="card-image" class="modal-card-image" src="${result.image}" alt="${result.title} image">
+    <div class="ingredient-container">
+      <span class="modal-section-title">Ingredients:</span><br>
+      <ul class="recipe-ingredients">
+      </ul>
+    </div>  
+    <div class="instructions-container">
+      <span class="modal-section-title">Directions:</span>
+      <ol class="recipe-instructions">
+      </ol>
+    </div>
+    <span class="credit"></span><br>
+    <button class="close-modal-btn controls-button">Close</button>`  
+}
 
-     return 
-     `<h2>${day}</h2>
-          <h3 id="recipe-title${day}">${result.title}</h3>
-          <img id="card-image${day}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
-          <div id="recipe-ingredients" class="ingredient-container">
-          <span class="modal-section-title">Ingredients:</span><br>
-            <ul id="recipe-ingredients${day}" class="recipe-ingredients">
-            ${ingredientsList}
-            </ul>
-          </div>  
-          <div id="recipe-instructions" class="instructions-container"><span class="modal-section-title">Directions:</span>
-          <ol id="recipe-instructions${day}" class="recipe-instructions">
-          ${instructionsList}
-          </ol>
-        </div> `
+//-----------Print Sheet---------------------------------//
 
+function displayPrintSheet(data) {
+  data.map((item, index) => renderPrintSheet(item));
+}
+
+function renderPrintSheet(result) {
+  let recipePrintSheet = printSheetHTML(result);
+  $('.print-sheet').append(recipePrintSheet);
+  appendIngredients(result);
+  appendSourceName(result);
+  appendInstructions(result);
+}
+
+function printSheetHTML(result) {
+  printDayIndex++
+  day = printDays[printDayIndex]
+  return `<section role="region" class="day-menu-print">
+    <div class="day-title-div">
+      <h2>${day}</h2>
+      <h3 id="recipe-title">${result.title}</h3>
+      <p>Ready in ${result.readyInMinutes} minutes</p>
+    </div>
+    <div class="recipe-div">
+      <div class="ingredient-container">
+      <span class="modal-section-title">Ingredients:</span><br>
+        <ul class="recipe-ingredients">
+        </ul>
+    </div>  
+    <div class="instructions-container">
+      <span class="modal-section-title">Directions:</span>
+        <ol class="recipe-instructions">
+        </ol>
+    </div> 
+    <p class="sourceName">Source: ${result.sourceUrl}<p>
+    </div>
+  </section>`
 }
 
 
 //------------User Actions-------------------------//
-//Each user's click and submit trigger the following functions
+//User clicks and submits trigger the following functions
 
 function watchBeginClick() {
 //Hide intro, display the select diet section
@@ -416,26 +411,46 @@ function watchStartOverClick() {
 function watchRefreshMenuClick() {
 //reload the week with new recipes for each day
   $('.js-menu-controls').on('click', '.js-refresh-menu', function(event) {
-    dayIndex -= 7 //Start back at Monday
+    dayIndex = -1 //Start back at Monday
     offset = Math.floor(Math.random() * 500); //Get a random offset to provide variety
     getRecipesForWeek();
   })
 }
 
+let clickCount = 0 //Global variable to keep track of "Print" button clicks
 function watchPrintClick() {
   $('.js-output').on('click', '.js-print-menu', function(event) {
-    dayIndex -= 7
-    recipeIds = [];
-    for (let i = 0; i < 6; i ++) {
-      recipeIds.push($(`#js-view-recipe-btn-${days[i]}`).data('recipe-id'))
+    if (clickCount === 1) {
+    //Either prepare print sheet or print the sheet depending on which click (0 or 1)
+      clickCount -- //Reset clicks
+      $('.js-print-menu').text("Prepare Printable Menu"); //Reset button text
+      window.print(); //Print sheet
+    } else {
+      preparePrintSheet();
+      $('.js-print-menu').text("Loading Recipes...").prop('disabled', 'true'); //disable print button until data loads
     }
-    getRecipeInfoForWeek(recipeIds)
   });
 }
 
+function preparePrintSheet() {
+  $('.print-sheet').html(''); //Clear the print sheet so that only one week can be appended in a menu
+  clickCount ++; //Count the click
+  dayIndex = -1; //Reset the week days
+  printDays = [];
+  printDayIndex = -1; //Reset the print week days
+  let recipeIds = []; 
+  for (let i = 0; i < 7; i ++) {
+  //create an array of the current recipe ID's
+    if ($(`#js-view-recipe-btn-${days[i]}`).data('recipe-id')) {
+      printDays.push(`${days[i]}`)
+      recipeIds.push($(`#js-view-recipe-btn-${days[i]}`).data('recipe-id')) 
+    }
+  }
+  getRecipeInfoForWeek(recipeIds); //Send the ID's and collect data from bulk info API
+}
 
-function handleMenuGenerator() {
-//Call each user action's function
+function handleMenuGenerator() { 
+//Call each action's function
   watchBeginClick();
   watchMenuSubmit();
   watchViewRecipeClick()

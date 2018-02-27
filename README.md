@@ -1,6 +1,3 @@
-<!-- # CrunchTime
-
-
 # CrunchTime
 
 Interactive, weekly recipe menu generator. Users can search for a recipe by ingredient, plan not to cook on certain days and search through popular recipes and print weekly menus.

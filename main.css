@@ -533,9 +533,12 @@ a {
   }
   
   .col-8 {
-    width: 30%;
+    width: 40%;
     margin-bottom: 100px;
-    margin-top: 30px;
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
   }
   
   .day-title {
@@ -580,7 +583,9 @@ a {
   }
 
   .title {
-    width: 900px;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .next, .previous, .remove {
@@ -614,18 +619,12 @@ a {
   header {
     height: 105px;
   }
+
+  .js-menu-controls  {
+    width: 100%;
+  }
 }
 
-@media only screen and (min-width: 1200px) {
-/*Print Style Sheet*/
-  .intro, .select-diet {
-    margin-left: 15%;
-  }
-  
-  .title {
-    width: 1100px;
-  }
-}
 
 @media print {
   header {

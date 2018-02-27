@@ -497,7 +497,7 @@ a {
 
 
 /* Non-mobile, grid */
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 800px) {
 
   .card-image {
     height: 130px;

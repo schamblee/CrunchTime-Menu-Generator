@@ -13,33 +13,30 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Crunch Time</title>
-
   <!-- Responsive viewport tag, tells small screens that it's responsive -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <!-- Normalize.css, a cross-browser reset file -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
-
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
   <link href="main.css" rel="stylesheet" type="text/css" />
-
   <script src="index.js"></script>
 </head>
 <body>
   <header role="banner">
-    <div class="logo-div col-5"><img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png"><h1>Crunch<br>Time</h1></div>
+    <div class="logo-div col-5">
+      <img class="logo" src="https://www.caitofoods.com/hs-fs/hubfs/OSD_Theme/veggies.png?t=1518201131871&width=326&name=veggies.png">
+      <h1>Crunch<br>Time</h1>
+    </div>
   </header>
-  <main role="main" class="row">
+  <main role="main">
   <section role="region" class="js-intro intro col-8" aria-live="assertive">
     <h1 class="logo-text">Crunch<br>Time</h1>
     <img src="http://2o7fsh4anuayrnrhe3us6v71-wpengine.netdna-ssl.com/wp-content/uploads/2018/01/Free-Seasonal-Cooking-Demo-Tasting-1.jpg" class="intro-image">
     <span class="app-description">Quickly assemble weekly dinner menus from popular recipes all under 600 calories per serving.</span>
     <button title="Begin" class="js-begin-btn controls-button">Begin</button>
   </section>
-
-
   <section role="region" class="js-select-diet select-diet col-8" aria-live="assertive" hidden>
     <form action="#">
       <label class="diet-filter-label" for="diet-filter">Select a Diet:</label>
@@ -51,75 +48,66 @@
         <option value ="Primal">Primal</option>
         <option value ="Paleo">Paleo</option>
       </select><br>
-
-  <fieldset>
-    <div class="legend"><legend>Select Any Intolerances</legend></div>
-     <div>
-      <input type="checkbox" id="dairy" name="intolerance" value="dairy">
-      <label for="dairy">Dairy</label>
-    </div>
-    <div>
-      <input type="checkbox" id="egg" name="intolerance" value="egg">
-      <label for="egg">Egg</label>
-    </div>
-    <div>
-      <input type="checkbox" id="gluten" name="intolerance" value="gluten">
-      <label for="gluten">Gluten</label>
-    </div>
-    <div>
-      <input type="checkbox" id="peanut" name="intolerance" value="peanut">
-      <label for="peanut">Peanut</label>
-    </div>
-    <div>
-      <input type="checkbox" id="sesame" name="intolerance" value="sesame">
-      <label for="sesame">Sesame</label>
-    </div>
-    <div>
-      <input type="checkbox" id="shellfish" name="intolerance" value="shellfish">
-      <label for="shellfish">Shellfish</label>
-    </div>
-    <div>
-      <input type="checkbox" id="soy" name="intolerance" value="soy">
-      <label for="soy">Soy</label>
-    </div>
-    <div>
-      <input type="checkbox" id="soy" name="intolerance" value="sulfite">
-      <label for="sulfite">Sulfite</label>
-    </div>
-    <div>
-      <input type="checkbox" id="treeNut" name="intolerance" value="tree+nut">
-      <label for="treeNut">Tree Nut</label>
-    </div>
-    <div>
-      <input type="checkbox" id="wheat" name="intolerance" value="wheat">
-      <label for="wheat">Wheat</label>
-    </div>
-  </fieldset>
-
+      <fieldset>
+        <div class="legend"><legend>Select Any Intolerances</legend></div>
+        <div>
+          <input type="checkbox" id="dairy" name="intolerance" value="dairy">
+          <label for="dairy">Dairy</label>
+        </div>
+        <div>
+          <input type="checkbox" id="egg" name="intolerance" value="egg">
+          <label for="egg">Egg</label>
+        </div>
+        <div>
+          <input type="checkbox" id="gluten" name="intolerance" value="gluten">
+          <label for="gluten">Gluten</label>
+        </div>
+        <div>
+          <input type="checkbox" id="peanut" name="intolerance" value="peanut">
+          <label for="peanut">Peanut</label>
+        </div>
+        <div>
+          <input type="checkbox" id="sesame" name="intolerance" value="sesame">
+          <label for="sesame">Sesame</label>
+        </div>
+        <div>
+          <input type="checkbox" id="shellfish" name="intolerance" value="shellfish">
+          <label for="shellfish">Shellfish</label>
+        </div>
+        <div>
+          <input type="checkbox" id="soy" name="intolerance" value="soy">
+          <label for="soy">Soy</label>
+        </div>
+        <div>
+          <input type="checkbox" id="soy" name="intolerance" value="sulfite">
+          <label for="sulfite">Sulfite</label>
+        </div>
+        <div>
+          <input type="checkbox" id="treeNut" name="intolerance" value="tree+nut">
+          <label for="treeNut">Tree Nut</label>
+        </div>
+        <div>
+          <input type="checkbox" id="wheat" name="intolerance" value="wheat">
+          <label for="wheat">Wheat</label>
+        </div>
+      </fieldset>
       <button type="submit" class='js-create-menu controls-button'>Create a Menu</button>
     </form>
   </section>
-
   <section role="region" class="js-output" aria-live="assertive" hidden>
     <h2 class="title">Your Menu</h2>
-  <div class="send-recipes">  
-    <form class="email">
-      <label class="email-label" for="email-address">Send Recipes:</label>
-      <input type="email" class="email-address" placeholder="Enter Email Address">
-      <button title="Send Recipes" type="submit" class="send controls-button">Send</button>
-    </form>
-  </div>
-  <div class="js-search-results menu">
-
-  </div>
-  <div class="js-menu-controls" aria-live="assertive" hidden>
-    <button title="Refresh Recipes" class="js-refresh-menu controls-button">New Menu</button>
-    <button title="Start Over" class="js-start-over controls-button">Start Over</button>
-  </div>
+    <div class="js-search-results menu">
+      <!--menu results-->
+    </div>
+    <div class="js-menu-controls" aria-live="assertive" hidden>
+      <button title="Print Recipes" class="js-print-menu controls-button">Prepare Printable Menu</button>
+      <button title="Refresh Recipes" class="js-refresh-menu controls-button">New Menu</button>
+      <button title="Start Over" class="js-start-over controls-button">Start Over</button>
+    </div>
   </section>
-
-
   </main>
-  
+  <section role="region" class="print-sheet">
+    <!--print sheet results-->
+  </section>
 </body>
 </html>

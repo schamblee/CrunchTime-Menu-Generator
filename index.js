@@ -1,12 +1,27 @@
 
-//Global variables are set by the user to indicate their diet and allergy information
+//-----------Global Variables------------------//
+//Manipulated by functions throughout app to provide desired content
+
 let allergies = [];
 let dietFilter = '';
+//Set by the user to indicate their diet and allergy information
 
 let dayIndex = -1;
+//Keep track of what day of the week should be rendered in the days array in the renderMenu() and watchRefreshMenuClick() functions
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 let offset = Math.floor(Math.random() * 500);
+//Determine which recipes are diplayed by the result index of the first recipe. Initial offset is random.
+
+
+//-----------API Data-------------------------//
+
+function setHeader(xhr) {
+//Set headers with my API key
+        xhr.setRequestHeader('X-Mashape-Key', 'DwXMjCgQGQmshC8MyFU6bVgOQS1Lp1tlRvZjsn3JvI9Q2hZZBC');
+      }
 
 function getRecipesForWeek() { 
+//Get general recipe data for week's menu
   $.ajax({
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?diet=${dietFilter}&addRecipeInformation=false&number=7&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
@@ -18,31 +33,38 @@ function getRecipesForWeek() {
   };
 
 
-function getRecipeForDay(day, query, offset) { 
+function getRecipeForDay(day, query) { 
   $.ajax({
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?query=${query}&diet=${dietFilter}&addRecipeInformation=false&number=1&offset=${offset}&instructionsRequired=true&intolerances=${allergies}&limitLicense=false&maxCalories=600&type=main+course`,
       type: 'GET',
       dataType: 'json',
       success: function (result) { displayRecipeForDay(result, day) },
-      error: function() { renderNoResultsCard(day); },
+      error: function() { renderNoResultsCard(day) },
       beforeSend: setHeader
       });
   };
 
 
-
-function setHeader(xhr) {
-        xhr.setRequestHeader('X-Mashape-Key', 'DwXMjCgQGQmshC8MyFU6bVgOQS1Lp1tlRvZjsn3JvI9Q2hZZBC');
-      }
-
-
 function getRecipeInfo(id, day) { 
+//Get instructions, ingredient and source info for specific recipes found by previous searches
   $.ajax({
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/information`,
       type: 'GET',
       dataType: 'json',
       success: function (result) { console.log(result); renderRecipeInfo(result, day) },
-      error: function() { alert('Sorry, there was an error. Please try again.'); },
+      error: function() { alert('Sorry, there was an error. Please try again.') },
+      beforeSend: setHeader
+      });
+}
+
+function getRecipeInfoForWeek(ids) {
+  https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/informationBulk
+    $.ajax({
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/informationBulk?ids=${ids}`,
+      type: 'GET',
+      dataType: 'json',
+      success: function (result) { console.log(result); displayPrintableMenuInfo(result) },
+      error: function() { alert('Sorry, there was an error. Please try again.') },
       beforeSend: setHeader
       });
 }
@@ -50,18 +72,12 @@ function getRecipeInfo(id, day) {
 
 
 
-function displayRecipeForDay(data, day) {
-  let dayCard = `${day}`
-  if (data.results.length > 0) {
-    const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
-    $(`#${day}Card`).html(results);
-  } else {
-    renderNoResultsCard(dayCard);
-  }
-}
-
+//-----------Display Data---------------------//
+//Prepare and call rendering functions
 
 function formatMeasurements (amount, unit) {
+//Measurement amount data is retieved as a decimal which must be manipulated 
+//to look like either a fraction of rounded decimal, depending on the unit
   if (amount % 1 === 0) {
   //if the amount is a whole number, return the amount normally
       return amount
@@ -86,28 +102,59 @@ function formatMeasurements (amount, unit) {
   }
 }
 
+function displayRecipeForDay(data, day) {
+//Render new day card when user clicks next, previous or search
+  let dayCard = `${day}`
+  if (data.results.length > 0) {
+    const results = data.results.map((item, day, index) => renderDayCard(item, dayCard));
+    $(`#${day}Card`).html(results);
+  } else {
+    renderNoResultsCard(dayCard);
+  }
+}
+
+
+function displayRecipesForWeek(data) {
+//render menu
+  const results = data.results.map((item, index) => renderMenu(offset, item));
+  $('.js-search-results').html(results);
+}
+
+function displayPrintableMenuInfo(data) {
+  const results = data.map((item, index) => renderPrintableRecipes(item));
+  console.log(results)
+  $('.printable-recipes').html(results);
+}
+
+
+//---------Rendering Functions-------------------//
+//Return HTML to be applied to the DOM
 
 function renderModalContent(result, day) {
+//Modal content HTML
   return `
       <span class="close">&times;</span>
         <h3 id="recipe-title${day}">${result.title}</h3>
           <img id="card-image${day}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
-          <div id="recipe-ingredients${day}" class="ingredient-container">
-            <ul class="recipe-ingredients">
+        <div id="recipe-ingredients" class="ingredient-container">
+        <span class="modal-section-title">Ingredients:</span><br>
+            <ul id="recipe-ingredients${day}" class="recipe-ingredients">
             </ul>
           </div>  
-          <div id="recipe-instructions${day}" class="instructions-container">
-          <ol class="recipe-instructions">
+          <div id="recipe-instructions" class="instructions-container"><span class="modal-section-title">Directions:</span>
+          <ol id="recipe-instructions${day}" class="recipe-instructions">
           </ol>
-          <span class="credit"></span>
+          <span class="credit"></span><br>
+          <button class="close-modal-btn controls-button">Close</button>
         </div> 
       `  
 }
 
 function renderRecipeInfo(result, day)  {
-  //credit the source of the recipe
+//Render source, ingredients list and instructions to modal content
   modalContent = renderModalContent(result,day)
   $('.modal-content').html(modalContent)
+  //credit the source of the recipe
   let sourceName = result.sourceName
   if (sourceName == null) {
     sourceName = 'Visit Source'
@@ -124,7 +171,8 @@ function renderRecipeInfo(result, day)  {
   for (let x = 0; x < result.analyzedInstructions.length; x++) {
   //for each array of steps in the analyzed instruction array, render a list item for each step
     for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {
-     if ((result.analyzedInstructions[x].steps[y].step).length > 0) {
+     if ((result.analyzedInstructions[x].steps[y].step).length > 1) { 
+     //Don't append steps that are just a number or character because I have my own ordered list
      $(`.recipe-instructions`).append(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
     }
   }
@@ -134,15 +182,16 @@ function renderRecipeInfo(result, day)  {
 
 
 function renderMenu(offset, result) {
+//Day card for each day of the week. Each element is identified by its day.
   dayIndex++
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   let html = `
   <div class="col-4"> 
-    <span id="day-title${days[dayIndex]}" class = "day-title">${days[dayIndex]}</span>
+    <span id="day-title${days[dayIndex]}" class="day-title">${days[dayIndex]}</span>
     <div id="${days[dayIndex]}Card" class="recipe-card">
       <h3 id="recipe-title${days[dayIndex]}" class="recipe-title">${result.title}</h3>
-      <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">
-        <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
+      <button id="js-view-recipe-btn-${days[dayIndex]}" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${days[dayIndex]}">
+          <img id="card-image${days[dayIndex]}" class="card-image" src="${result.image}" alt="${result.title} image">
         <br><div class="view-recipe-div">View Recipe</div>
       </button>
     </div>
@@ -166,15 +215,14 @@ function renderMenu(offset, result) {
     </section>
   </div>
 
-`
-
-console.log(`the id for ${days[dayIndex]} is ${result.id}`)
-
-return html
+  `
+  return html
+  
 }
 
 
 function renderDayCard(result, day) {  
+//Replace card image and recipe title for day with new results
   let html = `
       <h3 class="recipe-title">${result.title}</h3>
       <button id="js-view-recipe-btn" class="js-view-recipe-btn controls-button" data-recipe-id="${result.id}" data-day="${day}">
@@ -182,39 +230,85 @@ function renderDayCard(result, day) {
         <div class="view-recipe-div">View Recipe</div>
       </button>
 `
- offset += 7
+ offset += 7 //increase the offset to provide variety in results
 
 return html
-
-
 }
 
 function renderNotCooking(day) {  
+//If the user removes a day, display this HTML:
   return `
         <h3 id="recipe-title${day}" class="recipe-title">Not Cooking</h3>
       <img id="card-image${day}" class="card-image" src="https://www.displayfakefoods.com/store/pc/catalog/2189-lg.jpg" alt="Not cooking image">
-
 `}
 
 function renderNoResultsCard(day) {  
+//If there are no search results or there is an error, display this HTML:
   let html = `
         <h3 id="recipe-title${day}" class="recipe-title">No Results Available</h3>
       <img id="card-image${day}" class="card-image" src="https://d30y9cdsu7xlg0.cloudfront.net/png/98632-200.png" alt="No Results image">
-
   `
   $(`#${day}Card`).html(html)
 }
 
 
+function getIngredientsList(result) {
+  let ingredientsList = [];
+  for (let i = 0; i < result.extendedIngredients.length; i++) {
+  //for each ingredient in array, render a list item with the amount, unit and the ingredient
+    let amount = result.extendedIngredients[i].amount
+    let unit = result.extendedIngredients[i].unit
+    let ingredient = result.extendedIngredients[i].name
+    ingredientsList.push(`<li>${formatMeasurements(amount, unit)} ${unit} - ${ingredient}</li>`)
+  }
+  return ingredientsList;
+}
 
-function displayRecipesForWeek(data, offset) {
-  const results = data.results.map((item, offset, index) => renderMenu(offset, item));
-  $('.js-search-results').html(results);
+function getInstructionsList(result){
+  let instructionsList = [];
+    for (let x = 0; x < result.analyzedInstructions.length; x++) {
+    //for each array of steps in the analyzed instruction array, render a list item for each step
+    for (let y = 0; y < result.analyzedInstructions[x].steps.length; y++) {
+     if ((result.analyzedInstructions[x].steps[y].step).length > 1) { 
+     //Don't append steps that are just a number or character because I have my own ordered list
+     instructionsList.push(`<li>${result.analyzedInstructions[x].steps[y].step}</li>`)
+     }
+    }
+  }
+  return instructionsList
+}
+
+function renderPrintableRecipes(result) {
+  dayIndex++
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  day = days[dayIndex]
+  let ingredientsList = getIngredientsList(result)
+  let instructionsList = getInstructionsList(result)
+
+     return 
+     `<h2>${day}</h2>
+          <h3 id="recipe-title${day}">${result.title}</h3>
+          <img id="card-image${day}" class="modal-card-image" src="${result.image}" alt="${result.title} image">
+          <div id="recipe-ingredients" class="ingredient-container">
+          <span class="modal-section-title">Ingredients:</span><br>
+            <ul id="recipe-ingredients${day}" class="recipe-ingredients">
+            ${ingredientsList}
+            </ul>
+          </div>  
+          <div id="recipe-instructions" class="instructions-container"><span class="modal-section-title">Directions:</span>
+          <ol id="recipe-instructions${day}" class="recipe-instructions">
+          ${instructionsList}
+          </ol>
+        </div> `
+
 }
 
 
+//------------User Actions-------------------------//
+//Each user's click and submit trigger the following functions
 
 function watchBeginClick() {
+//Hide intro, display the select diet section
   $('.js-begin-btn').click(event => {
     event.preventDefault();
     $('.js-select-diet').prop('hidden', false);
@@ -222,44 +316,8 @@ function watchBeginClick() {
     });
 }
 
-
-
-function watchViewRecipeClick() {
-  openRecipeModal();
-}
-
-function openRecipeModal() {
-  $('.js-output').on('click', '.js-view-recipe-btn', function(event) {
-    event.preventDefault();
-    let day = $(this).data('day')
-    $(`#recipeModal${day}`).prop('hidden', false);
-    let recipeId = $(this).data('recipe-id');
-    getRecipeInfo(recipeId, day);
-      closeRecipeModal(day);
-    
-  });
-}
-
-function closeRecipeModal(day) {
-  $('.js-output').on('click', '.close', function(event) {
-    event.preventDefault();
-    console.log(`Click! ${day}`)
-    $(`#recipeModal${day}`).prop('hidden', true);
-
-  });
-
-
-
-$(document).click(function(event) {
-  if (!$(event.target).closest('.modal-content, .js-view-recipe-btn' ).length) {
-    $("body").find(".modal").prop('hidden', true);
-  }
-});
-}
-
-
-
 function watchMenuSubmit() {
+//Update global variables (diet and allergies) and get the recipes for the week
   $('.js-select-diet').submit(event => {
     event.preventDefault();
     $('.js-output').prop('hidden', false);
@@ -274,77 +332,110 @@ function watchMenuSubmit() {
   });
 }
 
+function watchViewRecipeClick() {
+//Open modal by clicking "View Recipe". Use the recipe id to get the info for modal content.
+  $('.js-output').on('click', '.js-view-recipe-btn', function(event) {
+    event.preventDefault();
+    let day = $(this).data('day')
+    $(`#recipeModal${day}`).prop('hidden', false);
+    let recipeId = $(this).data('recipe-id');
+    getRecipeInfo(recipeId, day);
+    closeRecipeModal(day);
+  });
+}
+
+function closeRecipeModal(day) {
+//Close modal by clicking "X", the close button at the bottom, or clicking outside of the modal
+  $('.js-output').on('click', '.close-modal-btn', function(event) {
+    event.preventDefault();
+    $(`#recipeModal${day}`).prop('hidden', true);
+  });
+
+  $('.js-output').on('click', '.close', function(event) {
+    event.preventDefault();
+    $(`#recipeModal${day}`).prop('hidden', true);
+  });
+
+  $(document).click(function(event) {
+    if (!$(event.target).closest('.modal-content, .js-view-recipe-btn' ).length) {
+      $("body").find(".modal").prop('hidden', true);
+    }
+  });
+}
+
 function watchSearchByIngredientClick() {
+//Search for an ingredient to update the day card's recipe
   $('.js-output').on('click', '.search-by-ingredient-btn', function(event) {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  offset = Math.floor(Math.random() * 200)
-  getRecipeForDay(day, ingredient, offset);
-  console.log(`${day} ${ingredient} option pressed`)
+  offset = Math.floor(Math.random() * 100) //Randomized result to provide variety
+  getRecipeForDay(day, ingredient);
   })
 }
 
 function watchNextResultClick() {
+//Get the next recipe. If user has a search term submitted, apply the ingredient in the search
   $('.js-output').on('click', '.js-next-result-btn', function(event) {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  getRecipeForDay(day, ingredient, offset);
-  console.log(`${day} ${ingredient} option pressed`)
+  getRecipeForDay(day, ingredient);
   })
 }
 
 function watchPreviousResultClick() {
+//Click on previous button to see last result, or the result further back in recipe index
   $('.js-output').on('click', '.js-previous-result-btn', function(event) {
   event.preventDefault();
   let day = $(this).data('day');
   let ingredient = $(`#search-by-ingredient${day}`).val();
-  offset -= 14;
-  getRecipeForDay(day, ingredient, offset);
-  console.log(`${day} ${ingredient} option pressed`)
+  offset -= 14; //Subtract 14 from the offset to provide variety in results
+  getRecipeForDay(day, ingredient);
   })
 }
 
 function watchRemoveClick() {
-   $('.js-output').on('click', '.js-remove-day', function(event) {
-  event.preventDefault();
-  let day = $(this).data('day');
-  let ingredient = ''
-  $(`#${day}Card`).html(renderNotCooking(day));
-  console.log(`${day} ${ingredient} option pressed`)
+//Display the "Not Cooking" card when remove button is clicked
+  $('.js-output').on('click', '.js-remove-day', function(event) {
+    event.preventDefault();
+    let day = $(this).data('day');
+    let ingredient = ''
+    $(`#${day}Card`).html(renderNotCooking(day));
   })
 }
 
-function watchStartOver() {
+function watchStartOverClick() {
+//Reload the app to start over
   $('.js-menu-controls').on('click', '.js-start-over', function(event) {
     event.preventDefault();
-    console.log("refresh clicked")
     location.reload();
   })
 }
 
 function watchRefreshMenuClick() {
+//reload the week with new recipes for each day
   $('.js-menu-controls').on('click', '.js-refresh-menu', function(event) {
-    dayIndex -= 7
-    offset = Math.floor(Math.random() * 500);
+    dayIndex -= 7 //Start back at Monday
+    offset = Math.floor(Math.random() * 500); //Get a random offset to provide variety
     getRecipesForWeek();
-})
+  })
 }
 
-function watchEmailSubmit() {
-  $('.email').submit(function(event) {
-  event.preventDefault();
-  let emailAddress = $('.email-address').val();
-  let subject = "CrunchTime: My Menu"
-  let mondayRecipeLink = ""
-  let body = `Monday: ${mondayRecipeLink}`
-  window.open(`mailto:${emailAddress}?subject=${subject}&body=${body}`);
-});
+function watchPrintClick() {
+  $('.js-output').on('click', '.js-print-menu', function(event) {
+    dayIndex -= 7
+    recipeIds = [];
+    for (let i = 0; i < 6; i ++) {
+      recipeIds.push($(`#js-view-recipe-btn-${days[i]}`).data('recipe-id'))
+    }
+    getRecipeInfoForWeek(recipeIds)
+  });
 }
 
 
 function handleMenuGenerator() {
+//Call each user action's function
   watchBeginClick();
   watchMenuSubmit();
   watchViewRecipeClick()
@@ -353,8 +444,8 @@ function handleMenuGenerator() {
   watchPreviousResultClick();
   watchRemoveClick();
   watchRefreshMenuClick();
-  watchStartOver();
-  watchEmailSubmit();
+  watchStartOverClick();
+  watchPrintClick();
 }
 
 $(handleMenuGenerator)

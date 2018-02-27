@@ -31,7 +31,7 @@ Menu:
 ## Features
 
 * Generate a menu of popular recipes based on your diet preferences and allergies
-* Explore a variety of recipes by clicking "next" and "previous" below each day's recipe
+* Explore a variety of recipes by searching by ingredient or clicking "next" and "previous" below each day's recipe
 * Remove a day if planning not to cook
 * Get entirely new menu by clicking "New Menu"
 * Print menu of easy-to-read, black-and-white recipes

@@ -9,12 +9,13 @@ I wanted to create a simple tool for making a weekly menu of recipes. Rather tha
 ## Screenshots
 
 Landing Page:
+![Landing Page](http://i65.tinypic.com/33yhlxh.jpg)
 
-Diet Filters:
+Diet Selection:
+![Diet Selection](http://i64.tinypic.com/dyvjau.jpg)
 
 Menu:
-
-![Menu](https://drive.google.com/open?id=1JL7U3ibzlKXZ8mcvR7kLE12Kc9HBG1to)
+![Menu](http://i67.tinypic.com/2wpm7bs.jpg)
 
 ## Environment Setup
 

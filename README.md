@@ -4,22 +4,29 @@ Interactive, weekly recipe menu generator. Users can search for a recipe by ingr
 
 ## Motivation
 
-I wanted to create a simple tool for making a weekly menu of recipes. Rather than scrolling through hundreds of recipe options, CrunchTime pulls seven popular recipes based on the user's diet. The user can either print out the inital menu, or alter it with the "next", "previous" and "search" features. The "print" feature allows the user to print out easy-to-read directions for their menu.
+I wanted to create a simple tool for making a weekly menu of recipes. Rather than scrolling through hundreds of recipe options, CrunchTime pulls seven popular recipes based on the user's diet. The user can either print out the inital menu, or alter it with the "next", "previous" and "search" features. The "print" feature allows the user to print out easy-to-read directions for their final menu selection. The app uses three Spoonacular API's to collect recipe id's and search for directions and ingredients data.
 
 ## Screenshots
 
 Landing Page:
+
 ![Landing Page](http://i65.tinypic.com/33yhlxh.jpg)
 
 Diet Selection:
+
 ![Diet Selection](http://i64.tinypic.com/dyvjau.jpg)
 
 Menu:
+
 ![Menu](http://i67.tinypic.com/2wpm7bs.jpg)
 
-## Environment Setup
-
 ## Built With
+
+* HTML
+* CSS
+* JavaScript
+* jQuery
+* [Spoonacular API](https://market.mashape.com/spoonacular/recipe-food-nutrition/)
 
 ## Features
 

@@ -321,7 +321,7 @@ function watchMenuSubmit() {
     $('.js-output').prop('hidden', false);
     $('.js-menu-controls').prop('hidden', false);
     $('.js-select-diet').prop('hidden', true);
-    $('input:checkbox[name=intolerance]:checked').map(function(); 
+    $('input:checkbox[name=intolerance]:checked').map(function() 
       {
         allergies.push($(this).val());
       });

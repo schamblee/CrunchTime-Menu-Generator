@@ -158,7 +158,7 @@ function renderNotCooking(day) {
   let notCookingImg = notCookingImgArray[Math.floor(Math.random()*notCookingImgArray.length)] //For fun, get a random "Not Cooking" image
   return `<h3 id="recipe-title${day}" class="recipe-title">Not Cooking</h3>
     <img id="card-image${day}" class="card-image" src="${notCookingImg}" alt="Not cooking image">
-    <div class="view-recipe-div">View Recipe</div>`
+    <div class="view-recipe-div"></div>`
 }
 
 function renderNoResultsCard(day) {  

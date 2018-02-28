@@ -1,4 +1,6 @@
 
+'use strict'
+
 //-----------Global Variables------------------//
 //Manipulated by functions throughout app to provide desired content
 

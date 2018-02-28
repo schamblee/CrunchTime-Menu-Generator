@@ -649,6 +649,7 @@ a {
   
   body {
     margin-top: 30px;
+    background: none;
     font: 11pt Georgia, "Times New Roman", Times, serif;
     line-height: 1.2;
     color: #000;

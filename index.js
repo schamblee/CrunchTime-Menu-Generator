@@ -154,7 +154,7 @@ function renderDayCard(result, day) {
 
 function renderNotCooking(day) {  
 //If the user removes a day, display this HTML:
-  const notCookingImgArray = ['https://www.displayfakefoods.com/store/pc/catalog/2189-lg.jpg', 'https://www.tupperware4sale.com/wp-content/uploads/2016/11/food-storage.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/220px-Tom%27s_Restaurant%2C_NYC.jpg','https://i.warosu.org/data/ck/img/0090/05/1496450672947.png'];
+  const notCookingImgArray = ['https://www.displayfakefoods.com/store/pc/catalog/2189-lg.jpg', 'https://www.tupperware4sale.com/wp-content/uploads/2016/11/food-storage.jpg', 'https://search.chow.com/thumbnail/800/0/www.chowstatic.com/blog-media/2017/12/fancy-restaurant-chowhound-670x447.jpg','https://i.warosu.org/data/ck/img/0090/05/1496450672947.png'];
   let notCookingImg = notCookingImgArray[Math.floor(Math.random()*notCookingImgArray.length)] //For fun, get a random "Not Cooking" image
   return `<h3 id="recipe-title${day}" class="recipe-title">Not Cooking</h3>
     <img id="card-image${day}" class="card-image" src="${notCookingImg}" alt="Not cooking image">

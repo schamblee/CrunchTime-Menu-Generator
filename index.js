@@ -278,7 +278,7 @@ function renderPrintSheet(result) {
 
 function printSheetHTML(result) {
   printDayIndex++
-  day = printDays[printDayIndex]
+  let day = printDays[printDayIndex]
   return `<section role="region" class="day-menu-print">
     <div class="day-title-div">
       <h2>${day}</h2>

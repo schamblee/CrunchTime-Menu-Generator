@@ -496,6 +496,12 @@ a {
 }
 
 
+@media only screen and (min-width: 800px) {
+  .js-menu-controls {
+    margin: auto;
+    width: 100%;
+  }
+}
 
 /* Non-mobile, grid */
 @media only screen and (min-width: 1000px) {

@@ -9,9 +9,9 @@ let dietFilter = '';
 //Set by the user to indicate their diet and allergy information
 
 let dayIndex = -1;
-let printDayIndex = -1
+let printDayIndex = -1;
 //Keep track of what day of the week should be rendered in the days array in the renderMenu() and watchRefreshMenuClick() functions
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 let printDays = [];
 let offset = Math.floor(Math.random() * 500);
 //Determine which recipes are diplayed by the result index of the first recipe. Initial offset is random.
@@ -75,13 +75,13 @@ function getRecipeInfoForWeek(ids) {
 
 function handlePrintSheetSuccess(result) {
   displayPrintSheet(result); 
-  $('.js-print-menu').text('Print Menu').removeAttr('disabled')
+  $('.js-print-menu').text('Print Menu').removeAttr('disabled');
 }
 
 function handlePrintSheetError() {
   clickCount --
-  alert('Sorry, there was an error. Please try again.')
-  $('.js-print-menu').text('Pepare Printable Menu').removeAttr('disabled')
+  alert('Sorry, there was an error. Please try again.');
+  $('.js-print-menu').text('Pepare Printable Menu').removeAttr('disabled');
 }
 
 //---------Menu Cards----------------------------//
@@ -278,7 +278,7 @@ function renderPrintSheet(result) {
 
 function printSheetHTML(result) {
   printDayIndex++
-  let day = printDays[printDayIndex]
+  let day = printDays[printDayIndex];
   return `<section role="region" class="day-menu-print">
     <div class="day-title-div">
       <h2>${day}</h2>
@@ -321,9 +321,9 @@ function watchMenuSubmit() {
     $('.js-output').prop('hidden', false);
     $('.js-menu-controls').prop('hidden', false);
     $('.js-select-diet').prop('hidden', true);
-    $('input:checkbox[name=intolerance]:checked').map(function() 
+    $('input:checkbox[name=intolerance]:checked').map(function(); 
       {
-        allergies.push($(this).val())
+        allergies.push($(this).val());
       });
     dietFilter = $('#diet-filter').val();
     getRecipesForWeek();
@@ -334,7 +334,7 @@ function watchViewRecipeClick() {
 //Open modal by clicking "View Recipe". Use the recipe id to get the info for modal content.
   $('.js-output').on('click', '.js-view-recipe-btn', function(event) {
     event.preventDefault();
-    let day = $(this).data('day')
+    let day = $(this).data('day');
     $(`#recipeModal${day}`).prop('hidden', false);
     let recipeId = $(this).data('recipe-id');
     getRecipeInfo(recipeId, day);
@@ -398,7 +398,7 @@ function watchRemoveClick() {
   $('.js-output').on('click', '.js-remove-day', function(event) {
     event.preventDefault();
     let day = $(this).data('day');
-    let ingredient = ''
+    let ingredient = '';
     $(`#${day}Card`).html(renderNotCooking(day));
   })
 }
@@ -414,7 +414,7 @@ function watchStartOverClick() {
 function watchRefreshMenuClick() {
 //reload the week with new recipes for each day
   $('.js-menu-controls').on('click', '.js-refresh-menu', function(event) {
-    dayIndex = -1 //Start back at Monday
+    dayIndex = -1; //Start back at Monday
     offset = Math.floor(Math.random() * 500); //Get a random offset to provide variety
     getRecipesForWeek();
   })
@@ -446,7 +446,7 @@ function preparePrintSheet() {
   //create an array of the current recipe ID's
     if ($(`#js-view-recipe-btn-${days[i]}`).data('recipe-id')) {
       printDays.push(`${days[i]}`)
-      recipeIds.push($(`#js-view-recipe-btn-${days[i]}`).data('recipe-id')) 
+      recipeIds.push($(`#js-view-recipe-btn-${days[i]}`).data('recipe-id')) ;
     }
   }
   getRecipeInfoForWeek(recipeIds); //Send the ID's and collect data from bulk info API
@@ -456,7 +456,7 @@ function handleMenuGenerator() {
 //Call each action's function
   watchBeginClick();
   watchMenuSubmit();
-  watchViewRecipeClick()
+  watchViewRecipeClick();
   watchSearchByIngredientClick();
   watchNextResultClick();
   watchPreviousResultClick();
@@ -466,4 +466,4 @@ function handleMenuGenerator() {
   watchPrintClick();
 }
 
-$(handleMenuGenerator)
+$(handleMenuGenerator);

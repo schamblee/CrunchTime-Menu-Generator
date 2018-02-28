@@ -463,6 +463,7 @@ a {
 
   .modal-card-image {
     width: 46%;
+    max-width: 400px;
     margin-bottom: -21px;
   }
 
@@ -619,6 +620,11 @@ a {
   header {
     height: 105px;
   }
+  
+  .modal-content {
+    width: 80%; 
+  }
+
 }
 
 @media only screen and (min-width: 1320px) {

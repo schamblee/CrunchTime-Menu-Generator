@@ -166,6 +166,7 @@ function renderNoResultsCard(day) {
   let html = `
         <h3 id="recipe-title${day}" class="recipe-title">No Results Available</h3>
       <img id="card-image${day}" class="card-image" src="https://d30y9cdsu7xlg0.cloudfront.net/png/98632-200.png" alt="No Results image">
+      <div class="view-recipe-div"> No results </div>
   `
   $(`#${day}Card`).html(html)
 }

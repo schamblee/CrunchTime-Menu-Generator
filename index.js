@@ -62,26 +62,26 @@ function getRecipeInfo(id, day) {
 }
 
 function getRecipeInfoForWeek(ids) {
-  https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/informationBulk
-    $.ajax({
+ // https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/informationBulk
+    return $.ajax({
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/informationBulk?ids=${ids}`,
       type: 'GET',
       dataType: 'json',
-      success: function (result) { handlePrintSheetSuccess(result) },
       error: function() { handlePrintSheetError() },
       beforeSend: setHeader
-      });
+      })
+      .then(function(result) { handlePrintSheetSuccess(result) })
 }
 
 function handlePrintSheetSuccess(result) {
   displayPrintSheet(result); 
   $('.js-print-menu').text('Print Menu').removeAttr('disabled');
+  window.print()
 }
 
 function handlePrintSheetError() {
-  clickCount --
   alert('Sorry, there was an error. Please try again.');
-  $('.js-print-menu').text('Pepare Printable Menu').removeAttr('disabled');
+  $('.js-print-menu').text('Print Menu').removeAttr('disabled');
 }
 
 //---------Menu Cards----------------------------//
@@ -420,24 +420,15 @@ function watchRefreshMenuClick() {
   })
 }
 
-let clickCount = 0 //Global variable to keep track of "Print" button clicks
 function watchPrintClick() {
   $('.js-output').on('click', '.js-print-menu', function(event) {
-    if (clickCount === 1) {
-    //Either prepare print sheet or print the sheet depending on which click (0 or 1)
-      clickCount -- //Reset clicks
-      $('.js-print-menu').text("Prepare Printable Menu"); //Reset button text
-      window.print(); //Print sheet
-    } else {
-      preparePrintSheet();
-      $('.js-print-menu').text("Loading Recipes...").prop('disabled', 'true'); //disable print button until data loads
-    }
+    $('.js-print-menu').text("Loading Recipes...").prop('disabled', 'true')
+    preparePrintSheet();
   });
 }
 
 function preparePrintSheet() {
   $('.print-sheet').html(''); //Clear the print sheet so that only one week can be appended in a menu
-  clickCount ++; //Count the click
   dayIndex = -1; //Reset the week days
   printDays = [];
   printDayIndex = -1; //Reset the print week days

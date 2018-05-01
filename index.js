@@ -21,7 +21,7 @@ let offset = Math.floor(Math.random() * 500);
 
 function setHeader(xhr) {
 //Set headers with API key
-        xhr.setRequestHeader('X-Mashape-Key', 'AncMKLutbSmshEKPcKwYJhfAcc9xp1A5cHgjsn0pVofBbGZ4Wj');
+        xhr.setRequestHeader('X-Mashape-Key', 'cALLqoH7nVmsh32vwy7ZLWc3GiiTp10kvtQjsnw7sUC1nviRD8');
       }
 
 function getRecipesForWeek() { 

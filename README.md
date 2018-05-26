@@ -14,7 +14,7 @@ Landing Page:
 
 Diet Selection:
 
-![Diet Selection](http://i64.tinypic.com/dyvjau.jpg)
+![Diet Selection](https://image.ibb.co/dJSzGT/Screen_Shot_2018_05_26_at_11_18_04_AM.png)
 
 Menu:
 

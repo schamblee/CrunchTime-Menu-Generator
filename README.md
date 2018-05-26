@@ -18,7 +18,7 @@ Diet Selection:
 
 Menu:
 
-![Menu](http://i67.tinypic.com/2wpm7bs.jpg)
+![Menu](https://image.ibb.co/cwnGwT/Screen_Shot_2018_05_26_at_11_15_16_AM.png)
 
 ## Built With
 

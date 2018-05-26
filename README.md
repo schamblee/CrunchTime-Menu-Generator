@@ -10,11 +10,11 @@ I wanted to create a simple tool for making a weekly menu of recipes. Rather tha
 
 Landing Page:
 
-![Landing Page](http://i65.tinypic.com/33yhlxh.jpg)
+![Landing Page](https://image.ibb.co/dJSzGT/Screen_Shot_2018_05_26_at_11_18_04_AM.png)
 
 Diet Selection:
 
-![Diet Selection](https://image.ibb.co/dJSzGT/Screen_Shot_2018_05_26_at_11_18_04_AM.png)
+![Diet Selection](https://image.ibb.co/nySzGT/Screen_Shot_2018_05_26_at_11_18_35_AM.png)
 
 Menu:
 
